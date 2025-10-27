@@ -6,8 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		A0BDFC052EAFAB990011880B /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = A0BDFC032EAFAB900011880B /* .gitignore */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
-		A0BDFBF52EAFAB7C0011880B /* AppFougere.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppFougere.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A0BDFBF52EAFAB7C0011880B /* AppFougere.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = AppFougere.app; path = "/Users/eddynk/Documents/Simplon/Projet IOS/Environnement/AppFougere/build/Debug-iphoneos/AppFougere.app"; sourceTree = "<absolute>"; };
+		A0BDFC032EAFAB900011880B /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -33,16 +38,8 @@
 			isa = PBXGroup;
 			children = (
 				A0BDFBF72EAFAB7C0011880B /* AppFougere */,
-				A0BDFBF62EAFAB7C0011880B /* Products */,
+				A0BDFC032EAFAB900011880B /* .gitignore */,
 			);
-			sourceTree = "<group>";
-		};
-		A0BDFBF62EAFAB7C0011880B /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				A0BDFBF52EAFAB7C0011880B /* AppFougere.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -95,7 +92,7 @@
 			mainGroup = A0BDFBEC2EAFAB7B0011880B;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = A0BDFBF62EAFAB7C0011880B /* Products */;
+			productRefGroup = A0BDFBEC2EAFAB7B0011880B;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -109,6 +106,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A0BDFC052EAFAB990011880B /* .gitignore in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
