@@ -14,6 +14,11 @@ class Tag {
     
     var id : UUID = UUID()
     var title: String
+    var isVisible: Bool = true
+    
+    func closeTagDisplay () {
+        isVisible = false
+    }
     
     init(title: String) {
         self.title = title
