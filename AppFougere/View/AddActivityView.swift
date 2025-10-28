@@ -9,36 +9,53 @@ import SwiftUI
 
 struct AddActivityView: View {
     @State var name: String = ""
+    @State var tagSearch: String = ""
     
     
     
     var body: some View {
         ZStack {
-            Color.green.ignoresSafeArea()
+            Color.capVerde.ignoresSafeArea()
             VStack {
                 VStack {
-                    
+                    Text("Ajouter une activité")
+                        .font(.title)
+                        .fontWeight(.bold)
+
                     Divider()
                     HStack(spacing: 16) {
                         Text("Titre : ")
+                            .frame(width: 50)
                             .font(.headline)
                             .fontWeight(.bold)
                         TextField("Nom de l'activité", text: $name)
                             .foregroundStyle(Color.black)
+                        Spacer()
                     }
+                    HStack(spacing: 16) {
+                        Text("Tags : ")
+                            .frame(width: 50)
+                            .font(.headline)
+                            .fontWeight(.bold)
+                        TextField("ajoutez un tag", text: $name)
+                            .foregroundStyle(Color.black)
+                    Spacer()
+                    }
+                    .padding(.top)
+                    
                     
                     Spacer()
                 }
-                .padding()
-                
+                .padding(32)
             }
+            .ignoresSafeArea(.all, edges: .bottom)
             .frame(maxHeight: .infinity)
             .background(
-                RoundedRectangle(cornerRadius: 16)
+                RoundedRectangle(cornerRadius: 50)
                     .foregroundStyle(Color.white)
             )
             .padding()
-        }
+        }.font(.custom("Inter", size: 18))
 
         
     }

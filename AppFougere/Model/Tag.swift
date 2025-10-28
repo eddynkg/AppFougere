@@ -8,9 +8,11 @@
 import Foundation
 import SwiftUI
 import Observation
+import SwiftData
 
-@Observable
-class Tag {
+
+@Model
+class Tag: Identifiable {
     
     var id : UUID = UUID()
     var title: String
@@ -20,12 +22,35 @@ class Tag {
         isVisible = false
     }
     
+
+    
+    
     init(title: String) {
         self.title = title
     }
     
 }
 
+class TagViewModel {
+
+    
+    func filterExistingTags (tags: [Tag], searchText: String) -> [Tag] {
+        if searchText == "" {
+            return tags
+        } else {
+            
+            let filteredTags = tags.filter { tag in
+                tag.title.contains(searchText)
+            }
+            return filteredTags
+        }
+            
+    }
+    
+}
+
+
+@Model
 class TagOnActivity {
     
     var id : UUID = UUID()
