@@ -8,8 +8,39 @@
 import SwiftUI
 
 struct AddActivityView: View {
+    @State var name: String = ""
+    
+    
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack {
+            Color.green.ignoresSafeArea()
+            VStack {
+                VStack {
+                    
+                    Divider()
+                    HStack(spacing: 16) {
+                        Text("Titre : ")
+                            .font(.headline)
+                            .fontWeight(.bold)
+                        TextField("Nom de l'activité", text: $name)
+                            .foregroundStyle(Color.black)
+                    }
+                    
+                    Spacer()
+                }
+                .padding()
+                
+            }
+            .frame(maxHeight: .infinity)
+            .background(
+                RoundedRectangle(cornerRadius: 16)
+                    .foregroundStyle(Color.white)
+            )
+            .padding()
+        }
+
+        
     }
 }
 
