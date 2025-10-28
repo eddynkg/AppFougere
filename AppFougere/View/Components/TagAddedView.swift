@@ -11,6 +11,7 @@ import SwiftData
 
 struct TagAddedView: View {
     @State var searchedTag: String = ""
+    @State var newTagName: String = ""
     @Query var tagsOnActivity: [TagOnActivity] = []
     @Query var tags: [Tag] = []
     @Environment(\.modelContext) var context
@@ -19,31 +20,38 @@ struct TagAddedView: View {
     
     
     
-    let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
+    let columns = [
+        GridItem(.flexible()),
+        GridItem(.flexible()),
+    ]
     
     
     var body: some View {
         
         VStack {
-            
+
             HStack {
                 Text("Tags :")
                     .font(.title2)
                     .fontWeight(.bold)
-                TextField("Chercher un tag", text: $searchedTag)
+                TextField("Nom du tag à ajouter", text: $newTagName)
+                Button(action: {
+                    let addedTag = Tag(title: "\(newTagName)")
+                    context.insert(addedTag)
+                }) {
+                    Image(systemName:"plus.app")
+                }
             }
             ScrollView {
-                LazyVGrid(columns: columns) {
+                LazyVGrid(columns: columns, spacing: 8) {
                     ForEach(tagViewModel.filterExistingTags(tags: tags, searchText: searchedTag)) { tag in
                         TagComponent(tag: tag)
+                            .padding(8)
                     }
-                    Button(action: {
-                        let addedTag = Tag(title: "Campagne")
-                        context.insert(addedTag)
-                    }) {
-                        Image(systemName:"plus.app")
-                    }
+                    
                 }
+                .frame(maxWidth: .infinity, alignment: .leading)
+
             }
         }
         .padding()

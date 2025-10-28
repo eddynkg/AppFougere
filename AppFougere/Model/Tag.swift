@@ -18,9 +18,7 @@ class Tag: Identifiable {
     var title: String
     var isVisible: Bool = true
     
-    func closeTagDisplay () {
-        isVisible = false
-    }
+
     
 
     
@@ -47,6 +45,30 @@ class TagViewModel {
             
     }
     
+    func filterTagByActivity (activity: Activity, tags: [Tag], tagsOnActivity: [TagOnActivity]) -> [Tag] {
+        let filteredResults = tagsOnActivity.filter { tagOnActivity in
+            tagOnActivity.idActivity == activity.id
+        }
+        var tmpArray: [Tag] = []
+        for filteredResult in filteredResults {
+            let tmpResult = tags.filter { tag in
+                tag.id == filteredResult.idTag
+            }
+            tmpArray.append(tmpResult[0])
+        }
+        return tmpArray
+    }
+    
+    func addTagToActivity (activity: Activity, tags: [Tag]) -> [TagOnActivity] {
+        var tmpArray : [TagOnActivity] = []
+        for tag in tags {
+            tmpArray.append(TagOnActivity(
+                idTag: tag.id, idActivity: activity.id
+            ))
+        }
+        return tmpArray
+    }
+    
 }
 
 
@@ -57,8 +79,8 @@ class TagOnActivity {
     var idTag: UUID
     var idActivity: UUID
     
-    init(id: UUID, idTag: UUID, idActivity: UUID) {
-        self.id = id
+    init(idTag: UUID, idActivity: UUID) {
+        
         self.idTag = idTag
         self.idActivity = idActivity
     }

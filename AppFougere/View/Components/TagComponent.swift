@@ -6,10 +6,11 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct TagComponent: View {
-    var tag: Tag
-    
+    @Bindable var tag: Tag
+    @Environment(\.modelContext) var context
     var body: some View {
         
         if tag.isVisible {
@@ -31,7 +32,11 @@ struct TagComponent: View {
                     .foregroundStyle(Color.accentColor)
                     .frame(height: 30)
                 )
-                Button(action: tag.closeTagDisplay) {
+                Button(action: {
+                    context.delete(tag)
+//                    tag.closeTagDisplay
+                    
+                }) {
                     Image(systemName: "xmark")
                         .font(.system(size: 12))
                 }
