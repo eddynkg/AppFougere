@@ -14,7 +14,6 @@ class Tag {
     
     var id : UUID = UUID()
     var title: String
-//  var color: String
     
     init(id: UUID, title: String) {
         self.id = id

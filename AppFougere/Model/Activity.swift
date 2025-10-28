@@ -15,7 +15,7 @@ class Activity {
     var name: String
     var description : String
     var location: String
-    var difficulty: Double
+    var difficulty: Double //
     var handicap: Bool
     var userId : UUID
     var accessibility: [Accessibility]
@@ -34,5 +34,5 @@ class Activity {
 }
 
 enum Accessibility: String, Codable {
-    case car, foot, bike, metro, other
+    case car, foot, bike, metro, bus, tramway, other
 }
