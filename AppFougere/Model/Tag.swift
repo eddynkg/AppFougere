@@ -15,8 +15,7 @@ class Tag {
     var id : UUID = UUID()
     var title: String
     
-    init(id: UUID, title: String) {
-        self.id = id
+    init(title: String) {
         self.title = title
     }
     
