@@ -19,7 +19,7 @@ struct TagAddedView: View {
     @State var newTagName: String = ""
     @State var tagsToAddToActivity: [Tag] = []
     
-    
+ 
     
     let columns = [
         GridItem(.flexible()),
@@ -33,7 +33,7 @@ struct TagAddedView: View {
 
             HStack {
                 Text("Tags :")
-                    .font(.title2)
+                    .font(.headline)
                     .fontWeight(.bold)
                 TextField("Nom du tag à ajouter", text: $searchedTag)
                 
@@ -50,15 +50,23 @@ struct TagAddedView: View {
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding()
-            Spacer()
+            
             
 
+            
         }
-        .padding()
+        
         
     }
+    
+
 }
+
+
+
+
+
+
 
 #Preview {
     TagAddedView()

@@ -32,16 +32,11 @@ struct AddActivityView: View {
                             .foregroundStyle(Color.black)
                         Spacer()
                     }
-                    HStack(spacing: 16) {
-                        Text("Tags : ")
-                            .frame(width: 50)
-                            .font(.headline)
-                            .fontWeight(.bold)
-                        TextField("ajoutez un tag", text: $name)
-                            .foregroundStyle(Color.black)
-                    Spacer()
-                    }
-                    .padding(.top)
+                    TagAddedView()
+                    Divider()
+                        .padding(.vertical)
+                    ActivityPhotoAddComponent()
+                        
                     
                     
                     Spacer()
@@ -50,6 +45,7 @@ struct AddActivityView: View {
             }
             .ignoresSafeArea(.all, edges: .bottom)
             .frame(maxHeight: .infinity)
+            .foregroundColor(.capVerde)
             .background(
                 RoundedRectangle(cornerRadius: 50)
                     .foregroundStyle(Color.white)
