@@ -11,9 +11,15 @@ import SwiftData
 struct TagComponent: View {
     @Bindable var tag: Tag
     @Environment(\.modelContext) var context
+    @State var displayMode: TagDisplayMode
+    @Binding var tagsToAddToActivity: [Tag]
+    @Binding var searchedTag: String
+    
+    
+    
     var body: some View {
         
-        if tag.isVisible {
+
             HStack(spacing: 0){
                 Button("\(tag.title)") {
                     
@@ -33,12 +39,29 @@ struct TagComponent: View {
                     .frame(height: 30)
                 )
                 Button(action: {
-                    context.delete(tag)
-//                    tag.closeTagDisplay
-                    
+                    switch displayMode {
+                    case .addToActivity:
+                        tagsToAddToActivity.append(tag)
+                        searchedTag = ""
+                    case .removeFromActivity:
+                        searchedTag = ""
+                        let tagUuidToRemove = tag.id
+                        tagsToAddToActivity = tagsToAddToActivity.filter { tagToAddToActivity in
+                            tagToAddToActivity.id != tagUuidToRemove
+                        }
+                    case .tagCreation:
+                        context.delete(tag)
+                    }
                 }) {
-                    Image(systemName: "xmark")
-                        .font(.system(size: 12))
+                    if displayMode == .addToActivity {
+                        
+                            Image(systemName: "plus.circle")
+                                .font(.system(size: 12))
+                        
+                    } else {
+                        Image(systemName: "xmark")
+                            .font(.system(size: 12))
+                    }
                 }
                 .foregroundColor(.white)
                 .padding(.leading, 4)
@@ -56,12 +79,13 @@ struct TagComponent: View {
                 )
             }
             
-        }
+        
         
     }
 }
 
 #Preview {
+   
     var tag: Tag = Tag(title: "Montagne")
-    TagComponent(tag: tag)
+    TagComponent(tag: tag, displayMode: .addToActivity, tagsToAddToActivity: .constant([]), searchedTag: .constant(""))
 }

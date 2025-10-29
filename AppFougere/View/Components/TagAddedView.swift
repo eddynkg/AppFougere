@@ -10,13 +10,14 @@ import SwiftUI
 import SwiftData
 
 struct TagAddedView: View {
-    @State var searchedTag: String = ""
-    @State var newTagName: String = ""
     @Query var tagsOnActivity: [TagOnActivity] = []
     @Query var tags: [Tag] = []
     @Environment(\.modelContext) var context
     var tagViewModel = TagViewModel()
     
+    @State var searchedTag: String = ""
+    @State var newTagName: String = ""
+    @State var tagsToAddToActivity: [Tag] = []
     
     
     
@@ -27,32 +28,32 @@ struct TagAddedView: View {
     
     
     var body: some View {
-        
+
         VStack {
 
             HStack {
                 Text("Tags :")
                     .font(.title2)
                     .fontWeight(.bold)
-                TextField("Nom du tag à ajouter", text: $newTagName)
-                Button(action: {
-                    let addedTag = Tag(title: "\(newTagName)")
-                    context.insert(addedTag)
-                }) {
-                    Image(systemName:"plus.app")
-                }
+                TextField("Nom du tag à ajouter", text: $searchedTag)
+                
+               
             }
-            ScrollView {
-                LazyVGrid(columns: columns, spacing: 8) {
-                    ForEach(tagViewModel.filterExistingTags(tags: tags, searchText: searchedTag)) { tag in
-                        TagComponent(tag: tag)
-                            .padding(8)
-                    }
+            HStack {
+                ForEach(tagViewModel.filterExistingTags(tags: tags, searchText: searchedTag) as! [Tag]) { tag in
                     
+                    TagComponent(tag: tag, displayMode: .addToActivity, tagsToAddToActivity: $tagsToAddToActivity, searchedTag: $searchedTag)
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
-
+                ForEach(tagsToAddToActivity) { tag in
+                    TagComponent(tag: tag, displayMode: .removeFromActivity, tagsToAddToActivity: $tagsToAddToActivity, searchedTag: $searchedTag)
+                        .padding(8)
+                }
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding()
+            Spacer()
+            
+
         }
         .padding()
         

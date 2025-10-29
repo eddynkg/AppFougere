@@ -11,12 +11,24 @@ import Observation
 import SwiftData
 
 
+enum TagDisplayMode {
+    case addToActivity, removeFromActivity, tagCreation
+    
+    /*
+     addToActivity : on affiche un tag pour proposer de l'ajouter à une activité
+     removeFromActivity : une fois le tag ajouté, on peut le désassocier de l'activité
+     tagCreation : on ajoute ou supprime un tag du contexte
+     */
+}
+
+
+
 @Model
 class Tag: Identifiable {
     
     var id : UUID = UUID()
     var title: String
-    var isVisible: Bool = true
+
     
 
     
@@ -32,9 +44,20 @@ class Tag: Identifiable {
 class TagViewModel {
 
     
-    func filterExistingTags (tags: [Tag], searchText: String) -> [Tag] {
+    func isTagExisting(searchText: String, tags: [Tag]) -> Bool {
+        let filteredResult = tags.filter { tag in
+            tag.title.lowercased() == searchText.lowercased()
+        }
+        if filteredResult == [] {
+            return false
+        } else {
+            return true
+        }
+    }
+    
+    func filterExistingTags (tags: [Tag], searchText: String) -> [Tag?] {
         if searchText == "" {
-            return tags
+            return []
         } else {
             
             let filteredTags = tags.filter { tag in
