@@ -7,21 +7,18 @@
 
 import Foundation
 import SwiftUI
-import Observation
+import SwiftData
 
-@Observable
+@Model
 class ActivityPicture {
-    var id : UUID = UUID()
-    var userId : UUID
-    var activityId : UUID
-    var content: Image
+    var id: UUID = UUID()
+    var activityId: UUID
+    var actContent: String
     var date: Date
     
-    init(id: UUID, userId: UUID, activityId: UUID, content: Image, date: Date) {
-        self.id = id
-        self.userId = userId
+    init(activityId: UUID, actContent: String, date: Date) {
         self.activityId = activityId
-        self.content = content
+        self.actContent = actContent
         self.date = date
     }
 }
