@@ -63,7 +63,7 @@ struct TagComponent: View {
                             .font(.system(size: 18))
                             .padding(.vertical, 16)
                         
-                    } else if displayMode == .removeFromActivity {
+                    } else if displayMode == .removeFromActivity || displayMode == .tagCreation {
                         Image(systemName: "xmark")
                             .font(.system(size: 12))
                     }
