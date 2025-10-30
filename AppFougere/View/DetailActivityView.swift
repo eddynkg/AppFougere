@@ -21,11 +21,29 @@ struct DetailActivityView: View {
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 320, height: 300)
                     .clipShape(RoundedRectangle(cornerRadius: 20))
-                    .padding()
+                    .padding(8)
                 
-                HStack {
-                    
+                ScrollView(.horizontal) {
+                    HStack {
+                        ForEach(0..<5) { _ in
+                            Text("Colorado")
+                                .font(.headline)
+                                .foregroundStyle(.white)
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 6)
+                                .background(
+                                    Capsule().fill(Color.capVerde)
+                                )
+                        }
+                    }
+                    .padding(.leading, 10)
                 }
+                .scrollIndicators(.hidden)
+                
+                // Information Component
+                InformationComponent()
+                    .padding(.horizontal, 12)
+                
                 .navigationBarTitleDisplayMode(.inline)
                 
                 // Toolbar
@@ -75,17 +93,15 @@ struct DetailActivityView: View {
 }
 
 #Preview {
-    // Si vous prévisualisez sans NavigationStack parent, entourez la preview d’un NavigationStack
     NavigationStack {
         DetailActivityView(activity: Activity(
-            id: UUID(),
             name: "Colorado français",
-            description: "Une rando incroyable dans le Luberon ! 😍 On se croirait dans un mini Colorado avec ces falaises ocres rouges et jaunes. Le contraste avec la végétation est fou. Une vraie claque visuelle, à faire absolument si vous êtes dans la région ! 🏜️✨",
+            actDescription: "Une rando incroyable dans le Luberon ! 😍 On se croirait dans un mini Colorado avec ces falaises ocres rouges et jaunes. Le contraste avec la végétation est fou. Une vraie claque visuelle, à faire absolument si vous êtes dans la région ! 🏜️✨",
             location: "Lubéron, France",
             difficulty: 2.5,
             handicap: true,
             userId: UUID(),
-            accessibility: [.foot, .car]
+            accessibility: [.foot, .car, .bus]
         ))
     }
 }
