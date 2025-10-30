@@ -7,22 +7,21 @@
 
 import Foundation
 import SwiftUI
-import Observation
+import SwiftData
 
-@Observable
-class Tag {
+@Model
+class Tag: Identifiable {
     
     var id : UUID = UUID()
     var title: String
     
-    init(id: UUID, title: String) {
-        self.id = id
+    init(title: String) {
         self.title = title
     }
     
 }
 
-class TagOnActivity {
+class TagOnActivity: Identifiable {
     
     var id : UUID = UUID()
     var idTag: UUID

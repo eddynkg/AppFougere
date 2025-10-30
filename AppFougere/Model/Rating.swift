@@ -6,10 +6,10 @@
 //
 
 import Foundation
-import Observation
+import SwiftData
 import SwiftUI
 
-@Observable
+@Model
 class Rating{
     
     var id : UUID = UUID()
