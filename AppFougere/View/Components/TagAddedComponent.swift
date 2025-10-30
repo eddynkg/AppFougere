@@ -33,23 +33,28 @@ struct TagAddedComponent: View {
 
             HStack {
                 Text("Tags :")
+                    .frame(width: 50)
                     .font(.headline)
                     .fontWeight(.bold)
                 TextField("Nom du tag à ajouter", text: $searchedTag)
+                    .padding(8)
+                Spacer()
                 
                
             }
-            HStack {
-                ForEach(tagViewModel.filterExistingTags(tags: tags, searchText: searchedTag) as! [Tag]) { tag in
-                    
-                    TagComponent(tag: tag, displayMode: .addToActivity, tagsToAddToActivity: $tagsToAddToActivity, searchedTag: $searchedTag)
+            ScrollView(.horizontal) {
+                HStack {
+                    ForEach(tagViewModel.filterExistingTags(tags: tags, searchText: searchedTag) as! [Tag]) { tag in
+                        
+                        TagComponent(tag: tag, displayMode: .addToActivity, tagsToAddToActivity: $tagsToAddToActivity, searchedTag: $searchedTag)
+                    }
+                    ForEach(tagsToAddToActivity) { tag in
+                        TagComponent(tag: tag, displayMode: .removeFromActivity, tagsToAddToActivity: $tagsToAddToActivity, searchedTag: $searchedTag)
+                            .padding(8)
+                    }
                 }
-                ForEach(tagsToAddToActivity) { tag in
-                    TagComponent(tag: tag, displayMode: .removeFromActivity, tagsToAddToActivity: $tagsToAddToActivity, searchedTag: $searchedTag)
-                        .padding(8)
-                }
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
             
             
 

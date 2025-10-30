@@ -37,7 +37,7 @@ struct TagComponent: View {
                         topTrailing: 0),
                                            style: .continuous
                     )
-                    .foregroundStyle(Color.accentColor)
+                    .foregroundStyle( displayMode == .addToActivity ? Color.accentColor.opacity(0.6) : Color.accentColor)
                     .frame(height: 30)
                 )
                 Button(action: {
@@ -60,7 +60,8 @@ struct TagComponent: View {
                     if displayMode == .addToActivity {
                         
                         Image(systemName: "plus.circle")
-                            .font(.system(size: 20))
+                            .font(.system(size: 18))
+                            .padding(.vertical, 16)
                         
                     } else if displayMode == .removeFromActivity {
                         Image(systemName: "xmark")
@@ -78,12 +79,14 @@ struct TagComponent: View {
                         topTrailing: 15),
                                            style: .continuous
                     )
-                    .foregroundStyle(Color.accentColor)
+                    .foregroundStyle(displayMode == .addToActivity ? Color.accentColor.opacity(0.6) : Color.accentColor)
                     .frame(height: 30)
                 )
             }
         }
         
+        
+        // si on est en mode tagDisplay, on n'affiche pas de bouton
         else {
             HStack(spacing: 0){
                 Button("\(tag.title)") {
@@ -115,5 +118,5 @@ struct TagComponent: View {
 #Preview {
    
     var tag: Tag = Tag(title: "Montagne")
-    TagComponent(tag: tag, displayMode: .tagDisplay, tagsToAddToActivity: .constant([]), searchedTag: .constant(""))
+    TagComponent(tag: tag, displayMode: .addToActivity, tagsToAddToActivity: .constant([]), searchedTag: .constant(""))
 }
