@@ -28,8 +28,7 @@ class TagOnActivity {
     var idTag: UUID
     var idActivity: UUID
     
-    init(id: UUID, idTag: UUID, idActivity: UUID) {
-        self.id = id
+    init(idTag: UUID, idActivity: UUID) {
         self.idTag = idTag
         self.idActivity = idActivity
     }
