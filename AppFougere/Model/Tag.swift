@@ -12,12 +12,13 @@ import SwiftData
 
 
 enum TagDisplayMode {
-    case addToActivity, removeFromActivity, tagCreation
+    case addToActivity, removeFromActivity, tagCreation, tagDisplay
     
     /*
      addToActivity : on affiche un tag pour proposer de l'ajouter à une activité
      removeFromActivity : une fois le tag ajouté, on peut le désassocier de l'activité
      tagCreation : on ajoute ou supprime un tag du contexte
+     tagDisplay : on ne fait qu'afficher un tag
      */
 }
 

@@ -15,11 +15,13 @@ struct TagComponent: View {
     @Binding var tagsToAddToActivity: [Tag]
     @Binding var searchedTag: String
     
+    @State var isActionButtonDisplayed: Bool = true
     
     
     var body: some View {
         
-
+        if displayMode != .tagDisplay {
+            
             HStack(spacing: 0){
                 Button("\(tag.title)") {
                     
@@ -49,16 +51,18 @@ struct TagComponent: View {
                         tagsToAddToActivity = tagsToAddToActivity.filter { tagToAddToActivity in
                             tagToAddToActivity.id != tagUuidToRemove
                         }
+                    case .tagDisplay:
+                        print("display tag")
                     case .tagCreation:
                         context.delete(tag)
                     }
                 }) {
                     if displayMode == .addToActivity {
                         
-                            Image(systemName: "plus.circle")
-                                .font(.system(size: 12))
+                        Image(systemName: "plus.circle")
+                            .font(.system(size: 20))
                         
-                    } else {
+                    } else if displayMode == .removeFromActivity {
                         Image(systemName: "xmark")
                             .font(.system(size: 12))
                     }
@@ -78,6 +82,30 @@ struct TagComponent: View {
                     .frame(height: 30)
                 )
             }
+        }
+        
+        else {
+            HStack(spacing: 0){
+                Button("\(tag.title)") {
+                    
+                }
+                .padding(.leading, 12)
+                .padding(.trailing, 12)
+                .foregroundColor(.white)
+                .background(
+                    UnevenRoundedRectangle(cornerRadii: .init(
+                        topLeading: 15,
+                        bottomLeading: 15,
+                        bottomTrailing: 15,
+                        topTrailing: 15),
+                                           style: .continuous
+                    )
+                    .foregroundStyle(Color.accentColor)
+                    .frame(height: 30)
+                )
+
+            }
+        }
             
         
         
@@ -87,5 +115,5 @@ struct TagComponent: View {
 #Preview {
    
     var tag: Tag = Tag(title: "Montagne")
-    TagComponent(tag: tag, displayMode: .addToActivity, tagsToAddToActivity: .constant([]), searchedTag: .constant(""))
+    TagComponent(tag: tag, displayMode: .tagDisplay, tagsToAddToActivity: .constant([]), searchedTag: .constant(""))
 }

@@ -32,7 +32,7 @@ struct AddActivityView: View {
                             .foregroundStyle(Color.black)
                         Spacer()
                     }
-                    TagAddedView()
+                    TagAddedComponent()
                     Divider()
                         .padding(.vertical)
                     ActivityPhotoAddComponent()

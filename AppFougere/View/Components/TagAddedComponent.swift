@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import SwiftData
 
-struct TagAddedView: View {
+struct TagAddedComponent: View {
     @Query var tagsOnActivity: [TagOnActivity] = []
     @Query var tags: [Tag] = []
     @Environment(\.modelContext) var context
@@ -69,5 +69,5 @@ struct TagAddedView: View {
 
 
 #Preview {
-    TagAddedView()
+    TagAddedComponent()
 }
