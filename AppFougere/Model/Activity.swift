@@ -6,24 +6,23 @@
 //
 
 import Foundation
-import Observation
+import SwiftData
 import SwiftUI
 
-@Observable
-class Activity {
+@Model
+class Activity: Identifiable {
     var id: UUID = UUID()
     var name: String
-    var description : String
+    var actDescription: String
     var location: String
-    var difficulty: Double //
+    var difficulty: Double
     var handicap: Bool
-    var userId : UUID
+    var userId: UUID
     var accessibility: [Accessibility]
     
-    init(id: UUID, name: String, description: String, location: String, difficulty: Double, handicap: Bool, userId: UUID, accessibility: [Accessibility]) {
-        self.id = id
+    init(name: String, actDescription: String, location: String, difficulty: Double, handicap: Bool, userId: UUID, accessibility: [Accessibility]) {
         self.name = name
-        self.description = description
+        self.actDescription = actDescription
         self.location = location
         self.difficulty = difficulty
         self.handicap = handicap
@@ -34,5 +33,5 @@ class Activity {
 }
 
 enum Accessibility: String, Codable {
-    case car, foot, bike, metro, bus, tramway, other
+    case car, foot, bike, metro, bus, tramway, train
 }

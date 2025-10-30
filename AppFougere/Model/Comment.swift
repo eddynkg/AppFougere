@@ -17,8 +17,7 @@ class Comment {
     var content: String
     var date: Date
     
-    init(id: UUID, userId: UUID, activityId: UUID, content: String, date: Date) {
-        self.id = id
+    init(userId: UUID, activityId: UUID, content: String, date: Date) {
         self.userId = userId
         self.activityId = activityId
         self.content = content
