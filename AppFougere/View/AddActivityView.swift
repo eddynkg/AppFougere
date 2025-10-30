@@ -21,15 +21,14 @@ struct AddActivityView: View {
             VStack {
                 VStack {
                     Text("Ajouter une activité")
-                        .font(.title)
-                        .fontWeight(.bold)
+                        .customTitle(color: .capVerde)
+
 
                     Divider()
                     HStack(spacing: 16) {
                         Text("Titre : ")
-                            .frame(width: 50)
-                            .font(.headline)
-                            .fontWeight(.bold)
+                            .frame(width: 60)
+                            .customBody(bold: true, color: .capVerde)
                         TextField("Nom de l'activité", text: $name)
                             .foregroundStyle(Color.black)
                         Spacer()
@@ -40,8 +39,10 @@ struct AddActivityView: View {
                     ActivityPhotoAddComponent()
                     
                     // Durée
+                    Divider()
                     HStack {
                         Text("Durée : \(String(format: "%.1f", activityDuration))")
+                            .customBody(bold: true, color: .capVerde)
                         Slider(
                             value: $activityDuration,
                             in: CGFloat(0)...CGFloat(24),

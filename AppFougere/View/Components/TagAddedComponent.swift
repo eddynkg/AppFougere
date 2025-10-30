@@ -33,9 +33,8 @@ struct TagAddedComponent: View {
 
             HStack {
                 Text("Tags :")
-                    .frame(width: 50)
-                    .font(.headline)
-                    .fontWeight(.bold)
+                    .frame(width: 60)
+                    .customBody(bold: true, color: .capVerde)
                 TextField("Nom du tag à ajouter", text: $searchedTag)
                     .padding(8)
                 Spacer()

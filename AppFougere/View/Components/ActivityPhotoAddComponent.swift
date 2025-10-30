@@ -21,8 +21,7 @@ struct ActivityPhotoAddComponent: View {
         VStack {
             Text("Ajout photos :")
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .font(.headline)
-                .fontWeight(.bold)
+                .customBody(bold: true, color: .capVerde)
 
             VStack {
 
@@ -67,7 +66,7 @@ struct ActivityPhotoAddComponent: View {
                 
             }
         }
-        .padding()
+//        .padding()
         .foregroundColor(.capVerde)
     }
 }
