@@ -2,7 +2,7 @@
 //  ActivitiesData.swift
 //  AppFougere
 //
-//  Created by Juliette on 29/10/2025.
+//  Created by JulietteM on 29/10/2025.
 //
 
 import Foundation
