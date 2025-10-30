@@ -12,8 +12,8 @@ import SwiftData
 struct AppFougereApp: App {
     var body: some Scene {
         WindowGroup {
-            AddActivityView()
+            ContentView()
         }
-        .modelContainer(for: [TagOnActivity.self, Tag.self])
+        .modelContainer(for: [TagOnActivity.self, Tag.self, Activity.self, ActivityPicture.self, User.self])
     }
 }

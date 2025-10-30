@@ -16,7 +16,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		8FD5D7C32EB0C2DA00BB6B03 /* Exceptions for "AppFougere" folder in "AppFougere" target */ = {
+		A07DBAA52EB1003300297954 /* Exceptions for "AppFougere" folder in "AppFougere" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -29,7 +29,7 @@
 		A0BDFBF72EAFAB7C0011880B /* AppFougere */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				8FD5D7C32EB0C2DA00BB6B03 /* Exceptions for "AppFougere" folder in "AppFougere" target */,
+				A07DBAA52EB1003300297954 /* Exceptions for "AppFougere" folder in "AppFougere" target */,
 			);
 			path = AppFougere;
 			sourceTree = "<group>";
@@ -265,7 +265,6 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = AppFougere/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -297,7 +296,6 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = AppFougere/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
