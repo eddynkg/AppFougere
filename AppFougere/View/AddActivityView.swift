@@ -10,6 +10,8 @@ import SwiftUI
 struct AddActivityView: View {
     @State var name: String = ""
     @State var tagSearch: String = ""
+    @State var activityDuration: CGFloat = 0
+    @State var isEditing: Bool = false
     
     
     
@@ -36,7 +38,16 @@ struct AddActivityView: View {
                     Divider()
                         .padding(.vertical)
                     ActivityPhotoAddComponent()
-                        
+                    
+                    // Durée
+                    HStack {
+                        Text("Durée : \(String(format: "%.1f", activityDuration))")
+                        Slider(
+                            value: $activityDuration,
+                            in: CGFloat(0)...CGFloat(24),
+                        )
+                    }
+                
                     
                     
                     Spacer()

@@ -27,7 +27,7 @@ struct ActivityPhotoAddComponent: View {
             VStack {
 
                 
-                ScrollView {
+               
                     
                     LazyVGrid(columns: columns, spacing: 16) {
                         ForEach(0..<selectedImages.count, id: \.self) { i in
@@ -51,7 +51,7 @@ struct ActivityPhotoAddComponent: View {
                        
                         
                     }
-                }
+                
                 
             }
             .onChange(of: pickerItems) {
