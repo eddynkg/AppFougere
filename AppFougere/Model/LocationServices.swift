@@ -10,6 +10,7 @@
 
 import Observation
 import CoreLocation
+import MapKit
 
 @Observable
 class LocationManager: NSObject, CLLocationManagerDelegate {
@@ -32,5 +33,26 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Erreur lors de la récupération de la localisation : \(error.localizedDescription)")
+    }
+}
+
+// pour compléter les adresses
+@Observable
+class SearchCompleter: NSObject, MKLocalSearchCompleterDelegate {
+    var results: [String] = []
+    var searchCompleter = MKLocalSearchCompleter()
+    
+    override init() {
+        super.init()
+        searchCompleter.delegate = self
+        
+    }
+    
+    func updateResults(for query: String) {
+        searchCompleter.queryFragment = query
+    }
+    
+    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
+        self.results = completer.results.map { $0.title}
     }
 }
