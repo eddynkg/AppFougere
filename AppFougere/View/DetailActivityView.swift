@@ -11,8 +11,10 @@ struct DetailActivityView: View {
     let activity: Activity
 
     @Environment(\.dismiss) private var dismiss
+    @State private var isBookmarked: Bool = false
 
     var body: some View {
+        
         // Contenu principal de la vue détail
         ScrollView {
             VStack {
@@ -44,9 +46,17 @@ struct DetailActivityView: View {
                 InformationComponent()
                     .padding(.horizontal, 12)
                 
-                .navigationBarTitleDisplayMode(.inline)
+                // Map (pour l'instant photo)
+                Image("mapColorado")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 360)
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    
+                    
                 
                 // Toolbar
+                .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     // Bouton retour à gauche
                     ToolbarItem(placement: .topBarLeading) {
@@ -72,10 +82,9 @@ struct DetailActivityView: View {
                     // Bouton enregistrement à droite
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
-                            // TODO: action de signature
+                            isBookmarked.toggle()
                         } label: {
-                            Image(systemName: "bookmark")
-                                .symbolRenderingMode(.monochrome)
+                            Image(systemName: isBookmarked ? "bookmark.fill" : "bookmark")
                                 .foregroundStyle(.white)
                         }
                         .buttonStyle(.plain)

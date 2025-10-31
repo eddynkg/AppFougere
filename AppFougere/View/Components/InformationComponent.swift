@@ -23,7 +23,7 @@ struct InformationComponent: View {
             }
             .buttonStyle(.plain)
             
-            VStack (spacing: 4){
+            VStack (alignment: .leading , spacing: 4){
                 Text("Fanny, 43 ans")
                     .font(.title2)
                     .bold()
