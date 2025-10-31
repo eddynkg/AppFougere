@@ -11,8 +11,10 @@ struct DetailActivityView: View {
     let activity: Activity
 
     @Environment(\.dismiss) private var dismiss
+    @State private var isBookmarked: Bool = false
 
     var body: some View {
+        
         // Contenu principal de la vue détail
         ScrollView {
             VStack {
@@ -21,14 +23,61 @@ struct DetailActivityView: View {
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 320, height: 300)
                     .clipShape(RoundedRectangle(cornerRadius: 20))
-                    .padding()
+                    .padding(8)
                 
-                HStack {
-                    
+                //Tags
+                ScrollView(.horizontal) {
+                    HStack {
+                        ForEach(0..<5) { _ in
+                            Text("Colorado")
+                                .font(.headline)
+                                .foregroundStyle(.white)
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 6)
+                                .background(
+                                    Capsule().fill(Color.capVerde)
+                                )
+                        }
+                    }
+                    .padding(.leading, 10)
                 }
-                .navigationBarTitleDisplayMode(.inline)
+                .scrollIndicators(.hidden)
+                
+                // Information Component
+                InformationComponent()
+                    .padding(.horizontal, 12)
+                
+                // Map (pour l'instant photo)
+                Image("mapColorado")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 360, height: 140)
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                
+                //Line
+                Divider()
+                    .padding(.top, 16)
+                    .frame(width: 360)
+
+                //ActDescriptionComponent
+                ActDescriptionComponent(activity: activity)
+                    .padding(.top, 8)
+                
+                //Line
+                Divider()
+                    .padding(.top, 16)
+                    .frame(width: 360)
+                
+                //Activités aux alentours
+                OtherActivitiesComponent()
+                
+                //Line
+                Divider()
+                    .padding(.top, 16)
+                    .frame(width: 360)
                 
                 // Toolbar
+                .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     // Bouton retour à gauche
                     ToolbarItem(placement: .topBarLeading) {
@@ -48,16 +97,15 @@ struct DetailActivityView: View {
                             .font(.headline)
                             .lineLimit(1)
                             .truncationMode(.tail)
-                            .foregroundStyle(.white) // Titre en blanc
+                            .foregroundStyle(.white)
                     }
                     
                     // Bouton enregistrement à droite
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
-                            // TODO: action de signature
+                            isBookmarked.toggle()
                         } label: {
-                            Image(systemName: "bookmark")
-                                .symbolRenderingMode(.monochrome)
+                            Image(systemName: isBookmarked ? "bookmark.fill" : "bookmark")
                                 .foregroundStyle(.white)
                         }
                         .buttonStyle(.plain)
@@ -75,17 +123,15 @@ struct DetailActivityView: View {
 }
 
 #Preview {
-    // Si vous prévisualisez sans NavigationStack parent, entourez la preview d’un NavigationStack
     NavigationStack {
         DetailActivityView(activity: Activity(
-            id: UUID(),
             name: "Colorado français",
-            description: "Une rando incroyable dans le Luberon ! 😍 On se croirait dans un mini Colorado avec ces falaises ocres rouges et jaunes. Le contraste avec la végétation est fou. Une vraie claque visuelle, à faire absolument si vous êtes dans la région ! 🏜️✨",
+            actDescription: "Une rando incroyable dans le Luberon ! 😍 On se croirait dans un mini Colorado avec ces falaises ocres rouges et jaunes. Le contraste avec la végétation est fou. Une vraie claque visuelle, à faire absolument si vous êtes dans la région ! 🏜️✨",
             location: "Lubéron, France",
             difficulty: 2.5,
             handicap: true,
             userId: UUID(),
-            accessibility: [.foot, .car]
+            accessibility: [.foot, .car, .bus]
         ))
     }
 }
