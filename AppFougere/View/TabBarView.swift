@@ -11,6 +11,7 @@ enum AppTab: Hashable {
     case home
     case create
     case profile
+    case admin
 }
 
 struct TabBarView: View {
@@ -35,6 +36,11 @@ struct TabBarView: View {
                 .tag(AppTab.profile)
                 .tabItem {
                     Label("Profil", systemImage: "person")
+                }
+            AdminView()
+                .tag(AppTab.admin)
+                .tabItem {
+                    Label("Config", systemImage: "lock.square")
                 }
         }
         .tint(.capVerde)
