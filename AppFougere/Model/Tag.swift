@@ -74,6 +74,7 @@ class TagViewModel {
             tagOnActivity.idActivity == activity.id
         }
         var tmpArray: [Tag] = []
+        
         for filteredResult in filteredResults {
             let tmpResult = tags.filter { tag in
                 tag.id == filteredResult.idTag
@@ -82,6 +83,9 @@ class TagViewModel {
         }
         return tmpArray
     }
+    
+    
+    
     
     func addTagToActivity (activity: Activity, tags: [Tag]) -> [TagOnActivity] {
         var tmpArray : [TagOnActivity] = []
