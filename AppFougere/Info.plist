@@ -6,5 +6,7 @@
 	<array>
 		<string>Inter-VariableFont_opsz,wght.ttf</string>
 	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Notre application nécessite votre localisation pour l&apos;associer aux activités que vous créez</string>
 </dict>
 </plist>
