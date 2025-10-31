@@ -16,8 +16,7 @@ class Favorite {
     var activityId: UUID
     var date: Date
     
-    init(id: UUID, userId: UUID, activityId: UUID, date: Date) {
-        self.id = id
+    init(userId: UUID, activityId: UUID, date: Date) {
         self.userId = userId
         self.activityId = activityId
         self.date = date
