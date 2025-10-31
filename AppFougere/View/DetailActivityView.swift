@@ -25,6 +25,7 @@ struct DetailActivityView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 20))
                     .padding(8)
                 
+                //Tags
                 ScrollView(.horizontal) {
                     HStack {
                         ForEach(0..<5) { _ in
@@ -50,10 +51,30 @@ struct DetailActivityView: View {
                 Image("mapColorado")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: 360)
+                    .frame(width: 360, height: 140)
                     .clipShape(RoundedRectangle(cornerRadius: 20))
-                    
-                    
+                
+                //Line
+                Divider()
+                    .padding(.top, 16)
+                    .frame(width: 360)
+
+                //ActDescriptionComponent
+                ActDescriptionComponent(activity: activity)
+                    .padding(.top, 8)
+                
+                //Line
+                Divider()
+                    .padding(.top, 16)
+                    .frame(width: 360)
+                
+                //Activités aux alentours
+                OtherActivitiesComponent()
+                
+                //Line
+                Divider()
+                    .padding(.top, 16)
+                    .frame(width: 360)
                 
                 // Toolbar
                 .navigationBarTitleDisplayMode(.inline)
@@ -76,7 +97,7 @@ struct DetailActivityView: View {
                             .font(.headline)
                             .lineLimit(1)
                             .truncationMode(.tail)
-                            .foregroundStyle(.white) // Titre en blanc
+                            .foregroundStyle(.white)
                     }
                     
                     // Bouton enregistrement à droite
