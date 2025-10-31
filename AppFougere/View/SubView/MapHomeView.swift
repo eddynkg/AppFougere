@@ -10,11 +10,9 @@ import MapKit
 
 struct MapHomeView: View {
     var body: some View {
-        ZStack(alignment: .bottom) {
-            Map()
-                .clipShape(  UnevenRoundedRectangle(cornerRadii: .init(topLeading: 40, topTrailing: 40)))
-                .ignoresSafeArea(edges: .bottom)
-        }
+
+        Map()
+            .clipShape(  UnevenRoundedRectangle(cornerRadii: .init(topLeading: 40, topTrailing: 40)))
     }
 }
 

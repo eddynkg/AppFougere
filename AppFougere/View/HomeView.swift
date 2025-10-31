@@ -17,9 +17,22 @@ struct HomeView: View {
             VStack {
                 // Search bar with filter button
                 
+                HStack {
+                    
+                    TagAddedComponent()
+                        .frame(width: 280, height: 50)
+                        .background(.chefHat)
+                        .cornerRadius(90)
+                    
+                    FilterComponent()
+                }
+                .padding()
+                
                 // HScroll if there is selected tags
                 
-                
+//                ScrollView(.horizontal) {
+//                    
+//                }
                 
                 // Double button to switch between list and map
                 HStack {
@@ -29,14 +42,14 @@ struct HomeView: View {
                         selectedListView = true
                     } label: {
                         ZStack {
-                            if selectedListView {
+                            if selectedListView { // List is selected
                                 UnevenRoundedRectangle(cornerRadii: .init(topLeading: 30, bottomLeading: 30))
                                     .frame(width: 160, height: 40)
                                     .foregroundStyle(.capVerde)
                                 
                                 Text("Liste")
                                     .customSubtitle(bold: false, color: .chefHat)
-                            } else {
+                            } else { // Map is selected
                                 UnevenRoundedRectangle(cornerRadii: .init(topLeading: 30, bottomLeading: 30))
                                     .frame(width: 160, height: 40)
                                     .foregroundStyle(.chefHat)
@@ -54,14 +67,14 @@ struct HomeView: View {
                         selectedListView = false
                     } label: {
                         ZStack {
-                            if selectedListView {
+                            if selectedListView { // List is selected
                                 UnevenRoundedRectangle(cornerRadii: .init(bottomTrailing: 30, topTrailing: 30))
                                     .frame(width: 160, height: 40)
                                     .foregroundStyle(.chefHat)
                                 
                                 Text("Carte")
                                     .customSubtitle(bold: false, color: .capVerde)
-                            } else {
+                            } else { // Map is selected
                                 UnevenRoundedRectangle(cornerRadii: .init(bottomTrailing: 30, topTrailing: 30))
                                     .frame(width: 160, height: 40)
                                     .foregroundStyle(.capVerde)
@@ -80,8 +93,10 @@ struct HomeView: View {
                 
                 // Deal with the View's change
                 if selectedListView {
+                    // List is selected so show List View
                     ListHomeView()
                 } else {
+                    // Map is selected so show Map View
                     MapHomeView()
                 }
                     

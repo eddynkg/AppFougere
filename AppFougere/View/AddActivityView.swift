@@ -2,7 +2,7 @@
 //  AddActivityView.swift
 //  AppFougere
 //
-//  Created by Eddy Charles on 27/10/2025.
+//  Created by Basile Carle on 27/10/2025.
 //
 
 import SwiftUI

@@ -9,7 +9,17 @@ import SwiftUI
 
 struct FilterComponent: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack {
+            Circle()
+                .frame(width: 50)
+                .foregroundStyle(.chefHat)
+            
+            Image(systemName: "line.3.horizontal.decrease")
+                .font(.title)
+                .fontWeight(.heavy)
+                .foregroundStyle(.capVerde)
+            
+        }
     }
 }
 

@@ -17,13 +17,17 @@ class User: Identifiable {
     var password: String //gérer le système de passwd
     var bio: String?
     var profilePicture: String?
+    var verifCode: String? // to verify user after forgotten password
+    var codeDate: String?  // to limit in time verifCode
     
-    init(userName: String, email: String, password: String, bio: String? = nil, profilePicture: String? = nil) {
+    init(userName: String, email: String, password: String, bio: String? = nil, profilePicture: String? = nil, verifCode: String? = nil, codeDate: String? = nil) {
         self.userName = userName
         self.email = email
         self.password = password
         self.bio = bio
         self.profilePicture = profilePicture
+        self.verifCode = verifCode
+        self.codeDate = codeDate
     }
 }
 
