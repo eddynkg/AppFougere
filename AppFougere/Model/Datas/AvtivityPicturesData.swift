@@ -2,7 +2,7 @@
 //  AvtivityPicturesData.swift
 //  AppFougere
 //
-//  Created by Apprenant 79 on 31/10/2025.
+//  Created by JulietteM on 31/10/2025.
 //
 
 import Foundation
@@ -15,6 +15,12 @@ let activityPictures: [ActivityPicture] = [
     ActivityPicture(
         activityId: activities[0].id,
         actContent: "montbrun1",
+        date: Date(timeIntervalSinceNow: -86400 * 3)
+    ),
+    
+    ActivityPicture(
+        activityId: activities[0].id,
+        actContent: "montbrun2",
         date: Date(timeIntervalSinceNow: -86400 * 3)
     ),
 

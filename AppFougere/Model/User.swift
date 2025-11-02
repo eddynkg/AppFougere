@@ -30,4 +30,3 @@ class User: Identifiable {
         self.codeDate = codeDate
     }
 }
-

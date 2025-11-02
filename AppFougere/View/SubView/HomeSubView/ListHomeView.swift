@@ -20,8 +20,10 @@ struct ListHomeView: View {
                 } label: {
 
                     VStack(alignment: .leading) {
-                        //FIXME: Image(activityPictures with activityId = activity.id) just one
+                        //FIXME: Image(activityPictures with activityId = activity.id)
+                        // if picture have the same activityId of a past picture -> ignore picture
 
+                        // Show picture of activity
                         Image(activityPicture.actContent)
                             .resizable()
                             .scaledToFill()
@@ -29,8 +31,12 @@ struct ListHomeView: View {
                             .cornerRadius(16)
                             .shadow(color: .blackKnight, radius: 4)
 
+                        // search the activity's name attach to the picture
                         ForEach(activities) { activity in
+                            
                             if activityPicture.activityId == activity.id {
+                                
+                                // show activity's name
                                 Text(activity.name)
                                     .customBody(bold: true, color: .chefHat)
                                     .padding(6)

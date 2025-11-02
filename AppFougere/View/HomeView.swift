@@ -30,6 +30,7 @@ struct HomeView: View {
                 
                 // HScroll if there is selected tags
                 
+                // if [tags] is empty show scrollview
 //                ScrollView(.horizontal) {
 //                    
 //                }

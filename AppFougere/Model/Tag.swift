@@ -92,7 +92,7 @@ class TagViewModel {
 
 
 @Model
-class TagOnActivity {
+class TagOnActivity: Identifiable {
     
     var id : UUID = UUID()
     var idTag: UUID
