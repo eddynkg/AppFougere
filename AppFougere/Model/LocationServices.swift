@@ -71,6 +71,8 @@ class GeocoderService: NSObject {
               if let request = MKGeocodingRequest(addressString: searchString) {
             do {
                 let mapItems = try await request.mapItems
+                
+                print(mapItems.first?.location.coordinate.latitude ?? 0)
                 let coordinates = CLLocationCoordinate2D(
                     latitude: mapItems.first?.location.coordinate.latitude ?? 0,
                     longitude: mapItems.first?.location.coordinate.longitude ?? 0

@@ -44,13 +44,13 @@ struct AddLocationComponent: View {
                     isMapDisplayed.toggle()
                 }) {
                     Image(systemName: "magnifyingglass")
-                    .foregroundColor(.white)
-                    .font(.system(size: 20))
-                    .padding(8)
-                    .background(
-                        Capsule()
-                            .fill(Color.capVerde)
-                    )
+                        .foregroundColor(.white)
+                        .font(.system(size: 20))
+                        .padding(8)
+                        .background(
+                            Capsule()
+                                .fill(Color.capVerde)
+                        )
                     
                 }
                 LocationButton {
@@ -97,11 +97,11 @@ struct AddLocationComponent: View {
             }
         if areSuggestionDisplayed { 
             VStack {
-       
+                
                 ForEach(searchCompleter.results, id: \.self) { result in
                     Text("\(result.title) : \(result.subtitle)")
                         .onTapGesture {
-//                            print(result)
+                            //                            print(result)
                             locationSearch = "\(result.title) : \(result.subtitle)"
                             Task {
                                 let searchRegion = await geocoderService.translateSearchStringInCoordinate(
@@ -166,10 +166,81 @@ struct AddLocationComponent: View {
                 RoundedRectangle(cornerRadius: 16)
             )
             .padding()
+            .onChange(
+                of: locationSearch
+            ) {
+                areSuggestionDisplayed = true
+                searchCompleter.updateResults(for: locationSearch)
+            }
+            if areSuggestionDisplayed {
+                VStack {
+                    ForEach(searchCompleter.results, id: \.self) { result in
+                        Text("\(result.title), \(result.subtitle)")
+                            .onTapGesture {
+                                locationSearch = "\(result.title) : \(result.subtitle)"
+                                Task {
+                                    let searchRegion = await geocoderService.translateSearchStringInCoordinate(
+                                        searchString: result.subtitle
+                                    )
+                                    DispatchQueue.main.async {
+                                        if let checkRegion = searchRegion {
+                                            cameraPosition =
+                                                .region(checkRegion)
+                                            areSuggestionDisplayed = false
+                                        }
+                                    }
+                                }
+                                
+                            }
+                    }
+                }
+            }
+            Map(position: $cameraPosition){
+                //                Marker(coordinate: pinLocation) {
+                //                    Label("Chez moi", systemImage: "house")
+                //                }
+                //                .tint(.yellow)
+                //            Annotation(
+                //                "Montpellier",
+                //                coordinate: CLLocationCoordinate2D(
+                //                    latitude: 43.608071,
+                //                    longitude: 3.883121
+                //                ), content: {
+                //                    Image(systemName: "star")
+                //                        .font(.title)
+                //                        .padding()
+                //                        .background(.white)
+                //                        .clipShape(Circle())
+                //                }
+                //            )
+            }
+            .onAppear {
+                let initialPosition = CLLocationCoordinate2D(latitude: 43.61091, longitude: 3.87630)
+                let initialSpan = MKCoordinateSpan(
+                    latitudeDelta: 0.02,
+                    longitudeDelta: 0.02)
+                let initialRegion = MKCoordinateRegion(
+                    center: initialPosition,
+                    span: initialSpan
+                )
+                cameraPosition = .region(initialRegion)
+                
+            }
+            .mapControls{
+                MapUserLocationButton()
+                MapCompass()
+                MapScaleView()
+                MapPitchToggle()
+            }
+            
+            
+            .frame(height: 300)
+            .clipShape(
+                RoundedRectangle(cornerRadius: 16)
+            )
+            .padding()
         }
-        
     }
-    
     
 }
 
