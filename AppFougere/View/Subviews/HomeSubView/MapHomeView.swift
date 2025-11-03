@@ -21,6 +21,7 @@ struct MapHomeView: View {
         // Creation of the map
         Map()
             .clipShape(  UnevenRoundedRectangle(cornerRadii: .init(topLeading: 40, topTrailing: 40)))
+            .ignoresSafeArea(edges: .bottom)
     }
 }
 
