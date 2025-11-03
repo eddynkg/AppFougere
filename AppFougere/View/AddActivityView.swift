@@ -15,10 +15,22 @@ struct AddActivityView: View {
     @Query var tagsOnActivity: [TagOnActivity] = []
     @State var name: String = ""
     @State var tagSearch: String = ""
-    @State var activityDuration: CGFloat = 0
+    @State var activityHourDuration = 0
+    @State var activityMinuteDuration = 0
     @State var activityDifficulty: CGFloat = 0
     @State var activityDescription: String = ""
+    @State var activityIsPMRFriendly: Bool = false
+    @State var isCarAccessible: Bool = false
+    @State var isFootAccessible: Bool = false
+    @State var isBikeAccessible: Bool = false
+    @State var isPublicTransportationAccessible: Bool = false
+
     
+    
+    let columns: [GridItem] = [
+        GridItem(.flexible()),
+        GridItem(.flexible())
+    ]
     
     
     var body: some View {
@@ -43,15 +55,50 @@ struct AddActivityView: View {
                             Spacer()
                         }
                         
-                        // Localisation de l'activité'
-                        AddLocationComponent()
-
                         TagAddedComponent()
-                        Divider()
+        
                             .padding(.vertical)
                         
+                       
+                        // Difficulté.padding(.vertical)
+                        Divider().padding(.bottom)
+                        HStack {
+                            Text("Difficulté : ")
+                                .customBody(bold: true, color: .capVerde)
+                            Spacer()
+                            Text("\(String(format: "%.0f", activityDifficulty))")
+                                .customBody(bold: true, color: .capVerde)
+                        }
+                        Stepper(
+                            "Décrivez le niveau  / 5 ",
+                            value: $activityDifficulty,
+                            in: 0...5
+                        )
+                        
+                        // Durée
+                        Divider().padding(.top)
+                        HStack {
+                            Text("Durée : ")
+                                .customBody(bold: true, color: .capVerde)
+                            
+                            Spacer()
+                            Picker("Heures", selection: $activityHourDuration) {
+                                ForEach(0...24, id: \.self) {
+                                    Text("\($0) h")
+                                }
+                            }
+                            Picker("Minutes", selection: $activityMinuteDuration) {
+                                ForEach(0...24, id: \.self) {
+                                    Text("\($0) m")
+                                }
+                            }
+                        }
+                        
                         // Ajout photos
+                        Divider()
+                            .padding(.vertical)
                         ActivityPhotoAddComponent()
+                        
                         // Description
                         Divider()
                         Text("Description : ")
@@ -70,28 +117,65 @@ struct AddActivityView: View {
                                     .foregroundColor(.chefHat)
                             )
                         
+
                         
-                        // Durée
+                        // Localisation de l'activité'
                         Divider()
+                            .padding()
+                        AddLocationComponent()
+
+
+                        
+
+                        
+
+                        
+ 
+
+                        // PMR Friendly
+                        Divider().padding(.top)
                         HStack {
-                            Text("Durée : \(String(format: "%.1f", activityDuration))")
+                            Toggle(isOn: $activityIsPMRFriendly, label: {
+                                Text("PMR Friendly : ")
+                                    .customBody(bold: true, color: .capVerde)
+                            })
+                        }
+                        .padding(.vertical)
+
+                       
+                        
+                        
+                        // Accessibilité
+                        Divider()
+                            .padding(.vertical)
+                        HStack {
+                            Text("Moyens d'accès : ")
                                 .customBody(bold: true, color: .capVerde)
-                            Slider(
-                                value: $activityDuration,
-                                in: CGFloat(0)...CGFloat(24),
-                                step: CGFloat(0.5)
-                            )
+                            Spacer()
                         }
-                        // Difficulté
-                        HStack {
+                        LazyVGrid(columns: columns, spacing: 16) {
+                            TransportationMeansComponent(
+                                toggleIsOn: $isCarAccessible,
+                                imageName: "car.circle"
+                            )
+                            TransportationMeansComponent(
+                                toggleIsOn: $isFootAccessible,
+                                imageName: "figure.walk"
+                            )
+                            TransportationMeansComponent(
+                                toggleIsOn: $isBikeAccessible,
+                                imageName: "bicycle.circle"
+                            )
+                            TransportationMeansComponent(
+                                toggleIsOn: $isPublicTransportationAccessible,
+                                imageName: "tram"
+                            )
                             
-                            Stepper(
-                                "Difficulté : \(String(format: "%.0f", activityDifficulty))",
-                                value: $activityDifficulty,
-                                in: 0...5
-                            )
-                            .customBody(bold: true, color: .capVerde)
                         }
+                        
+        
+                        
+                        
                     }
                     
                     Spacer()

@@ -40,6 +40,19 @@ struct AddLocationComponent: View {
                         .customText(bold: false, fontSize: 10, color: .capVerde)
                         .frame(width: 110, alignment: .center )
                 }
+                Button(action: {
+                    isMapDisplayed.toggle()
+                }) {
+                    Image(systemName: "magnifyingglass")
+                    .foregroundColor(.white)
+                    .font(.system(size: 20))
+                    .padding(8)
+                    .background(
+                        Capsule()
+                            .fill(Color.capVerde)
+                    )
+                    
+                }
                 LocationButton {
                     locationManager.requestLocation()
                     
@@ -107,50 +120,54 @@ struct AddLocationComponent: View {
                 }
             }
         }
-        Map(position: $cameraPosition){
-            //                Marker(coordinate: pinLocation) {
-            //                    Label("Chez moi", systemImage: "house")
-            //                }
-            //                .tint(.yellow)
-            //            Annotation(
-            //                "Montpellier",
-            //                coordinate: CLLocationCoordinate2D(
-            //                    latitude: 43.608071,
-            //                    longitude: 3.883121
-            //                ), content: {
-            //                    Image(systemName: "star")
-            //                        .font(.title)
-            //                        .padding()
-            //                        .background(.white)
-            //                        .clipShape(Circle())
-            //                }
-            //            )
-        }
-        .onAppear {
-            let initialPosition = CLLocationCoordinate2D(latitude: 43.61091, longitude: 3.87630)
-            let initialSpan = MKCoordinateSpan(
-                latitudeDelta: 0.02,
-                longitudeDelta: 0.02)
-            let initialRegion = MKCoordinateRegion(
-                center: initialPosition,
-                span: initialSpan
-            )
-            cameraPosition = .region(initialRegion)
+        
+        if isMapDisplayed {
             
-        }
-        .mapControls{
-            MapUserLocationButton()
-            MapCompass()
-            MapScaleView()
-            MapPitchToggle()
+            Map(position: $cameraPosition){
+                //                Marker(coordinate: pinLocation) {
+                //                    Label("Chez moi", systemImage: "house")
+                //                }
+                //                .tint(.yellow)
+                //            Annotation(
+                //                "Montpellier",
+                //                coordinate: CLLocationCoordinate2D(
+                //                    latitude: 43.608071,
+                //                    longitude: 3.883121
+                //                ), content: {
+                //                    Image(systemName: "star")
+                //                        .font(.title)
+                //                        .padding()
+                //                        .background(.white)
+                //                        .clipShape(Circle())
+                //                }
+                //            )
+            }
+            .onAppear {
+                let initialPosition = CLLocationCoordinate2D(latitude: 43.61091, longitude: 3.87630)
+                let initialSpan = MKCoordinateSpan(
+                    latitudeDelta: 0.02,
+                    longitudeDelta: 0.02)
+                let initialRegion = MKCoordinateRegion(
+                    center: initialPosition,
+                    span: initialSpan
+                )
+                cameraPosition = .region(initialRegion)
+                
+            }
+            .mapControls{
+                MapCompass()
+                MapScaleView()
+                MapPitchToggle()
+            }
+            
+            
+            .frame(height: 300)
+            .clipShape(
+                RoundedRectangle(cornerRadius: 16)
+            )
+            .padding()
         }
         
-        
-        .frame(height: 300)
-        .clipShape(
-            RoundedRectangle(cornerRadius: 16)
-        )
-        .padding()
     }
     
     

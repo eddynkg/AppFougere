@@ -60,7 +60,7 @@ class SearchCompleter: NSObject, MKLocalSearchCompleterDelegate {
     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
         
         self.results = completer.results
-        print(completer.results)
+        
     }
 }
 
