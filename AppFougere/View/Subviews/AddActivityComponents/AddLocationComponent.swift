@@ -23,10 +23,9 @@ struct AddLocationComponent: View {
         span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
     )
     
-    var pinLocation: CLLocationCoordinate2D = CLLocationCoordinate2D(
-        latitude: 43.61091,
-        longitude: 3.87630
-    )
+    @State private var cameraPosition: MapCameraPosition = .automatic
+    
+    @State var userLocation: CLLocationCoordinate2D?
 
     var body: some View {
         VStack {
@@ -41,6 +40,25 @@ struct AddLocationComponent: View {
                 }
                 LocationButton {
                     locationManager.requestLocation()
+                    if locationManager.location != nil {
+                        let coordinates = CLLocationCoordinate2D(
+                            latitude: locationManager.location!.coordinate.latitude,
+                            longitude: locationManager.location!.coordinate.longitude
+                        )
+                        let span = MKCoordinateSpan(
+                            latitudeDelta: 0.02,
+                            longitudeDelta: 0.02
+                        )
+                        let region = MKCoordinateRegion(
+                            center: coordinates,
+                            span: span
+                        )
+                        
+                        cameraPosition =
+                            .region(region)
+                                
+                            
+                    }
                 }
                 .labelStyle(.iconOnly)
                 .frame(height: 32)
@@ -68,14 +86,50 @@ struct AddLocationComponent: View {
                     }
                 }
             }
-            Map{
-                Marker("Montpellier", coordinate: pinLocation)
-            }.mapControlVisibility(.visible)
-                .frame(height: 300)
-                .clipShape(
-                    RoundedRectangle(cornerRadius: 16)
+            Map(position: $cameraPosition){
+//                Marker(coordinate: pinLocation) {
+//                    Label("Chez moi", systemImage: "house")
+//                }
+//                .tint(.yellow)
+                Annotation(
+                    "Montpellier",
+                    coordinate: CLLocationCoordinate2D(
+                        latitude: 43.608071,
+                        longitude: 3.883121
+                    ), content: {
+                        Image(systemName: "star")
+                            .font(.title)
+                            .padding()
+                            .background(.white)
+                            .clipShape(Circle())
+                    }
                 )
-                .padding()
+            }
+            .onAppear {
+                let initialPosition = CLLocationCoordinate2D(latitude: 43.61091, longitude: 3.87630)
+                let initialSpan = MKCoordinateSpan(
+                    latitudeDelta: 0.02,
+                    longitudeDelta: 0.02)
+                let initialRegion = MKCoordinateRegion(
+                    center: initialPosition,
+                    span: initialSpan
+                )
+                cameraPosition = .region(initialRegion)
+                
+            }
+            .mapControls{
+                MapUserLocationButton()
+                MapCompass()
+                MapScaleView()
+                MapPitchToggle()
+            }
+                
+            
+            .frame(height: 300)
+            .clipShape(
+                RoundedRectangle(cornerRadius: 16)
+            )
+            .padding()
         }
         
     }

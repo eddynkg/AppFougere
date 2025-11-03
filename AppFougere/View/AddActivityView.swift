@@ -10,7 +10,7 @@ import SwiftData
 import CoreLocation
 
 struct AddActivityView: View {
- 
+  
     
     @Query var tagsOnActivity: [TagOnActivity] = []
     @State var name: String = ""
