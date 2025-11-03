@@ -56,3 +56,43 @@ class SearchCompleter: NSObject, MKLocalSearchCompleterDelegate {
         self.results = completer.results.map { $0.title}
     }
 }
+
+@Observable
+class GeocoderService: NSObject {
+    
+    func translateSearchStringInCoordinate(searchString: String) async -> MKCoordinateRegion?  {
+        
+        
+        
+        if let request = MKGeocodingRequest(addressString: searchString) {
+            do {
+                let mapItems = try await request.mapItems
+                
+                print(mapItems.first?.location.coordinate.latitude ?? 0)
+                let coordinates = CLLocationCoordinate2D(
+                    latitude: mapItems.first?.location.coordinate.latitude ?? 0,
+                    longitude: mapItems.first?.location.coordinate.longitude ?? 0
+                )
+                let span = MKCoordinateSpan(
+                    latitudeDelta: 0.01,
+                    longitudeDelta: 0.01
+                )
+                let region = MKCoordinateRegion(
+                    center: coordinates,
+                    span: span
+                )
+                print(region)
+                
+                return region
+                
+                
+            } catch {
+                print ("error: \(error)")
+                return nil
+            }
+        }
+        return nil
+    }
+}
+    
+
