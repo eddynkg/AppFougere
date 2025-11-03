@@ -16,7 +16,7 @@ struct ListHomeView: View {
             ForEach(activityPictures) { activityPicture in
 
                 NavigationLink {
-                    DetailActivityView()
+//                    DetailActivityView(activity: )
                 } label: {
 
                     VStack(alignment: .leading) {
