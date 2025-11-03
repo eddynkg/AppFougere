@@ -10,13 +10,12 @@ import SwiftUI
 import SwiftData
 
 struct TagAddedComponent: View {
-    @Query var tagsOnActivity: [TagOnActivity] = []
+    
     @Query var tags: [Tag] = []
     @Environment(\.modelContext) var context
     var tagViewModel = TagViewModel()
     
     @State var searchedTag: String = ""
-    @State var newTagName: String = ""
     @State var tagsToAddToActivity: [Tag] = []
     
  

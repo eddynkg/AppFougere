@@ -6,13 +6,19 @@
 //
 
 import SwiftUI
+import SwiftData
+import CoreLocation
 
 struct AddActivityView: View {
+ 
+    
+    @Query var tagsOnActivity: [TagOnActivity] = []
     @State var name: String = ""
     @State var tagSearch: String = ""
     @State var activityDuration: CGFloat = 0
     @State var activityDifficulty: CGFloat = 0
     @State var activityDescription: String = ""
+    
     
     
     var body: some View {
@@ -101,6 +107,7 @@ struct AddActivityView: View {
             )
             .padding()
         }.font(.custom("Inter", size: 18))
+
 
         
     }
