@@ -15,6 +15,7 @@ struct AddActivityView: View {
     @Query var tagsOnActivity: [TagOnActivity] = []
     @State var name: String = ""
     @State var tagSearch: String = ""
+    @State var activityLocation: String = ""
     @State var activityHourDuration = 0
     @State var activityMinuteDuration = 0
     @State var activityDifficulty: CGFloat = 0
@@ -88,7 +89,7 @@ struct AddActivityView: View {
                                 }
                             }
                             Picker("Minutes", selection: $activityMinuteDuration) {
-                                ForEach(0...24, id: \.self) {
+                                ForEach(0...59, id: \.self) {
                                     Text("\($0) m")
                                 }
                             }
@@ -113,7 +114,7 @@ struct AddActivityView: View {
                             .padding(8)
                             .scrollContentBackground(.hidden)
                             .background(
-                                RoundedRectangle(cornerRadius: 16)
+                                RoundedRectangle(cornerRadius: 30)
                                     .foregroundColor(.chefHat)
                             )
                         
@@ -122,7 +123,7 @@ struct AddActivityView: View {
                         // Localisation de l'activité'
                         Divider()
                             .padding()
-                        AddLocationComponent()
+                        AddLocationComponent(activityLocation: $activityLocation)
 
 
                         
@@ -180,7 +181,18 @@ struct AddActivityView: View {
                     
                     Spacer()
                 }
-                .padding(32)
+                .padding(.horizontal, 16)
+                .padding(.top, 16)
+                SaveButtonView(
+                    name: name,
+                    actDescription: activityDescription,
+                    location: activityLocation,
+                    difficulty: activityDifficulty,
+                    handicap: activityIsPMRFriendly,
+                    accessibility: accessibilityArray(),
+                    durationHour: activityHourDuration,
+                    durationMin: activityMinuteDuration
+                )
             }
             .ignoresSafeArea(.all, edges: .bottom)
             .frame(maxHeight: .infinity)
@@ -192,8 +204,38 @@ struct AddActivityView: View {
             .padding()
         }.font(.custom("Inter", size: 18))
 
-
         
+        
+    }
+    
+    func accessibilityArray () -> [Accessibility] {
+        let transports: [Bool] = [
+            isCarAccessible, isBikeAccessible, isFootAccessible, isPublicTransportationAccessible
+            ]
+        var tmpArray: [Accessibility] = []
+        for index in 0..<transports.count {
+            switch index {
+            case 0:
+                if transports[index] == true {
+                    tmpArray.append(.car)
+                }
+            case 1:
+                if transports[index] == true {
+                    tmpArray.append(.bike)
+                }
+            case 2:
+                if transports[index] == true {
+                    tmpArray.append(.foot)
+                }
+            case 3:
+                if transports[index] == true {
+                    tmpArray.append(.publicTransportation)
+                }
+            default:
+                print("No case")
+            }
+        }
+        return tmpArray
     }
 }
 

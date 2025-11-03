@@ -131,7 +131,9 @@ struct DetailActivityView: View {
             difficulty: 2.5,
             handicap: true,
             userId: UUID(),
-            accessibility: [.foot, .car, .bus]
+            accessibility: [.foot, .car, .bus],
+            durationHour: 2,
+            durationMin: 20
         ))
     }
 }

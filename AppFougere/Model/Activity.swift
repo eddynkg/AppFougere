@@ -8,19 +8,33 @@
 import Foundation
 import SwiftData
 import SwiftUI
+import CoreLocation
+import MapKit
 
 @Model
 class Activity: Identifiable {
     var id: UUID = UUID()
     var name: String
     var actDescription: String
-    var location: String
+    var location: String // A changer ?
     var difficulty: Double
     var handicap: Bool
     var userId: UUID
     var accessibility: [Accessibility]
+    var durationHour: Int
+    var durationMin: Int
     
-    init(name: String, actDescription: String, location: String, difficulty: Double, handicap: Bool, userId: UUID, accessibility: [Accessibility]) {
+    init(
+        name: String,
+        actDescription: String,
+        location: String, // A changer ?
+        difficulty: Double,
+        handicap: Bool,
+        userId: UUID,
+        accessibility: [Accessibility],
+        durationHour: Int,
+        durationMin: Int
+    ) {
         self.name = name
         self.actDescription = actDescription
         self.location = location
@@ -28,10 +42,12 @@ class Activity: Identifiable {
         self.handicap = handicap
         self.userId = userId
         self.accessibility = accessibility
+        self.durationHour = durationHour
+        self.durationMin = durationMin
     }
     
 }
 
 enum Accessibility: String, Codable {
-    case car, foot, bike, metro, bus, tramway, train
+    case car, foot, bike, metro, bus, tramway, train, publicTransportation
 }

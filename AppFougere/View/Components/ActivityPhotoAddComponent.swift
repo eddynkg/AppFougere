@@ -34,13 +34,13 @@ struct ActivityPhotoAddComponent: View {
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
                                 .frame(width: 150, height: 150)
-                                .clipShape(RoundedRectangle(cornerRadius: 16))
+                                .clipShape(RoundedRectangle(cornerRadius: 30))
                         }
                         
                         PhotosPicker(selection: $pickerItems, maxSelectionCount: 4, matching: .images) {
                             
                             ZStack {
-                                RoundedRectangle(cornerRadius: 16)
+                                RoundedRectangle(cornerRadius: 30)
                                     .frame(width: 150, height: 150)
                                     .foregroundStyle(Color.chefHat)
                                 Image(systemName: "plus.square")
