@@ -39,7 +39,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
 // pour compléter les adresses
 @Observable
 class SearchCompleter: NSObject, MKLocalSearchCompleterDelegate {
-    var results: [String] = []
+    var results: [MKLocalSearchCompletion] = []
     var searchCompleter = MKLocalSearchCompleter()
     
     // configuration de la limitation des résultats pour la france
@@ -58,7 +58,9 @@ class SearchCompleter: NSObject, MKLocalSearchCompleterDelegate {
     }
     
     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
-        self.results = completer.results.map { $0.title}
+        
+        self.results = completer.results
+        print(completer.results)
     }
 }
 
@@ -69,7 +71,6 @@ class GeocoderService: NSObject {
               if let request = MKGeocodingRequest(addressString: searchString) {
             do {
                 let mapItems = try await request.mapItems
-                print(mapItems)
                 let coordinates = CLLocationCoordinate2D(
                     latitude: mapItems.first?.location.coordinate.latitude ?? 0,
                     longitude: mapItems.first?.location.coordinate.longitude ?? 0

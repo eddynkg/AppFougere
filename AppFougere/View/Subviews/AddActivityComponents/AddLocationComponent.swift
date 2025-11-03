@@ -82,21 +82,27 @@ struct AddLocationComponent: View {
                 areSuggestionDisplayed = true
                 searchCompleter.updateResults(for: locationSearch)
             }
-        if areSuggestionDisplayed {
+        if areSuggestionDisplayed { 
             VStack {
+       
                 ForEach(searchCompleter.results, id: \.self) { result in
-                    Text(result)
+                    Text("\(result.title) : \(result.subtitle)")
                         .onTapGesture {
-                            locationSearch = result
+//                            print(result)
+                            locationSearch = "\(result.title) : \(result.subtitle)"
                             Task {
-                                let searchRegion = await geocoderService.translateSearchStringInCoordinate(searchString: result)
+                                let searchRegion = await geocoderService.translateSearchStringInCoordinate(
+                                    searchString: result.subtitle
+                                )
                                 DispatchQueue.main.async {
-                                    cameraPosition =
-                                        .region(searchRegion!)
+                                    if let checkRegion = searchRegion {
+                                        cameraPosition =
+                                            .region(checkRegion)
+                                        areSuggestionDisplayed = false
+                                    }
                                 }
                             }
                             
-                            areSuggestionDisplayed = false
                         }
                 }
             }
