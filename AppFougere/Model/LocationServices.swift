@@ -42,9 +42,14 @@ class SearchCompleter: NSObject, MKLocalSearchCompleterDelegate {
     var results: [String] = []
     var searchCompleter = MKLocalSearchCompleter()
     
+    // configuration de la limitation des résultats pour la france
+    let franceCenter = CLLocationCoordinate2D(latitude: 46.6, longitude: 2.4)
+    let franceSpan = MKCoordinateSpan(latitudeDelta: 5.5, longitudeDelta: 7.0)
+    
     override init() {
         super.init()
         searchCompleter.delegate = self
+        searchCompleter.region = MKCoordinateRegion(center: franceCenter, span: franceSpan)
         
     }
     
@@ -56,3 +61,39 @@ class SearchCompleter: NSObject, MKLocalSearchCompleterDelegate {
         self.results = completer.results.map { $0.title}
     }
 }
+
+@Observable
+class GeocoderService: NSObject {
+    
+    func translateSearchStringInCoordinate(searchString: String) async -> MKCoordinateRegion?  {
+              if let request = MKGeocodingRequest(addressString: searchString) {
+            do {
+                let mapItems = try await request.mapItems
+                print(mapItems)
+                let coordinates = CLLocationCoordinate2D(
+                    latitude: mapItems.first?.location.coordinate.latitude ?? 0,
+                    longitude: mapItems.first?.location.coordinate.longitude ?? 0
+                )
+                let span = MKCoordinateSpan(
+                    latitudeDelta: 0.01,
+                    longitudeDelta: 0.01
+                )
+                let region = MKCoordinateRegion(
+                    center: coordinates,
+                    span: span
+                )
+                print(region)
+                
+                return region
+                
+                
+            } catch {
+                print ("error: \(error)")
+                return nil
+            }
+        }
+        return nil
+    }
+}
+    
+
