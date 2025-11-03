@@ -6,16 +6,16 @@
 //
 
 import Foundation
-import Observation
+import SwiftData
 import SwiftUI
 
-@Observable
-class Rating{
+@Model
+class Rating: Identifiable {
     
-    var id : UUID = UUID()
-    var userId : UUID
-    var activityId : UUID
-    var rating: Int
+    var id: UUID = UUID()
+    var userId: UUID
+    var activityId: UUID
+    var rating: Int         // Between 1 and 5
     
     init(userId: UUID, activityId: UUID, rating: Int) {
         self.userId = userId

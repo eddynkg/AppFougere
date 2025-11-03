@@ -31,11 +31,6 @@ class Tag: Identifiable {
     var title: String
 
     
-
-    
-
-    
-    
     init(title: String) {
         self.title = title
     }
@@ -101,7 +96,7 @@ class TagViewModel {
 
 
 @Model
-class TagOnActivity {
+class TagOnActivity: Identifiable {
     
     var id : UUID = UUID()
     var idTag: UUID

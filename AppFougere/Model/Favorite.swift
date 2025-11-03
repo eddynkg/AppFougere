@@ -6,11 +6,11 @@
 //
 
 import Foundation
-import Observation
+import SwiftData
 import SwiftUI
 
-@Observable
-class Favorite {
+@Model
+class Favorite: Identifiable {
     var id: UUID = UUID()
     var userId: UUID
     var activityId: UUID
