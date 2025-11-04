@@ -33,6 +33,7 @@ struct SaveButtonView: View {
                 print(accessibility)
                 print(durationHour)
                 print(durationMin)
+                insertActivity()
             }
         ) {
             Text("Enregistrer")

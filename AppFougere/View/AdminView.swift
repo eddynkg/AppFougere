@@ -13,6 +13,9 @@ struct AdminView: View {
     
     @Query var tagsOnActivity: [TagOnActivity] = []
     @Query var tags: [Tag] = []
+    @Query var activitiesSD: [Activity] = []
+    @Query var usersSD: [User] = []
+    
     @Environment(\.modelContext) var context
     @State var tagsToAddToActivity: [Tag] = [] // a prioiri inutile ici
     var tagViewModel = TagViewModel()
@@ -57,8 +60,123 @@ struct AdminView: View {
                 }
                 .padding()
             }
+            Section("Activités") {
+                HStack {
+                    Text("Activités :")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                    Spacer()
+                    Button(
+                        action: {
+                            loadActivitiesIntoSwiftData()
+                        }
+                    ) {
+                        Text("Charger")
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 8)
+                            .foregroundColor(.white)
+                            .background(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .foregroundStyle(Color.capVerde)
+                            )
+                    }
+                }
+                ScrollView {
+                    ForEach(activitiesSD) { activity in
+                        HStack {
+                            Text("Nom :")
+                                .fontWeight(.bold)
+                            Text(activity.name)
+                            Spacer()
+                            Button(
+                                action: {
+                                    context.delete(activity)
+                                }
+                            ) {
+                                Text("Supprimer")
+                                    .padding(.horizontal, 16)
+                                    .padding(.vertical, 8)
+                                    .foregroundColor(.white)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 16)
+                                            .foregroundStyle(Color.capVerde)
+                                    )
+                            }
+                        }
+                    }
+                    
+                    
+                    
+                }
+                
+            }
+            
+            Section("Utilisateurs") {
+                HStack {
+                    Text("Utilisateurs :")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                    Spacer()
+                    Button(
+                        action: {
+                            loadUsersIntoSwiftData()
+                        }
+                    ) {
+                        Text("Charger")
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 8)
+                            .foregroundColor(.white)
+                            .background(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .foregroundStyle(Color.capVerde)
+                            )
+                    }
+                }
+                ScrollView {
+                    ForEach(usersSD) { user in
+                        HStack {
+                            Text("Nom :")
+                                .fontWeight(.bold)
+                            Text(user.userName)
+                            Spacer()
+                            Button(
+                                action: {
+                                    context.delete(user)
+                                }
+                            ) {
+                                Text("Supprimer")
+                                    .padding(.horizontal, 16)
+                                    .padding(.vertical, 8)
+                                    .foregroundColor(.white)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 16)
+                                            .foregroundStyle(Color.capVerde)
+                                    )
+                            }
+                        }
+                    }
+                    
+                    
+                    
+                }
+                
+            }
         }
     }
+    
+    func loadActivitiesIntoSwiftData() {
+        for activity in activities {
+            context.insert(activity)
+        }
+    }
+    
+    func loadUsersIntoSwiftData() {
+        for user in users {
+            context.insert(user)
+        }
+    }
+        
+  
 }
 
 #Preview {

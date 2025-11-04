@@ -25,6 +25,8 @@ struct AddActivityView: View {
     @State var isFootAccessible: Bool = false
     @State var isBikeAccessible: Bool = false
     @State var isPublicTransportationAccessible: Bool = false
+    
+    var userId = users.first!.id // Attention, à changer avec la bonne méthode
 
     
     
@@ -189,6 +191,7 @@ struct AddActivityView: View {
                     location: activityLocation,
                     difficulty: activityDifficulty,
                     handicap: activityIsPMRFriendly,
+                    userId: userId,
                     accessibility: accessibilityArray(),
                     durationHour: activityHourDuration,
                     durationMin: activityMinuteDuration
