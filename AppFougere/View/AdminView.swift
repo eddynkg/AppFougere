@@ -85,6 +85,22 @@ struct AdminView: View {
                         action: {
                             
                         }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        
+                    }
+                }
+                .padding(.horizontal, 8)
+            }
+            Section("Jointure Tags et Activités") {
+                HStack {
+                    Text("TagsOnActivity :")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                    Spacer()
+                    Button(
+                        action: {
+                            
+                        }
                     ) {
                         Text("Charger")
                             .padding(.horizontal, 16)
