@@ -102,17 +102,6 @@ struct DetailActivityView: View {
                 // Toolbar
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
-                    // Bouton retour à gauche
-                    ToolbarItem(placement: .topBarLeading) {
-                        Button {
-                            dismiss()
-                        } label: {
-                            Image(systemName: "chevron.left")
-                                .symbolRenderingMode(.monochrome)
-                                .foregroundStyle(.white)
-                        }
-                        .buttonStyle(.plain)
-                    }
                     
                     // Titre centré
                     ToolbarItem(placement: .principal) {
@@ -147,18 +136,6 @@ struct DetailActivityView: View {
 
 #Preview {
     NavigationStack {
-
-        DetailActivityView(activity: Activity(
-            name: "Colorado français",
-            actDescription: "Une rando incroyable dans le Luberon ! 😍 On se croirait dans un mini Colorado avec ces falaises ocres rouges et jaunes. Le contraste avec la végétation est fou. Une vraie claque visuelle, à faire absolument si vous êtes dans la région ! 🏜️✨",
-            location: "Lubéron, France",
-            difficulty: 2.5,
-            handicap: true,
-            userId: UUID(),
-            accessibility: [.foot, .car, .bus],
-            durationHour: 2,
-            durationMin: 20
-        ))
         // “Activité 20” = index 20 (Le Colorado français)
         DetailActivityView(activity: activities[20])
     }
