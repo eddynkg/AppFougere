@@ -118,5 +118,10 @@ struct TagComponent: View {
 #Preview {
    
     var tag: Tag = Tag(title: "Montagne")
-    TagComponent(tag: tag, displayMode: .addToActivity, tagsToAddToActivity: .constant([]), searchedTag: .constant(""))
+    TagComponent(
+        tag: tag,
+        displayMode: .tagDisplay,
+        tagsToAddToActivity: .constant([]),
+        searchedTag: .constant("")
+    )
 }

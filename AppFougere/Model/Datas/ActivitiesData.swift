@@ -19,7 +19,9 @@ let activities: [Activity] = [
         difficulty: 3.0,
         handicap: false,
         userId: users[0].id,
-        accessibility: [.train, .foot, .car]
+        accessibility: [.train, .foot, .car],
+        durationHour: 2,
+        durationMin: 20
     ),
 
     Activity(
@@ -30,7 +32,9 @@ let activities: [Activity] = [
         difficulty: 2.0,
         handicap: false,
         userId: users[1].id,
-        accessibility: [.foot, .bike, .car]
+        accessibility: [.foot, .bike, .car],
+        durationHour: 2,
+        durationMin: 20
     ),
 
     Activity(
@@ -41,7 +45,9 @@ let activities: [Activity] = [
         difficulty: 3.5,
         handicap: false,
         userId: users[2].id,
-        accessibility: [.train, .bus, .car]
+        accessibility: [.train, .bus, .car],
+        durationHour: 2,
+        durationMin: 20
     ),
 
     Activity(
@@ -52,7 +58,9 @@ let activities: [Activity] = [
         difficulty: 4.0,
         handicap: false,
         userId: users[3].id,
-        accessibility: [.bus, .foot, .bike, .car]
+        accessibility: [.bus, .foot, .bike, .car],
+        durationHour: 2,
+        durationMin: 20
     ),
 
     Activity(
@@ -63,7 +71,9 @@ let activities: [Activity] = [
         difficulty: 2.5,
         handicap: false,
         userId: users[4].id,
-        accessibility: [.car]
+        accessibility: [.car],
+        durationHour: 2,
+        durationMin: 20
     ),
 
     Activity(
@@ -74,7 +84,9 @@ let activities: [Activity] = [
         difficulty: 1.0,
         handicap: true,
         userId: users[5].id,
-        accessibility: [.bus, .foot, .car]
+        accessibility: [.bus, .foot, .car],
+        durationHour: 2,
+        durationMin: 20
     ),
 
     Activity(
@@ -85,7 +97,9 @@ let activities: [Activity] = [
         difficulty: 3.5,
         handicap: false,
         userId: users[6].id,
-        accessibility: [.car]
+        accessibility: [.car],
+        durationHour: 2,
+        durationMin: 20
     ),
 
     Activity(
@@ -96,7 +110,9 @@ let activities: [Activity] = [
         difficulty: 2.5,
         handicap: false,
         userId: users[7].id,
-        accessibility: [.car]
+        accessibility: [.car],
+        durationHour: 2,
+        durationMin: 20
     ),
 
     Activity(
@@ -107,7 +123,9 @@ let activities: [Activity] = [
         difficulty: 3.0,
         handicap: false,
         userId: users[8].id,
-        accessibility: [.car]
+        accessibility: [.car],
+        durationHour: 2,
+        durationMin: 20
     ),
 
     Activity(
@@ -118,7 +136,9 @@ let activities: [Activity] = [
         difficulty: 2.0,
         handicap: false,
         userId: users[9].id,
-        accessibility: [.bus, .bike, .car]
+        accessibility: [.bus, .bike, .car],
+        durationHour: 2,
+        durationMin: 20
     ),
 
     Activity(
@@ -129,7 +149,9 @@ let activities: [Activity] = [
         difficulty: 1.5,
         handicap: false,
         userId: users[10].id,
-        accessibility: [.bike, .foot, .car]
+        accessibility: [.bike, .foot, .car],
+        durationHour: 2,
+        durationMin: 20
     ),
 
     Activity(
@@ -140,7 +162,9 @@ let activities: [Activity] = [
         difficulty: 0.9,
         handicap: false,
         userId: users[11].id,
-        accessibility: [.car]
+        accessibility: [.car],
+        durationHour: 2,
+        durationMin: 20
     ),
 
     Activity(
@@ -151,7 +175,9 @@ let activities: [Activity] = [
         difficulty: 4.5,
         handicap: false,
         userId: users[12].id,
-        accessibility: [.car]
+        accessibility: [.car],
+        durationHour: 2,
+        durationMin: 20
     ),
 
     Activity(
@@ -162,7 +188,9 @@ let activities: [Activity] = [
         difficulty: 3.0,
         handicap: false,
         userId: users[13].id,
-        accessibility: [.bike, .car]
+        accessibility: [.bike, .car],
+        durationHour: 2,
+        durationMin: 20
     ),
 
     Activity(
@@ -173,7 +201,9 @@ let activities: [Activity] = [
         difficulty: 3.0,
         handicap: false,
         userId: users[14].id,
-        accessibility: [.car]
+        accessibility: [.car],
+        durationHour: 2,
+        durationMin: 20
     ),
 
     Activity(
@@ -184,7 +214,9 @@ let activities: [Activity] = [
         difficulty: 2.5,
         handicap: false,
         userId: users[15].id,
-        accessibility: [.bike, .car]
+        accessibility: [.bike, .car],
+        durationHour: 2,
+        durationMin: 20
     ),
 
     Activity(
@@ -195,7 +227,9 @@ let activities: [Activity] = [
         difficulty: 0.5,
         handicap: true,
         userId: users[16].id,
-        accessibility: [.bus, .bike, .foot, .car]
+        accessibility: [.bus, .bike, .foot, .car],
+        durationHour: 2,
+        durationMin: 20
     ),
 
     Activity(
@@ -206,7 +240,9 @@ let activities: [Activity] = [
         difficulty: 0.7,
         handicap: true,
         userId: users[17].id,
-        accessibility: [.bike, .foot, .train, .car]
+        accessibility: [.bike, .foot, .train, .car],
+        durationHour: 2,
+        durationMin: 20
     ),
 
     Activity(
@@ -217,7 +253,9 @@ let activities: [Activity] = [
         difficulty: 2.5,
         handicap: false,
         userId: users[18].id,
-        accessibility: [.bus, .car]
+        accessibility: [.bus, .car],
+        durationHour: 2,
+        durationMin: 20
     ),
 
     Activity(
@@ -228,6 +266,23 @@ let activities: [Activity] = [
         difficulty: 4.0,
         handicap: false,
         userId: users[19].id,
-        accessibility: [.bike, .car]
+        accessibility: [.bike, .car],
+        durationHour: 2,
+        durationMin: 20
     ),
+
+    
+    
+
+    Activity(
+        name: "Le Colorado français",
+        actDescription: "Une rando incroyable dans le Luberon ! 😍 On se croirait dans un mini Colorado avec ces falaises ocres rouges et jaunes. Le contraste avec la végétation est fou. Une vraie claque visuelle, à faire absolument si vous êtes dans la région ! 🏜️✨",
+        location: "Lubéron, France",
+        difficulty: 2.5,
+        handicap: true,
+        userId: users[19].id,
+        accessibility: [.foot, .car, .bus],
+        durationHour: 2,
+        durationMin: 20
+    )
 ]

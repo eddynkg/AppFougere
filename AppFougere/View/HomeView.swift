@@ -22,9 +22,10 @@ struct HomeView: View {
             VStack {
 
                 // Search bar with filter button
-                HStack(alignment: .center) {
-                    // tag search
-                    TagAddedComponent()
+                
+                HStack {
+                    
+                    TagAddedComponent(tagsToAddToActivity: .constant([]))
                         .frame(width: 280, height: 50)
                         .background(.chefHat)
                         .cornerRadius(90)

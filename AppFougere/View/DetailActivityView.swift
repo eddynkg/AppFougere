@@ -13,30 +13,53 @@ struct DetailActivityView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var isBookmarked: Bool = false
 
+    // ViewModel pour récupérer les tags liés (variante A - mocks)
+    private let tagOnActivityVM = TagOnActivityViewModel()
+
     var body: some View {
-        
         // Contenu principal de la vue détail
         ScrollView {
             VStack {
-                Image("colorado")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 320, height: 300)
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
-                    .padding(8)
+                // Image principale liée à l’activité (via helper sur Activity)
+                if let imageName = activity.mainPictureName(from: activityPictures) {
+                    Image(imageName)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 320, height: 300)
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .padding(8)
+                } else {
+                    // Fallback si aucune image n’est associée
+                    Image(systemName: "photo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 120, height: 120)
+                        .foregroundStyle(.capVerde)
+                        .padding(.top, 24)
+                }
                 
-                //Tags
+                // Tags réels de l'activité (via ViewModel et données mockées)
                 ScrollView(.horizontal) {
-                    HStack {
-                        ForEach(0..<5) { _ in
-                            Text("Colorado")
-                                .font(.headline)
+                    HStack(spacing: 8) {
+                        let activityTags = tagOnActivityVM.tagsForActivity(activity)
+                        if activityTags.isEmpty {
+                            Text("Aucun tag")
+                                .font(.subheadline)
                                 .foregroundStyle(.white)
                                 .padding(.horizontal, 12)
                                 .padding(.vertical, 6)
-                                .background(
-                                    Capsule().fill(Color.capVerde)
-                                )
+                                .background(Capsule().fill(Color.capVerde))
+                        } else {
+                            ForEach(activityTags) { tag in
+                                Text(tag.title)
+                                    .font(.headline)
+                                    .foregroundStyle(.white)
+                                    .padding(.horizontal, 12)
+                                    .padding(.vertical, 6)
+                                    .background(
+                                        Capsule().fill(Color.capVerde)
+                                    )
+                            }
                         }
                     }
                     .padding(.leading, 10)
@@ -124,6 +147,7 @@ struct DetailActivityView: View {
 
 #Preview {
     NavigationStack {
+
         DetailActivityView(activity: Activity(
             name: "Colorado français",
             actDescription: "Une rando incroyable dans le Luberon ! 😍 On se croirait dans un mini Colorado avec ces falaises ocres rouges et jaunes. Le contraste avec la végétation est fou. Une vraie claque visuelle, à faire absolument si vous êtes dans la région ! 🏜️✨",
@@ -131,7 +155,11 @@ struct DetailActivityView: View {
             difficulty: 2.5,
             handicap: true,
             userId: UUID(),
-            accessibility: [.foot, .car, .bus]
+            accessibility: [.foot, .car, .bus],
+            durationHour: 2,
+            durationMin: 20
         ))
+        // “Activité 20” = index 20 (Le Colorado français)
+        DetailActivityView(activity: activities[20])
     }
 }
