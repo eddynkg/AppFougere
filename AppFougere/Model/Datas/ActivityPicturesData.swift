@@ -1,4 +1,3 @@
-//
 //  AvtivityPicturesData.swift
 //  AppFougere
 //
@@ -137,5 +136,11 @@ let activityPictures: [ActivityPicture] = [
         actContent: "navacelles1",
         date: Date(timeIntervalSinceNow: -86400 * 4)
     ),
+    
+    ActivityPicture(
+        activityId: activities[20].id,
+        actContent: "colorado1",
+        date: Date(timeIntervalSinceNow: -86400 * 4)
+    )
 
 ]

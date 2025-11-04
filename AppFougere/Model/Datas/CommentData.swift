@@ -439,4 +439,42 @@ let comments: [Comment] = [
         content: "Long trajet mais quel spectacle ! Site naturel exceptionnel.",
         date: Date(timeIntervalSinceNow: -86400 * 9)
     ),
+        
+    // --- Le colorado Français (20) ---
+//        Comment(
+//            userId: users[19].id,
+//            activityId: activities[20].id,
+//            content: "Couleurs ocres incroyables, on change totalement de décor en quelques pas. Un vrai dépaysement !",
+//            date: Date(timeIntervalSinceNow: -86400 * 4)
+//        ),
+        Comment(
+            userId: users[8].id,
+            activityId: activities[20].id,
+            content: "Les contrastes entre le rouge des falaises et le vert de la végétation sont dingues. À faire tôt le matin pour éviter la chaleur.",
+            date: Date(timeIntervalSinceNow: -86400 * 9)
+        ),
+        Comment(
+            userId: users[4].id,
+            activityId: activities[20].id,
+            content: "Sentier bien balisé et accessible. Les enfants ont adoré, on se croit dans un film !",
+            date: Date(timeIntervalSinceNow: -86400 * 12)
+        ),
+        Comment(
+            userId: users[16].id,
+            activityId: activities[20].id,
+            content: "Photographiquement parlant, c’est un paradis. Lumière du soir = couleurs de folie.",
+            date: Date(timeIntervalSinceNow: -86400 * 6)
+        ),
+        Comment(
+            userId: users[2].id,
+            activityId: activities[20].id,
+            content: "Beaucoup de monde le week-end, mais le site reste splendide. Prévoir de l’eau et des chaussures fermées.",
+            date: Date(timeIntervalSinceNow: -86400 * 10)
+        ),
+        Comment(
+            userId: users[10].id,
+            activityId: activities[20].id,
+            content: "Ambiance unique en France, l’ocre est partout. Boucle courte mais très immersive.",
+            date: Date(timeIntervalSinceNow: -86400 * 7)
+        )
 ]

@@ -41,6 +41,8 @@ struct ActDescriptionComponent: View {
         difficulty: 2.0,
         handicap: false,
         userId: UUID(),
-        accessibility: [.foot, .car]
+        accessibility: [.foot, .car],
+        durationHour: 2,
+        durationMin: 30
     ))
 }
