@@ -81,7 +81,7 @@ let activities: [Activity] = [
         actDescription:
             "Dans la forêt de Montmorency, ancienne forêt de chasse royale, ce château médiéval relie des sentiers pédestres et cyclables.",
         location: "Ruisseau du Petit Moulin, 95390 Saint-Prix",
-        difficulty: 2.0,
+        difficulty: 1.0,
         handicap: true,
         userId: users[5].id,
         accessibility: [.bus, .foot, .car],
@@ -159,7 +159,7 @@ let activities: [Activity] = [
         actDescription:
             "Promenade facile autour d’étangs et prairies humides, observation de la faune et de la flore, immersion calme.",
         location: "Domaine des Oiseaux, Rte de Calmont, 09270 Mazères",
-        difficulty: 2.0,
+        difficulty: 0.9,
         handicap: false,
         userId: users[11].id,
         accessibility: [.car],
@@ -224,7 +224,7 @@ let activities: [Activity] = [
         actDescription:
             "Dolmen entouré d’une ambiance mystique, n’hésitez pas à faire un vœu.",
         location: "Av. de Montferrat, 83300 Draguignan",
-        difficulty: 2.5,
+        difficulty: 0.5,
         handicap: true,
         userId: users[16].id,
         accessibility: [.bus, .bike, .foot, .car],
@@ -237,7 +237,7 @@ let activities: [Activity] = [
         actDescription:
             "Un vaste marais classé, abritant une faune et une flore exceptionnelles, avec des sentiers aménagés.",
         location: "5 Bd du Général Chanzy, 18000 Bourges",
-        difficulty: 2.0,
+        difficulty: 0.7,
         handicap: true,
         userId: users[17].id,
         accessibility: [.bike, .foot, .train, .car],

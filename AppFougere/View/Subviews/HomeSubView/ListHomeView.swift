@@ -9,6 +9,29 @@ import SwiftUI
 
 struct ListHomeView: View {
 
+    @Binding var disability: Bool
+    @Binding var difficulty: Double
+    @Binding var distance: Double
+
+    var filteredActivities: [Activity] {
+        var result = activities
+
+        if difficulty >= 1 {
+            result = result.filter { $0.difficulty <= difficulty }
+        }
+
+        if disability {
+            result = result.filter { $0.handicap == true }
+        }
+
+//        if distance > 0 {
+//            result = result.filter {$0}
+//        }
+
+        return result
+
+    }
+
     var body: some View {
 
         ScrollView(.vertical) {
@@ -16,26 +39,23 @@ struct ListHomeView: View {
             ForEach(activityPictures) { activityPicture in
 
                 NavigationLink {
-//                    DetailActivityView(activity: )
+                    // DetailActivityView()
                 } label: {
 
-                    VStack(alignment: .leading) {
-                        //FIXME: Image(activityPictures with activityId = activity.id)
-                        // if picture have the same activityId of a past picture -> ignore picture
+                    // if picture have the same activityId of a past picture -> ignore picture
 
-                        // Show picture of activity
-                        Image(activityPicture.actContent)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 335, height: 335)
-                            .cornerRadius(16)
-                            .shadow(color: .blackKnight, radius: 4)
+                    // search the activity's name attach to the picture
+                    ForEach(filteredActivities) { activity in
 
-                        // search the activity's name attach to the picture
-                        ForEach(activities) { activity in
-                            
-                            if activityPicture.activityId == activity.id {
-                                
+                        if activityPicture.activityId == activity.id {
+                            VStack(alignment: .leading) {
+                                // Show picture of activity
+                                Image(activityPicture.actContent)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 335, height: 335)
+                                    .cornerRadius(16)
+                                    .shadow(color: .blackKnight, radius: 4)
                                 // show activity's name
                                 Text(activity.name)
                                     .customBody(bold: true, color: .chefHat)
@@ -47,6 +67,8 @@ struct ListHomeView: View {
                         }
                     }
                     .padding(.vertical, 12)
+
+                    .frame(width: 350)
                 }
             }
         }
@@ -55,5 +77,9 @@ struct ListHomeView: View {
 }
 
 #Preview {
-    ListHomeView()
+    ListHomeView(
+        disability: .constant(true),
+        difficulty: .constant(2),
+        distance: .constant(50)
+    )
 }
