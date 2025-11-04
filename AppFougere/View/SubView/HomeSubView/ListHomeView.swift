@@ -9,44 +9,49 @@ import SwiftUI
 
 struct ListHomeView: View {
 
+    // garde la photo la plus récente
+    private var uniqueLatestPictures: [ActivityPicture] {
+        // Regrouper par activityId
+        let grouped = Dictionary(grouping: activityPictures, by: { $0.activityId })
+        // Prendre la plus récente de chaque groupe
+        return grouped.values.compactMap { pics in
+            pics.max(by: { $0.date < $1.date })
+        }
+        // Optionnel: trier par date décroissante pour l’affichage
+        .sorted(by: { $0.date > $1.date })
+    }
+
     var body: some View {
 
         ScrollView(.vertical) {
 
-            ForEach(activityPictures) { activityPicture in
+            ForEach(uniqueLatestPictures) { activityPicture in
 
-                NavigationLink {
-//                    DetailActivityView(activity: )
-                } label: {
+                // Trouver l'activité correspondante
+                if let activity = activities.first(where: { $0.id == activityPicture.activityId }) {
 
-                    VStack(alignment: .leading) {
-                        //FIXME: Image(activityPictures with activityId = activity.id)
-                        // if picture have the same activityId of a past picture -> ignore picture
+                    NavigationLink {
+                        DetailActivityView(activity: activity)
+                    } label: {
+                        VStack(alignment: .leading) {
+                            // Image principale (depuis la photo)
+                            Image(activityPicture.actContent)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 335, height: 335)
+                                .cornerRadius(16)
+                                .shadow(color: .blackKnight, radius: 4)
 
-                        // Show picture of activity
-                        Image(activityPicture.actContent)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 335, height: 335)
-                            .cornerRadius(16)
-                            .shadow(color: .blackKnight, radius: 4)
-
-                        // search the activity's name attach to the picture
-                        ForEach(activities) { activity in
-                            
-                            if activityPicture.activityId == activity.id {
-                                
-                                // show activity's name
-                                Text(activity.name)
-                                    .customBody(bold: true, color: .chefHat)
-                                    .padding(6)
-                                    .background(.capVerde)
-                                    .cornerRadius(12)
-                                    .padding(.horizontal)
-                            }
+                            // Nom de l’activité
+                            Text(activity.name)
+                                .customBody(bold: true, color: .chefHat)
+                                .padding(6)
+                                .background(.capVerde)
+                                .cornerRadius(12)
+                                .padding(.horizontal)
                         }
+                        .padding(.vertical, 12)
                     }
-                    .padding(.vertical, 12)
                 }
             }
         }
@@ -55,5 +60,7 @@ struct ListHomeView: View {
 }
 
 #Preview {
-    ListHomeView()
+    NavigationStack {
+        ListHomeView()
+    }
 }

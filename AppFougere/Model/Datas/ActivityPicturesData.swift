@@ -1,4 +1,3 @@
-//
 //  AvtivityPicturesData.swift
 //  AppFougere
 //
