@@ -230,4 +230,12 @@ let activities: [Activity] = [
         userId: users[19].id,
         accessibility: [.bike, .car]
     ),
+    Activity(
+        name: "Le Colorado français",
+        actDescription: "Une rando incroyable dans le Luberon ! 😍 On se croirait dans un mini Colorado avec ces falaises ocres rouges et jaunes. Le contraste avec la végétation est fou. Une vraie claque visuelle, à faire absolument si vous êtes dans la région ! 🏜️✨",
+        location: "Lubéron, France",
+        difficulty: 2.5,
+        handicap: true,
+        userId: users[19].id,
+        accessibility: [.foot, .car, .bus])
 ]

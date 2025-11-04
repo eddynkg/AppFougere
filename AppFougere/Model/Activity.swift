@@ -35,3 +35,24 @@ class Activity: Identifiable {
 enum Accessibility: String, Codable {
     case car, foot, bike, metro, bus, tramway, train
 }
+
+// MARK: - Helpers
+extension Activity {
+    // Retourne le nom de l’image la plus récente associée à l’activité
+    func mainPictureName(from pictures: [ActivityPicture]) -> String? {
+        // Filtrer les photos appartenant à cette activité
+        let relatedPictures: [ActivityPicture] = pictures.filter { picture in
+            return picture.activityId == self.id
+        }
+        // Trier par date décroissante (plus récente en premier)
+        let sortedPictures: [ActivityPicture] = relatedPictures.sorted { left, right in
+            return left.date > right.date
+        }
+        // Retourner le nom de la première image si disponible
+        if let first = sortedPictures.first {
+            return first.actContent
+        } else {
+            return nil
+        }
+    }
+}
