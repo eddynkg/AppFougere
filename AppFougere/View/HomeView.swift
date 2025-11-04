@@ -19,7 +19,7 @@ struct HomeView: View {
                 
                 HStack {
                     
-                    TagAddedComponent()
+                    TagAddedComponent(tagsToAddToActivity: .constant([]))
                         .frame(width: 280, height: 50)
                         .background(.chefHat)
                         .cornerRadius(90)

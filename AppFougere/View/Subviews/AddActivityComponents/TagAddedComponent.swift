@@ -16,7 +16,7 @@ struct TagAddedComponent: View {
     var tagViewModel = TagViewModel()
     
     @State var searchedTag: String = ""
-    @State var tagsToAddToActivity: [Tag] = []
+    @Binding var tagsToAddToActivity: [Tag]
     
  
     
@@ -71,6 +71,4 @@ struct TagAddedComponent: View {
 
 
 
-#Preview {
-    TagAddedComponent()
-}
+

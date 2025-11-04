@@ -11,8 +11,8 @@ import CoreLocation
 
 struct AddActivityView: View {
   
+    @State var tagsToAdd: [Tag] = []
     
-    @Query var tagsOnActivity: [TagOnActivity] = []
     @State var name: String = ""
     @State var tagSearch: String = ""
     @State var activityLocation: String = ""
@@ -58,7 +58,7 @@ struct AddActivityView: View {
                             Spacer()
                         }
                         
-                        TagAddedComponent()
+                        TagAddedComponent(tagsToAddToActivity: $tagsToAdd)
         
                             .padding(.vertical)
                         
@@ -186,6 +186,7 @@ struct AddActivityView: View {
                 .padding(.horizontal, 16)
                 .padding(.top, 16)
                 SaveButtonView(
+                    tagsToAdd: tagsToAdd,
                     name: name,
                     actDescription: activityDescription,
                     location: activityLocation,

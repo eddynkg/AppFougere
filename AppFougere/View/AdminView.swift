@@ -38,6 +38,23 @@ struct AdminView: View {
                         Text("Tags :")
                             .font(.title2)
                             .fontWeight(.bold)
+                        Spacer()
+                        Button(
+                            action: {
+                                loadTagsIntoSwiftData()
+                            }
+                        ) {
+                            Text("Charger")
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 8)
+                                .foregroundColor(.white)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 16)
+                                        .foregroundStyle(Color.capVerde)
+                                )
+                        }
+                    }
+                    HStack {
                         TextField("Nom du tag à ajouter", text: $newTagName)
                         Button(action: {
                             let addedTag = Tag(title: "\(newTagName)")
@@ -46,6 +63,8 @@ struct AdminView: View {
                             Image(systemName:"plus.app")
                         }
                     }
+                    
+                    
                     ScrollView {
                         LazyVGrid(columns: columns, spacing: 8) {
                             ForEach(tags) { tag in
@@ -58,7 +77,57 @@ struct AdminView: View {
                         
                     }
                 }
-                .padding()
+                .padding(.horizontal, 8)
+            }
+            Section("Jointure Tags et Activités") {
+                HStack {
+                    Text("TagsOnActivity :")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                    Spacer()
+                    Button(
+                        action: {
+                            
+                        }
+                    ) {
+                        Text("Charger")
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 8)
+                            .foregroundColor(.white)
+                            .background(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .foregroundStyle(Color.capVerde.opacity(0.2))
+                            )
+                    }
+                }
+                ScrollView {
+                    ForEach(tagsOnActivity) { tagOnActivity in
+                        HStack {
+                            Text("id :")
+                                .fontWeight(.bold)
+                            Text(String(tagOnActivity.id.uuidString))
+                            Spacer()
+                            Button(
+                                action: {
+                                    context.delete(tagOnActivity)
+                                }
+                            ) {
+                                Text("Supprimer")
+                                    .padding(.horizontal, 16)
+                                    .padding(.vertical, 8)
+                                    .foregroundColor(.white)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 16)
+                                            .foregroundStyle(Color.capVerde)
+                                    )
+                            }
+                        }
+                    }
+                            
+                            
+                            
+                }
+                
             }
             Section("Activités") {
                 HStack {
@@ -173,6 +242,12 @@ struct AdminView: View {
     func loadUsersIntoSwiftData() {
         for user in users {
             context.insert(user)
+        }
+    }
+    
+    func loadTagsIntoSwiftData() {
+        for tag in tags {
+            context.insert(tag)
         }
     }
         

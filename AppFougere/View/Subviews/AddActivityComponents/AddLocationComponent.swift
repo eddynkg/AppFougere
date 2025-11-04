@@ -55,7 +55,6 @@ struct AddLocationComponent: View {
                 }
                 LocationButton {
                     locationManager.requestLocation()
-                
                 }
             }
             .padding(8)
@@ -65,23 +64,38 @@ struct AddLocationComponent: View {
             .tint(.capVerde)
             .onChange(of: locationManager.location) {
                 
-                if locationManager.location != nil {
-                    let coordinates = CLLocationCoordinate2D(
-                        latitude: locationManager.location!.coordinate.latitude,
-                        longitude: locationManager.location!.coordinate.longitude
-                    )
-                    let span = MKCoordinateSpan(
-                        latitudeDelta: 0.02,
-                        longitudeDelta: 0.02
-                    )
-                    newRegion = MKCoordinateRegion(
-                        center: coordinates,
-                        span: span
-                    )
-                    userLocation = coordinates
-                    userLocationName = "Ma position"
-                    cameraPosition =
-                        .region(newRegion!)
+//                if locationManager.location != nil {
+//                    
+//                }
+                guard let loc = locationManager.location else {
+                    return
+                }
+                let coordinates = CLLocationCoordinate2D(
+                    latitude: locationManager.location!.coordinate.latitude,
+                    longitude: locationManager.location!.coordinate.longitude
+                )
+                let span = MKCoordinateSpan(
+                    latitudeDelta: 0.02,
+                    longitudeDelta: 0.02
+                )
+                newRegion = MKCoordinateRegion(
+                    center: coordinates,
+                    span: span
+                )
+                userLocation = coordinates
+                userLocationName = "Ma position"
+                cameraPosition =
+                    .region(newRegion!)
+                Task { @MainActor in
+                    activityLocation = await geocoderService
+                        .translateLocationIntoString(
+                            location: CLLocation(
+                                latitude: loc.coordinate.latitude,
+                                longitude: loc.coordinate.longitude
+                            )
+                        ) ?? ""
+                    isAdressSelected = true
+                    
                 }
             }
 
@@ -123,6 +137,9 @@ struct AddLocationComponent: View {
                 ForEach(searchCompleter.results, id: \.self) { result in
                     Text("\(result.title) : \(result.subtitle)")
                         .onTapGesture {
+                            
+                            
+                            
                             locationSearch = "\(result.title) : \(result.subtitle)"
                             Task {
                                 let searchRegion = await geocoderService.translateSearchStringInCoordinate(
@@ -131,9 +148,7 @@ struct AddLocationComponent: View {
                                 DispatchQueue.main.async {
                                     if let checkRegion = searchRegion {
                                         cameraPosition =
-                                            .region(checkRegion)
-//                                        searchCompleter.results = []
-                                        
+                                            .region(checkRegion)                                   
                                         userLocation = checkRegion.center
                                         userLocationName = "\(result.title) : \(result.subtitle)"
                                         activityLocation = userLocationName
