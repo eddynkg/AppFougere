@@ -67,12 +67,14 @@ class SearchCompleter: NSObject, MKLocalSearchCompleterDelegate {
 @Observable
 class GeocoderService: NSObject {
     
+    
+    // a partir de strings on récupère une Region de coordonnées
     func translateSearchStringInCoordinate(searchString: String) async -> MKCoordinateRegion?  {
               if let request = MKGeocodingRequest(addressString: searchString) {
             do {
                 let mapItems = try await request.mapItems
                 
-                print(mapItems.first?.location.coordinate.latitude ?? 0)
+              
                 let coordinates = CLLocationCoordinate2D(
                     latitude: mapItems.first?.location.coordinate.latitude ?? 0,
                     longitude: mapItems.first?.location.coordinate.longitude ?? 0
@@ -85,7 +87,6 @@ class GeocoderService: NSObject {
                     center: coordinates,
                     span: span
                 )
-                print(region)
                 
                 return region
                 
@@ -93,6 +94,19 @@ class GeocoderService: NSObject {
             } catch {
                 print ("error: \(error)")
                 return nil
+            }
+        }
+        return nil
+    }
+    
+    
+    func translateLocationIntoString(location: CLLocation) async -> String? {
+        if let request = MKReverseGeocodingRequest(location: location) {
+            do {
+                let mapItems = try? await request.mapItems
+                if let mapItem = mapItems?.first {
+                    return mapItem.name
+                }
             }
         }
         return nil

@@ -10,6 +10,12 @@ import SwiftData
 
 struct SaveButtonView: View {
     @Environment(\.modelContext) var modelContext
+    @Query var tagsOnActivity: [TagOnActivity] = []
+    @Query var activitiesSD: [Activity] = []
+    var tagViewModel = TagViewModel()
+    
+    var tagsToAdd: [Tag]
+    
     
     var name: String?
     var actDescription: String?
@@ -21,19 +27,11 @@ struct SaveButtonView: View {
     var durationHour: Int?
     var durationMin: Int?
     
-    
     var body: some View {
         Button(
             action: {
-                print(name)
-                print(actDescription)
-                print(location)
-                print(difficulty)
-                print(handicap)
-                print(accessibility)
-                print(durationHour)
-                print(durationMin)
                 insertActivity()
+                
             }
         ) {
             Text("Enregistrer")
@@ -59,6 +57,18 @@ struct SaveButtonView: View {
             durationMin: durationMin!
         )
         modelContext.insert(activityToInsert)
+        linkTagsToActivity(activity: activityToInsert, tags: tagsToAdd)
+        
+    }
+    
+    func linkTagsToActivity(activity: Activity, tags: [Tag]) {
+        var tmpTagsOnActivity = tagViewModel.addTagToActivity(activity: activity, tags: tags)
+        for tagOnActivity in tmpTagsOnActivity {
+            let tagToInsert: TagOnActivity = tagOnActivity
+            print(tagToInsert)
+            modelContext.insert(tagToInsert)
+        }
+        
     }
     
     /*
@@ -76,6 +86,4 @@ struct SaveButtonView: View {
      */
 }
 
-#Preview {
-    SaveButtonView()
-}
+

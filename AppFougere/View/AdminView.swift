@@ -23,10 +23,7 @@ struct AdminView: View {
     @State var newTagName: String = ""
     @State var searchedTag: String = ""
     
-    let columns = [
-        GridItem(.flexible()),
-        GridItem(.flexible()),
-    ]
+    
     
     
     var body: some View {
@@ -38,6 +35,23 @@ struct AdminView: View {
                         Text("Tags :")
                             .font(.title2)
                             .fontWeight(.bold)
+                        Spacer()
+                        Button(
+                            action: {
+                                loadTagsIntoSwiftData()
+                            }
+                        ) {
+                            Text("Charger")
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 8)
+                                .foregroundColor(.white)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 16)
+                                        .foregroundStyle(Color.capVerde)
+                                )
+                        }
+                    }
+                    HStack {
                         TextField("Nom du tag à ajouter", text: $newTagName)
                         Button(action: {
                             let addedTag = Tag(title: "\(newTagName)")
@@ -46,19 +60,70 @@ struct AdminView: View {
                             Image(systemName:"plus.app")
                         }
                     }
+                    
+                    
                     ScrollView {
-                        LazyVGrid(columns: columns, spacing: 8) {
-                            ForEach(tags) { tag in
-                                TagComponent(tag: tag, displayMode: .tagCreation, tagsToAddToActivity: $tagsToAddToActivity, searchedTag: $searchedTag)
-                                    .padding(8)
-                            }
-                            
+                        
+                        ForEach(tags) { tag in
+                            TagComponent(tag: tag, displayMode: .tagCreation, tagsToAddToActivity: $tagsToAddToActivity, searchedTag: $searchedTag)
+                                .padding(8)
                         }
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                        
+                        
                         
                     }
                 }
-                .padding()
+                .padding(.horizontal, 8)
+            }
+            Section("Jointure Tags et Activités") {
+                HStack {
+                    Text("TagsOnActivity :")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                    Spacer()
+                    Button(
+                        action: {
+                            
+                        }
+                    ) {
+                        Text("Charger")
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 8)
+                            .foregroundColor(.white)
+                            .background(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .foregroundStyle(Color.capVerde.opacity(0.2))
+                            )
+                    }
+                }
+                ScrollView {
+                    ForEach(tagsOnActivity) { tagOnActivity in
+                        HStack {
+                            Text("id :")
+                                .fontWeight(.bold)
+                            Text(String(tagOnActivity.id.uuidString))
+                            Spacer()
+                            Button(
+                                action: {
+                                    context.delete(tagOnActivity)
+                                }
+                            ) {
+                                Text("Supprimer")
+                                    .padding(.horizontal, 16)
+                                    .padding(.vertical, 8)
+                                    .foregroundColor(.white)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 16)
+                                            .foregroundStyle(Color.capVerde)
+                                    )
+                            }
+                        }
+                    }
+                    
+                    
+                    
+                }
+                
             }
             Section("Activités") {
                 HStack {
@@ -175,8 +240,14 @@ struct AdminView: View {
             context.insert(user)
         }
     }
-        
-  
+    
+    func loadTagsIntoSwiftData() {
+        for tag in tags {
+            context.insert(tag)
+        }
+    }
+    
+    
 }
 
 #Preview {
