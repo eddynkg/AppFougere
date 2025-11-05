@@ -8,24 +8,20 @@
 import MapKit
 import SwiftUI
 
-/*
- To-do:
- - Ouvrir DetailActivityView depuis un pin
+/*  To do list:
+        - acces DetailActivityView from pin
  */
 
 struct MapHomeView: View {
 
-    // MARK: - Données carte
-    /// Dictionnaire : nom d’activité → position géographique (MKMapItem)
+    //FIXME: Dictionary storing the activity name and the related cordinates
     @State var activitiesMarkerInfos: [String: MKMapItem] = [:]
 
-    // MARK: - Filtres
     @Binding var disability: Bool
     @Binding var difficulty: Double
     @Binding var distance: Double
 
-    // MARK: - Filtrage des activités
-    /// Filtre les activités selon la difficulté, l’accessibilité et la distance.
+    // Filter for the activities by disability, difficulty, and distance
     var filteredActivities: [Activity] {
         var result = activities
 
@@ -38,13 +34,13 @@ struct MapHomeView: View {
         }
 
         //        if distance > 0 {
-        //            result = result.filter { $0.distance <= distance }
+        //            result = result.filter {$0}
         //        }
 
         return result
+
     }
 
-    // MARK: - Interface
     var body: some View {
 
         // Creation of the map base on dictionary
@@ -95,8 +91,6 @@ struct MapHomeView: View {
                             } catch let error {
                                 print("Error : \(error)")
                             }
-                        } catch {
-                            print("Error: \(error)")
                         }
                     }
 
@@ -121,6 +115,7 @@ struct MapHomeView: View {
         }
         .navigationBarHidden(true)
     }
+
 }
 
 #Preview {
