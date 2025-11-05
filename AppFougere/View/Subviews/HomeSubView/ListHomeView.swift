@@ -111,9 +111,9 @@ struct ListHomeView: View {
                             //                                .cornerRadius(12)
                             //                                .padding(.horizontal)
                             //                        }
-                            .padding(.vertical, 12)
+//                            .padding(.vertical, 12)
 
-                            .frame(width: 350)
+//                            .frame(width: 350)
 
                         }
                     }
