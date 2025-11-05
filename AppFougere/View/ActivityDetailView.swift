@@ -10,7 +10,7 @@ import SwiftUI
 struct ActivityDetailView: View {
     var body: some View {
         Text(
-            "Hello, World ! "
+            "Hello, World !"
         )
     }
 }
