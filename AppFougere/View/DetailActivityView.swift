@@ -8,13 +8,29 @@
 import SwiftUI
 
 struct DetailActivityView: View {
-    let activity: Activity
+    let activity: Activity 
 
     @Environment(\.dismiss) private var dismiss
     @State private var isBookmarked: Bool = false
 
     // ViewModel pour récupérer les tags liés (variante A - mocks)
     private let tagOnActivityVM = TagOnActivityViewModel()
+    
+    // Récupération de l'auteur depuis une source globale `users`
+    private var author: User {
+        if let found = users.first(where: { $0.id == activity.userId }) {
+            return found
+        } else {
+            // Fallback si aucun user correspondant n'est trouvé
+            return User(
+                userName: "Utilisateur",
+                email: "inconnu@example.com",
+                password: "password",
+                bio: nil,
+                profilePicture: "user11"
+            )
+        }
+    }
 
     var body: some View {
         // Contenu principal de la vue détail
@@ -66,8 +82,8 @@ struct DetailActivityView: View {
                 }
                 .scrollIndicators(.hidden)
                 
-                // Information Component
-                InformationComponent()
+                // Information Component (passe l'activité et l'auteur)
+                InformationComponent(activity: activity, author: author)
                     .padding(.horizontal, 12)
                 
                 // Map (pour l'instant photo)
