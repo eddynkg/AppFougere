@@ -6,18 +6,17 @@
 //
 
 import Foundation
-import Observation
+import SwiftData
 import SwiftUI
 
-@Observable
-class Favorite {
+@Model
+class Favorite: Identifiable {
     var id: UUID = UUID()
     var userId: UUID
     var activityId: UUID
     var date: Date
     
-    init(id: UUID, userId: UUID, activityId: UUID, date: Date) {
-        self.id = id
+    init(userId: UUID, activityId: UUID, date: Date) {
         self.userId = userId
         self.activityId = activityId
         self.date = date

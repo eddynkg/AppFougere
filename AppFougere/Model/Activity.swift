@@ -6,33 +6,69 @@
 //
 
 import Foundation
-import Observation
+import SwiftData
 import SwiftUI
+import CoreLocation
+import MapKit
 
-@Observable
-class Activity {
+@Model
+class Activity: Identifiable {
     var id: UUID = UUID()
     var name: String
-    var description : String
-    var location: String
-    var difficulty: Double //
+    var actDescription: String
+    var location: String // A changer ?
+    var difficulty: Double
     var handicap: Bool
-    var userId : UUID
+    var userId: UUID
     var accessibility: [Accessibility]
+    var durationHour: Int
+    var durationMin: Int
     
-    init(id: UUID, name: String, description: String, location: String, difficulty: Double, handicap: Bool, userId: UUID, accessibility: [Accessibility]) {
-        self.id = id
+    init(
+        name: String,
+        actDescription: String,
+        location: String, // A changer ?
+        difficulty: Double,
+        handicap: Bool,
+        userId: UUID,
+        accessibility: [Accessibility],
+        durationHour: Int,
+        durationMin: Int
+    ) {
         self.name = name
-        self.description = description
+        self.actDescription = actDescription
         self.location = location
         self.difficulty = difficulty
         self.handicap = handicap
         self.userId = userId
         self.accessibility = accessibility
+        self.durationHour = durationHour
+        self.durationMin = durationMin
     }
     
 }
 
 enum Accessibility: String, Codable {
-    case car, foot, bike, metro, bus, tramway, other
+    case car, foot, bike, metro, bus, tramway, train, publicTransportation
+}
+
+// MARK: - Helpers
+extension Activity {
+    // Retourne le nom de l’image la plus récente associée à l’activité
+    func mainPictureName(from pictures: [ActivityPicture]) -> String? {
+        // Filtrer les photos appartenant à cette activité
+        let relatedPictures: [ActivityPicture] = pictures.filter { picture in
+            return picture.activityId == self.id
+        }
+        // Trier par date décroissante (plus récente en premier)
+        let sortedPictures: [ActivityPicture] = relatedPictures.sorted { left, right in
+            return left.date > right.date
+        }
+        // Retourner le nom de la première image si disponible
+        if let first = sortedPictures.first {
+            return first.actContent
+        } else {
+            return nil
+        }
+    }
 }

@@ -6,12 +6,22 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct AppFougereApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            TabBarView()
         }
+        .modelContainer(
+            for: [
+                TagOnActivity.self,
+                Tag.self,
+                Activity.self,
+                ActivityPicture.self,
+                User.self,
+            ]
+        )
     }
 }

@@ -15,9 +15,22 @@
 		BD6DB3F12EAFAE700091B4FD /* AppFougere.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppFougere.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		A07DBAA52EB1003300297954 /* Exceptions for "AppFougere" folder in "AppFougere" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = A0BDFBF42EAFAB7C0011880B /* AppFougere */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		A0BDFBF72EAFAB7C0011880B /* AppFougere */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				A07DBAA52EB1003300297954 /* Exceptions for "AppFougere" folder in "AppFougere" target */,
+			);
 			path = AppFougere;
 			sourceTree = "<group>";
 		};
@@ -250,8 +263,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2392H4NGV2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AppFougere/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Notre application nécessite votre localisation pour l'associer aux activités que vous créez";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -281,8 +297,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2392H4NGV2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AppFougere/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Notre application nécessite votre localisation pour l'associer aux activités que vous créez";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

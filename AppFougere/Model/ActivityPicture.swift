@@ -7,21 +7,21 @@
 
 import Foundation
 import SwiftUI
-import Observation
+import SwiftData
 
-@Observable
-class ActivityPicture {
-    var id : UUID = UUID()
-    var userId : UUID
-    var activityId : UUID
-    var content: Image
+@Model
+class ActivityPicture: Identifiable {
+    var id: UUID = UUID()
+    var activityId: UUID
+    var actContent: String // Picture's name
     var date: Date
+    @Attribute(.externalStorage)
+    var image: Data?
     
-    init(id: UUID, userId: UUID, activityId: UUID, content: Image, date: Date) {
-        self.id = id
-        self.userId = userId
+    init(activityId: UUID, actContent: String, date: Date, image: Data?) {
         self.activityId = activityId
-        self.content = content
+        self.actContent = actContent
         self.date = date
+        self.image = image
     }
 }

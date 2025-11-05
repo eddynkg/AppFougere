@@ -7,18 +7,17 @@
 
 import Foundation
 import SwiftUI
-import Observation
+import SwiftData
 
-@Observable
-class Comment {
+@Model
+class Comment: Identifiable {
     var id : UUID = UUID()
     var userId : UUID
     var activityId : UUID
     var content: String
     var date: Date
     
-    init(id: UUID, userId: UUID, activityId: UUID, content: String, date: Date) {
-        self.id = id
+    init(userId: UUID, activityId: UUID, content: String, date: Date) {
         self.userId = userId
         self.activityId = activityId
         self.content = content
