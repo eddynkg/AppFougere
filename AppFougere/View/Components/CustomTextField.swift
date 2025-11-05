@@ -7,24 +7,22 @@
 
 import SwiftUI
 
-/// Champ de texte personnalisé avec icône à gauche.
-/// Peut servir pour les identifiants, e-mails, etc.
+/// Champ de texte avec icône intégrée à gauche.
+/// Utilisé pour les saisies simples : identifiant, téléphone, e-mail, etc.
 struct CustomTextField: View {
-    
     // MARK: - Propriétés
     var placeholder: String
     @Binding var text: String
     var systemImage: String
-    
-    // MARK: - Corps de la vue
+
+    // MARK: - Interface
     var body: some View {
         HStack {
-            
-            // MARK: Icône à gauche
+            // Icône à gauche
             Image(systemName: systemImage)
                 .foregroundStyle(.capVerde)
-            
-            // MARK: Champ texte
+
+            // Zone de saisie
             TextField(placeholder, text: $text)
                 .foregroundStyle(.capVerde)
                 .textInputAutocapitalization(.never)

@@ -8,23 +8,25 @@
 import SwiftUI
 
 struct VerifyCodeView: View {
-    @Binding var isLogin: Bool
+    // MARK: - Navigation
+    @Binding var isLogin: Bool   // Passe à l’écran de connexion après succès
 
+    // MARK: - États de saisie
     @State private var verificationCode: String = ""
     @State private var newPassword: String = ""
     @State private var confirmPassword: String = ""
     @State private var showNewPassword: Bool = false
     @State private var showConfirmPassword: Bool = false
 
-    // MARK: - Validation properties
+    // MARK: - Validation
     private var doPasswordsMatch: Bool {
         !newPassword.isEmpty && newPassword == confirmPassword
     }
-
     private var isFormValid: Bool {
         !verificationCode.isEmpty && doPasswordsMatch
     }
 
+    // MARK: - Interface
     var body: some View {
         VStack(spacing: 32) {
             // Titre
@@ -33,7 +35,7 @@ struct VerifyCodeView: View {
                 .foregroundStyle(.capVerde)
                 .multilineTextAlignment(.center)
 
-            // Champ code de vérification
+            // Code reçu par SMS
             CustomTextField(
                 placeholder: "Code de vérification",
                 text: $verificationCode,
@@ -49,7 +51,7 @@ struct VerifyCodeView: View {
                 regexOn: true
             )
 
-            // Confirmation mot de passe
+            // Confirmation du mot de passe
             CustomSecureField(
                 placeholder: "Confirmer le mot de passe",
                 text: $confirmPassword,
@@ -57,17 +59,16 @@ struct VerifyCodeView: View {
                 regexOn: false
             )
 
-            // Avertissement si les mots de passe ne correspondent pas
+            // Message si les mots de passe diffèrent
             if !doPasswordsMatch && !confirmPassword.isEmpty {
                 Text("Les mots de passe ne correspondent pas.")
                     .foregroundColor(.red)
                     .font(.caption)
             }
 
-            // Bouton valider
+            // Validation du formulaire
             Button("Valider") {
                 print("Nouveau mot de passe enregistré")
-                // Ici tu peux rediriger vers login
                 isLogin = true
             }
             .padding()

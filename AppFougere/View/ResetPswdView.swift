@@ -7,31 +7,31 @@
 import SwiftUI
 
 struct ResetPswdView: View {
-    // MARK: - Bindings
-    @Binding var isLogin: Bool  // Permet de revenir à la connexion
+    // MARK: - Binding
+    @Binding var isLogin: Bool  // Indique si l’écran de connexion doit être affiché
 
     // MARK: - State
     @State private var phone: String = ""
-    @State private var sentCode: String = ""  // ⬅️ ajouté
-    @State private var goDefine: Bool = false  // ⬅️ ajouté
+    @State private var sentCode: String = ""     // Code de vérification envoyé
+    @State private var goDefine: Bool = false    // Déclenche la navigation vers la vue suivante
 
-    // MARK: - Validation
+    // MARK: - Validation du numéro
     private var isPhoneValid: Bool {
-        let phoneRegex = /^[0-9]{10}$/  // 10 chiffres
+        let phoneRegex = /^[0-9]{10}$/  // Vérifie que le numéro contient exactement 10 chiffres
         return phone.wholeMatch(of: phoneRegex) != nil
     }
 
-    // MARK: - Body
+    // MARK: - Interface
     var body: some View {
-        NavigationStack {  // ⬅️ ajouté pour la navigation
+        NavigationStack {
             VStack(spacing: 32) {
-                // MARK: Titre
+                // Titre principal
                 Text("Réinitialiser le mot de passe")
                     .font(.largeTitle.bold())
                     .foregroundStyle(.capVerde)
                     .multilineTextAlignment(.center)
 
-                // MARK: Champ téléphone
+                // Champ de saisie du numéro de téléphone
                 CustomTextField(
                     placeholder: "Numéro de téléphone",
                     text: $phone,
@@ -39,7 +39,7 @@ struct ResetPswdView: View {
                 )
                 .keyboardType(.numberPad)
 
-                // MARK: Avertissement si numéro invalide
+                // Message d’erreur si le numéro est invalide
                 if !isPhoneValid && !phone.isEmpty {
                     Text("Numéro de téléphone invalide (10 chiffres attendus).")
                         .foregroundColor(.red)
@@ -47,17 +47,17 @@ struct ResetPswdView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
 
-                // MARK: Bouton envoyer le code
+                // Bouton d’envoi du code de vérification
                 Button("Envoyer le code") {
                     let verificationCode = generateVerificationCode()
-                    sentCode = verificationCode  // ⬅️ stocke le code
+                    sentCode = verificationCode
                     Task {
                         await sendSMS(
                             number: phone,
                             verifCode: verificationCode
                         )
                     }
-                    goDefine = true  // ⬅️ navigue vers la sous-vue
+                    goDefine = true
                 }
                 .padding()
                 .frame(maxWidth: .infinity)
@@ -68,7 +68,7 @@ struct ResetPswdView: View {
                 .cornerRadius(30)
                 .disabled(!isPhoneValid)
 
-                // MARK: Bouton retour connexion
+                // Lien pour revenir à l’écran de connexion
                 Button(action: {
                     isLogin = true
                 }) {
@@ -87,7 +87,7 @@ struct ResetPswdView: View {
             }
             .animation(.easeInOut, value: isPhoneValid)
 
-            // ⬅️ Destination de navigation : la sous-vue de redéfinition
+            // Navigation vers la vue de définition du nouveau mot de passe
             .navigationDestination(isPresented: $goDefine) {
                 ResetPswdDefineView(
                     isLogin: $isLogin,
@@ -95,7 +95,8 @@ struct ResetPswdView: View {
                     expectedCode: sentCode
                 )
             }
-        }.padding(.horizontal, 32)
+        }
+        .padding(.horizontal, 32)
     }
 }
 

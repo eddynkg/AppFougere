@@ -9,11 +9,7 @@ import SwiftUI
 
 struct RatingActComponent: View {
     var body: some View {
-<<<<<<< HEAD:AppFougere/View/ActivityDetailView.swift
-        Text(
-            "Hello, World !"
-        )
-=======
+
         VStack (alignment: .leading){
             HStack {
                 Text("Évaluation")
@@ -24,7 +20,6 @@ struct RatingActComponent: View {
                 Spacer()
             }
         }
->>>>>>> dev:AppFougere/View/Subviews/DetailActivityComponents/RatingActComponent.swift
     }
 }
 

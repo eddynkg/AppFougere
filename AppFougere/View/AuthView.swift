@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct AuthView: View {
-    @State private var isLogin = true
+    // MARK: - État d’affichage
+    @State private var isLogin = true  // true = écran de connexion, false = inscription
 
+    // MARK: - Interface
     var body: some View {
         NavigationStack {
             if isLogin {
@@ -20,7 +22,6 @@ struct AuthView: View {
         }
     }
 }
-
 
 // MARK: - Aperçu
 #Preview {

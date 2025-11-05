@@ -8,17 +8,20 @@
 import SwiftUI
 
 struct ContentView: View {
-    @EnvironmentObject var session: SessionManager
+    // MARK: - Session
+    @EnvironmentObject var session: SessionManager  // Contrôle l’état connecté/déconnecté
 
+    // MARK: - Interface
     var body: some View {
         if session.isLoggedIn {
-            HomeView()
+            HomeView()   // Écran principal une fois connecté
         } else {
-            AuthView()
+            AuthView()   // Flux d’authentification (connexion/inscription)
         }
     }
 }
 
+// MARK: - Aperçus
 #Preview("Déconnecté") {
     let session = SessionManager()
     session.logout()

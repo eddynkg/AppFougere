@@ -7,10 +7,12 @@
 import SwiftUI
 
 struct ResetPswdDefineView: View {
+    // MARK: - Données reçues
     @Binding var isLogin: Bool
     let phone: String
     let expectedCode: String
 
+    // MARK: - États
     @State private var code: String = ""
     @State private var newPassword: String = ""
     @State private var confirmPassword: String = ""
@@ -19,11 +21,12 @@ struct ResetPswdDefineView: View {
     @State private var error: String?
     @State private var showSuccess = false
 
-    // 🔹 Pour revenir à la page précédente (AuthView)
+    // MARK: - Environnement
     @Environment(\.dismiss) private var dismiss
 
+    // MARK: - Validation
     private var isCodeValid: Bool {
-        let codeRegex = /^[0-9]{8}$/
+        let codeRegex = /^[0-9]{8}$/   // Code à 8 chiffres
         return code.wholeMatch(of: codeRegex) != nil
     }
     private var doPasswordsMatch: Bool {
@@ -33,16 +36,20 @@ struct ResetPswdDefineView: View {
         isCodeValid && doPasswordsMatch
     }
 
+    // MARK: - Interface
     var body: some View {
         VStack(spacing: 24) {
+            // Titre principal
             Text("Nouveau mot de passe")
                 .font(.largeTitle.bold())
                 .foregroundStyle(.capVerde)
 
+            // Sous-titre avec rappel du numéro
             Text("Un code a été envoyé à \(phone).")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
 
+            // Champ de saisie du code de vérification
             CustomTextField(
                 placeholder: "Code à 8 chiffres",
                 text: $code,
@@ -51,6 +58,7 @@ struct ResetPswdDefineView: View {
             .keyboardType(.numberPad)
             .onChange(of: code) { code = String(code.prefix(8)) }
 
+            // Champ de nouveau mot de passe
             CustomSecureField(
                 placeholder: "Nouveau mot de passe",
                 text: $newPassword,
@@ -58,6 +66,7 @@ struct ResetPswdDefineView: View {
                 regexOn: true
             )
 
+            // Champ de confirmation
             CustomSecureField(
                 placeholder: "Confirmer le mot de passe",
                 text: $confirmPassword,
@@ -65,6 +74,7 @@ struct ResetPswdDefineView: View {
                 regexOn: false
             )
 
+            // Messages d’erreur
             VStack(alignment: .leading, spacing: 4) {
                 if !isCodeValid && !code.isEmpty {
                     Text("Code invalide (8 chiffres attendus).")
@@ -77,13 +87,16 @@ struct ResetPswdDefineView: View {
                         .font(.caption)
                 }
                 if let error {
-                    Text(error).foregroundColor(.red).font(.caption)
+                    Text(error)
+                        .foregroundColor(.red)
+                        .font(.caption)
                 }
             }
 
+            // Bouton de validation
             Button("Valider") {
                 if code == expectedCode {
-                    showSuccess = true  // ⬅️ on affiche l’alerte
+                    showSuccess = true
                 } else {
                     error = "Le code saisi est incorrect."
                 }
@@ -101,15 +114,12 @@ struct ResetPswdDefineView: View {
             isPresented: $showSuccess,
             actions: {
                 Button("OK") {
-                    // ✅ Revient à la page AuthView
                     isLogin = true
                     dismiss()
                 }
             },
             message: {
-                Text(
-                    "Tu peux maintenant te reconnecter avec ton nouveau mot de passe."
-                )
+                Text("Tu peux maintenant te reconnecter avec ton nouveau mot de passe.")
             }
         )
     }

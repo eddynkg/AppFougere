@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct RegisterView: View {
-    // MARK: - Propriétés d’état
+    // MARK: - Navigation
     @Binding var isLogin: Bool
+
+    // MARK: - États de saisie
     @State private var username: String = ""
     @State private var phone: String = ""
     @State private var password: String = ""
@@ -17,36 +19,35 @@ struct RegisterView: View {
     @State private var showPassword: Bool = false
     @State private var showConfirmPassword: Bool = false
 
-    // MARK: - Validation du formulaire
+    // MARK: - Validation
     private var isPhoneValid: Bool {
-        // Expression très simple : 10 chiffres (tu peux la raffiner selon ton besoin)
+        // 10 chiffres consécutifs (ex. FR sans séparateur)
         let phoneRegex = /^[0-9]{10}$/
         return phone.wholeMatch(of: phoneRegex) != nil
     }
-
     private var doPasswordsMatch: Bool {
         password == confirmPassword && !password.isEmpty
     }
-
     private var isFormValid: Bool {
         !username.isEmpty && isPhoneValid && doPasswordsMatch
     }
 
-    // MARK: - Corps de la vue
+    // MARK: - Interface
     var body: some View {
         VStack(spacing: 32) {
-            // MARK: - Titre
+            // Titre
             Text("S'inscrire")
                 .font(.largeTitle.bold())
                 .foregroundStyle(.capVerde)
 
-            // MARK: - Champs de saisie
+            // Identifiant
             CustomTextField(
                 placeholder: "Identifiant",
                 text: $username,
                 systemImage: "person"
             )
 
+            // Téléphone
             CustomTextField(
                 placeholder: "Numéro de téléphone",
                 text: $phone,
@@ -55,6 +56,7 @@ struct RegisterView: View {
             .keyboardType(.numberPad)
             .textInputAutocapitalization(.never)
 
+            // Mot de passe
             CustomSecureField(
                 placeholder: "Mot de passe",
                 text: $password,
@@ -62,6 +64,7 @@ struct RegisterView: View {
                 regexOn: true
             )
 
+            // Confirmation mot de passe
             CustomSecureField(
                 placeholder: "Confirmer le mot de passe",
                 text: $confirmPassword,
@@ -69,14 +72,13 @@ struct RegisterView: View {
                 regexOn: false
             )
 
-            // MARK: - Messages d’erreur
+            // Messages d’erreur
             VStack(alignment: .leading, spacing: 4) {
                 if !isPhoneValid && !phone.isEmpty {
                     Text("Numéro de téléphone invalide (10 chiffres attendus).")
                         .foregroundColor(.red)
                         .font(.caption)
                 }
-
                 if !doPasswordsMatch && !confirmPassword.isEmpty {
                     Text("Les mots de passe ne correspondent pas.")
                         .foregroundColor(.red)
@@ -84,7 +86,7 @@ struct RegisterView: View {
                 }
             }
 
-            // MARK: - Bouton d’enregistrement
+            // Action d’inscription (envoi du code)
             Button("S'inscrire") {
                 let verificationCode = generateVerificationCode()
                 Task {
@@ -98,9 +100,8 @@ struct RegisterView: View {
             .cornerRadius(30)
             .disabled(!isFormValid)
 
-            // MARK: - Lien vers la connexion
+            // Lien vers la connexion
             Button(action: {
-
                 isLogin = true
             }) {
                 VStack(spacing: 4) {
@@ -111,10 +112,12 @@ struct RegisterView: View {
                     Rectangle()
                         .frame(height: 1)
                         .foregroundStyle(.capVerde)
-                }.fixedSize()
+                }
+                .fixedSize()
             }
             .foregroundStyle(.capVerde)
-        }.padding(.horizontal, 32)
+        }
+        .padding(.horizontal, 32)
         .animation(.easeInOut, value: isFormValid)
     }
 }
