@@ -1,16 +1,24 @@
 //
-//  ConnectView.swift
+//  RegisterView.swift
 //  AppFougere
+//
+//  Created by apprenant114 on 29/10/2025.
 //
 
 import SwiftUI
 
 struct ConnectView: View {
-    @Binding var isLogin: Bool
+    // MARK: - Session & navigation
+    @EnvironmentObject var session: SessionManager  // Gestion de la session (login/logout)
+    @Binding var isLogin: Bool  // true = connexion, false = inscription
+    @AppStorage("isLoggedIn") private var isLoggedIn = false  // Même clé que dans ContentView
+
+    // MARK: - Saisie utilisateur
     @State private var username: String = ""
     @State private var password: String = ""
     @State private var showPassword: Bool = false
 
+    // MARK: - Interface
     var body: some View {
         VStack(spacing: 32) {
             // Titre
@@ -18,7 +26,7 @@ struct ConnectView: View {
                 .font(.largeTitle.bold())
                 .foregroundStyle(.capVerde)
 
-            // Champ identifiant
+            // Identifiant
             CustomTextField(
                 placeholder: "Identifiant",
                 text: $username,
@@ -26,8 +34,9 @@ struct ConnectView: View {
             )
             .textContentType(.username)
             .textInputAutocapitalization(.never)
+
+            // Mot de passe + aide
             VStack {
-                // Champ mot de passe
                 CustomSecureField(
                     placeholder: "Mot de passe",
                     text: $password,
@@ -35,7 +44,6 @@ struct ConnectView: View {
                     regexOn: false
                 )
 
-                // Mot de passe oublié → navigation
                 NavigationLink(
                     "Mot de passe oublié ?",
                     destination: ResetPswdView(isLogin: $isLogin)
@@ -45,9 +53,10 @@ struct ConnectView: View {
                 .padding(.leading, 40)
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
-            // Bouton Connexion
+
+            // Connexion
             Button("Connexion") {
-                print("Connexion")
+                session.login(username: username)
             }
             .padding()
             .frame(maxWidth: .infinity)
@@ -55,10 +64,10 @@ struct ConnectView: View {
             .foregroundStyle(.chefHat)
             .cornerRadius(30)
 
-            // Bouton vers Inscription
-            Button(action: {
+            // Lien vers l’inscription
+            Button {
                 isLogin = false
-            }) {
+            } label: {
                 VStack(spacing: 4) {
                     HStack(spacing: 0) {
                         Text("Pas encore de compte ? ")
@@ -72,11 +81,11 @@ struct ConnectView: View {
             }
             .foregroundStyle(.capVerde)
         }
+        .padding(.horizontal, 32)
     }
 }
 
 #Preview {
-    NavigationStack {
-        ConnectView(isLogin: .constant(true))
-    }
+    ConnectView(isLogin: .constant(true))
+        .environmentObject(SessionManager())
 }

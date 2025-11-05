@@ -75,14 +75,11 @@ struct HomeView: View {
                                         bottomLeading: 30
                                     )
                                 )
-                                .frame(width: 160, height: 40)
+                                .frame(width: 160, height: 30)
                                 .foregroundStyle(.capVerde)
 
                                 Text("Liste")
-                                    .customSubtitle(
-                                        bold: false,
-                                        color: .chefHat
-                                    )
+                                    .customBody(bold: true, color: .chefHat)
                             } else {  // Map is selected
                                 UnevenRoundedRectangle(
                                     cornerRadii: .init(
@@ -90,14 +87,11 @@ struct HomeView: View {
                                         bottomLeading: 30
                                     )
                                 )
-                                .frame(width: 160, height: 40)
+                                .frame(width: 160, height: 30)
                                 .foregroundStyle(.chefHat)
 
                                 Text("Liste")
-                                    .customSubtitle(
-                                        bold: false,
-                                        color: .capVerde
-                                    )
+                                    .customBody(bold: true, color: .capVerde)
                             }
                         }
                     }
@@ -115,12 +109,12 @@ struct HomeView: View {
                                         topTrailing: 30
                                     )
                                 )
-                                .frame(width: 160, height: 40)
+                                .frame(width: 160, height: 30)
                                 .foregroundStyle(.chefHat)
 
                                 Text("Carte")
-                                    .customSubtitle(
-                                        bold: false,
+                                    .customBody(
+                                        bold: true,
                                         color: .capVerde
                                     )
                             } else {  // Map is selected
@@ -130,14 +124,11 @@ struct HomeView: View {
                                         topTrailing: 30
                                     )
                                 )
-                                .frame(width: 160, height: 40)
+                                .frame(width: 160, height: 30)
                                 .foregroundStyle(.capVerde)
 
                                 Text("Carte")
-                                    .customSubtitle(
-                                        bold: false,
-                                        color: .chefHat
-                                    )
+                                    .customBody(bold: true, color: .chefHat)
                             }
 
                         }
@@ -170,5 +161,8 @@ struct HomeView: View {
 }
 
 #Preview {
-    HomeView()
+    let session = SessionManager()
+    session.login(username: "Eddy")
+    return HomeView()
+        .environmentObject(session)
 }

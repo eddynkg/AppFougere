@@ -7,26 +7,26 @@
 
 import SwiftUI
 
+/// Vue d’authentification principale.
+/// Gère la navigation entre la connexion et l’inscription.
 struct AuthView: View {
-    // MARK: - Propriétés d’état
-    @State private var isLogin: Bool = true
+    // MARK: - État
+    @State private var isLogin = true  // true = affichage de la connexion, false = inscription
 
-    // MARK: - Corps de la vue
+    // MARK: - Interface
     var body: some View {
-        VStack {
-            // MARK: - Navigation entre Connexion et Inscription
+        NavigationStack {
             if isLogin {
-                ConnectView(isLogin: $isLogin)  // Vue de connexion
+                ConnectView(isLogin: $isLogin)
             } else {
-                RegisterView(isLogin: $isLogin)  // Vue d’inscription
+                RegisterView(isLogin: $isLogin)
             }
         }
-        .animation(.easeInOut, value: isLogin)
-        .padding(.horizontal, 32)
     }
 }
 
 // MARK: - Aperçu
 #Preview {
     AuthView()
+        .environmentObject(SessionManager())
 }
