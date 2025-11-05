@@ -170,5 +170,8 @@ struct HomeView: View {
 }
 
 #Preview {
-    HomeView()
+    let session = SessionManager()
+    session.login(username: "Eddy")
+    return HomeView()
+        .environmentObject(session)
 }
