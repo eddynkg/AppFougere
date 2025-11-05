@@ -72,14 +72,14 @@ struct ListHomeView: View {
                                         .scaledToFill()
                                         .frame(width: 335, height: 335)
                                         .cornerRadius(16)
-                                        .shadow(color: .blackKnight, radius: 4)
+//                                        .shadow(color: .blackKnight, radius: 4)
                                     // show activity's name
                                     Text(activity.name)
                                         .customBody(bold: true, color: .chefHat)
                                         .padding(6)
                                         .background(.capVerde)
                                         .cornerRadius(12)
-                                        .padding(.horizontal)
+//                                        .padding(.horizontal)
                                 }
                                 .padding(.vertical, 12)
                                 .frame(width: 350)
