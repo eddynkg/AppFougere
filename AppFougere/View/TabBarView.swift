@@ -32,7 +32,11 @@ struct TabBarView: View {
                 .tabItem {
                     Label("Créer", systemImage: "plus.circle")
                 }
-            
+            PhotoTestView()
+                .tag(AppTab.test)
+                .tabItem {
+                    Label("Photo Test", systemImage: "testtube.2")
+                }
             ProfileView()
                 .tag(AppTab.profile)
                 .tabItem {
