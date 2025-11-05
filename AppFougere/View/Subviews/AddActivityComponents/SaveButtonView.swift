@@ -12,6 +12,9 @@ struct SaveButtonView: View {
     @Environment(\.modelContext) var modelContext
     @Query var tagsOnActivity: [TagOnActivity] = []
     @Query var activitiesSD: [Activity] = []
+    
+    var selectedImages: [Data?]
+    
     var tagViewModel = TagViewModel()
     
     var tagsToAdd: [Tag]
@@ -58,6 +61,12 @@ struct SaveButtonView: View {
         )
         modelContext.insert(activityToInsert)
         linkTagsToActivity(activity: activityToInsert, tags: tagsToAdd)
+        saveActivityPicture(
+            activityId: activityToInsert.id,
+            actContent: "", // à implémenter dans la vue activityPhotocomponent
+            date: Date(),
+            images: selectedImages
+        )
         
     }
     
@@ -67,6 +76,19 @@ struct SaveButtonView: View {
             let tagToInsert: TagOnActivity = tagOnActivity
             print(tagToInsert)
             modelContext.insert(tagToInsert)
+        }
+    }
+    
+    func saveActivityPicture(activityId: UUID, actContent: String, date: Date, images: [Data?]) {
+        for image in images {
+            let ActivityPictureToInsert = ActivityPicture(
+                activityId: activityId,
+                actContent: actContent,
+                date: date,
+                image: image
+            )
+            modelContext.insert(ActivityPictureToInsert)
+            
         }
         
     }
