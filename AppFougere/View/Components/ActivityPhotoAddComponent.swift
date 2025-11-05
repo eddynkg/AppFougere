@@ -10,8 +10,11 @@ import PhotosUI
 
 struct ActivityPhotoAddComponent: View {
     
+    
     @State private var pickerItems = [PhotosPickerItem]()
-    @State private var selectedImages = [Image]()
+    @Binding var selectedImages: [Data?]
+    
+    
     var columns = [
         GridItem(.fixed(150)),
         GridItem(.fixed(150))
@@ -29,12 +32,18 @@ struct ActivityPhotoAddComponent: View {
                
                     
                     LazyVGrid(columns: columns, spacing: 16) {
-                        ForEach(0..<selectedImages.count, id: \.self) { i in
-                            selectedImages[i]
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 150, height: 150)
-                                .clipShape(RoundedRectangle(cornerRadius: 30))
+                        ForEach(selectedImages, id: \.self) { selectedImage in
+                            if let imageData = selectedImage {
+                                let imageToDisplay = UIImage(data: imageData)
+                                if let image = imageToDisplay {
+                                    Image(uiImage: image)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 150, height: 150)
+                                        .clipShape(RoundedRectangle(cornerRadius: 30))
+                                }
+                            }
+                            
                         }
                         
                         PhotosPicker(selection: $pickerItems, maxSelectionCount: 4, matching: .images) {
@@ -57,7 +66,7 @@ struct ActivityPhotoAddComponent: View {
                 Task {
                     selectedImages.removeAll()
                     for item in pickerItems {
-                        if let loadedImage = try await item.loadTransferable(type: Image.self) {
+                        if let loadedImage = try await item.loadTransferable(type: Data.self) {
                             selectedImages.append(loadedImage)
                         }
                     }
@@ -72,5 +81,5 @@ struct ActivityPhotoAddComponent: View {
 }
 
 #Preview {
-    ActivityPhotoAddComponent()
+    ActivityPhotoAddComponent(selectedImages: .constant([nil]))
 }
