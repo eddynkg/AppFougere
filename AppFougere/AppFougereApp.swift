@@ -21,7 +21,6 @@ struct AppFougereApp: App {
                 Activity.self,
                 ActivityPicture.self,
                 User.self,
-                PhotoTest.self
             ]
         )
     }

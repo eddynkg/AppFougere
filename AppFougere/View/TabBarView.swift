@@ -31,16 +31,17 @@ struct TabBarView: View {
                 .tag(AppTab.create)
                 .tabItem {
                     Label("Créer", systemImage: "plus.circle")
-                }
-            PhotoTestView()
-                .tag(AppTab.test)
-                .tabItem {
-                    Label("Photo Test", systemImage: "testtube.2")
+                
                 }
             ProfileView()
                 .tag(AppTab.profile)
                 .tabItem {
                     Label("Profil", systemImage: "person")
+                }
+            AdminView()
+                .tag(AppTab.admin)
+                .tabItem {
+                    Label("Admin", systemImage: "gearshape")
                 }
         }
         .tint(.capVerde)

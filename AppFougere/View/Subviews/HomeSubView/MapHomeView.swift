@@ -9,12 +9,10 @@ import MapKit
 import SwiftUI
 
 /*  To do list:
-        - filterable pins
         - acces DetailActivityView from pin
  */
 
 struct MapHomeView: View {
-
 
     //FIXME: Dictionary storing the activity name and the related cordinates
     @State var activitiesMarkerInfos: [String: MKMapItem] = [:]
@@ -48,7 +46,7 @@ struct MapHomeView: View {
         // Creation of the map base on dictionary
         Map {
             ForEach(Array(activitiesMarkerInfos), id: \.key) { key, value in
-                
+
                 // Marker showing the activity name at the related cordinates
                 Marker(
                     key,
@@ -62,14 +60,14 @@ struct MapHomeView: View {
                 cornerRadii: .init(topLeading: 40, topTrailing: 40)
             )
         )
-        .onAppear {
+        .onChange(of: filteredActivities) {
             Task {
                 // temporary array of the coordinates
                 var adressMapItems = [MKMapItem]()
 
                 // temporary array of only the activities' adresses
                 var activitiesAdresses: [String] = []
-                for activity in activities {
+                for activity in filteredActivities {
                     activitiesAdresses.append(activity.location)
                 }
 
@@ -96,7 +94,8 @@ struct MapHomeView: View {
                 }
 
                 // verification there's the same number of entries in activities and adresses' coordinates
-                guard activities.count == activitiesAdresses.count else {
+                guard filteredActivities.count == activitiesAdresses.count
+                else {
                     print(
                         "There's not the same number of activities as the activities' coordinates"
                     )
@@ -104,7 +103,7 @@ struct MapHomeView: View {
                 }
 
                 // filling the dictionnary with key: activities' name and value: activities' coordinates
-                for (index, activity) in activities.enumerated() {
+                for (index, activity) in filteredActivities.enumerated() {
                     activitiesMarkerInfos[activity.name] = adressMapItems[index]
                 }
             }
