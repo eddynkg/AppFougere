@@ -14,6 +14,14 @@ struct AppFougereApp: App {
         WindowGroup {
             TabBarView()
         }
-        .modelContainer(for: [TagOnActivity.self, Tag.self, Activity.self, ActivityPicture.self, User.self])
+        .modelContainer(
+            for: [
+                TagOnActivity.self,
+                Tag.self,
+                Activity.self,
+                ActivityPicture.self,
+                User.self,
+            ]
+        )
     }
 }
