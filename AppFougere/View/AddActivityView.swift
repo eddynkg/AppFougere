@@ -2,7 +2,7 @@
 //  AddActivityView.swift
 //  AppFougere
 //
-//  Created by Eddy Charles on 27/10/2025.
+//  Created by Basile Carle on 27/10/2025.
 //
 
 import SwiftUI
@@ -10,15 +10,30 @@ import SwiftData
 import CoreLocation
 
 struct AddActivityView: View {
- 
+  
+    @State var tagsToAdd: [Tag] = []
     
-    @Query var tagsOnActivity: [TagOnActivity] = []
     @State var name: String = ""
     @State var tagSearch: String = ""
-    @State var activityDuration: CGFloat = 0
+    @State var activityLocation: String = ""
+    @State var activityHourDuration = 0
+    @State var activityMinuteDuration = 0
     @State var activityDifficulty: CGFloat = 0
     @State var activityDescription: String = ""
+    @State var activityIsPMRFriendly: Bool = false
+    @State var isCarAccessible: Bool = false
+    @State var isFootAccessible: Bool = false
+    @State var isBikeAccessible: Bool = false
+    @State var isPublicTransportationAccessible: Bool = false
     
+    var userId = users.first!.id // Attention, à changer avec la bonne méthode
+
+    
+    
+    let columns: [GridItem] = [
+        GridItem(.flexible()),
+        GridItem(.flexible())
+    ]
     
     
     var body: some View {
@@ -43,15 +58,50 @@ struct AddActivityView: View {
                             Spacer()
                         }
                         
-                        // Localisation de l'activité'
-                        AddLocationComponent()
-
-                        TagAddedComponent()
-                        Divider()
+                        TagAddedComponent(tagsToAddToActivity: $tagsToAdd)
+        
                             .padding(.vertical)
                         
+                       
+                        // Difficulté.padding(.vertical)
+                        Divider().padding(.bottom)
+                        HStack {
+                            Text("Difficulté : ")
+                                .customBody(bold: true, color: .capVerde)
+                            Spacer()
+                            Text("\(String(format: "%.0f", activityDifficulty))")
+                                .customBody(bold: true, color: .capVerde)
+                        }
+                        Stepper(
+                            "Décrivez le niveau  / 5 ",
+                            value: $activityDifficulty,
+                            in: 0...5
+                        )
+                        
+                        // Durée
+                        Divider().padding(.top)
+                        HStack {
+                            Text("Durée : ")
+                                .customBody(bold: true, color: .capVerde)
+                            
+                            Spacer()
+                            Picker("Heures", selection: $activityHourDuration) {
+                                ForEach(0...24, id: \.self) {
+                                    Text("\($0) h")
+                                }
+                            }
+                            Picker("Minutes", selection: $activityMinuteDuration) {
+                                ForEach(0...59, id: \.self) {
+                                    Text("\($0) m")
+                                }
+                            }
+                        }
+                        
                         // Ajout photos
+                        Divider()
+                            .padding(.vertical)
                         ActivityPhotoAddComponent()
+                        
                         // Description
                         Divider()
                         Text("Description : ")
@@ -66,37 +116,87 @@ struct AddActivityView: View {
                             .padding(8)
                             .scrollContentBackground(.hidden)
                             .background(
-                                RoundedRectangle(cornerRadius: 16)
+                                RoundedRectangle(cornerRadius: 30)
                                     .foregroundColor(.chefHat)
                             )
                         
+
                         
-                        // Durée
+                        // Localisation de l'activité'
                         Divider()
+                            .padding()
+                        AddLocationComponent(activityLocation: $activityLocation)
+
+
+                        
+
+                        
+
+                        
+ 
+
+                        // PMR Friendly
+                        Divider().padding(.top)
                         HStack {
-                            Text("Durée : \(String(format: "%.1f", activityDuration))")
+                            Toggle(isOn: $activityIsPMRFriendly, label: {
+                                Text("PMR Friendly : ")
+                                    .customBody(bold: true, color: .capVerde)
+                            })
+                        }
+                        .padding(.vertical)
+
+                       
+                        
+                        
+                        // Accessibilité
+                        Divider()
+                            .padding(.vertical)
+                        HStack {
+                            Text("Moyens d'accès : ")
                                 .customBody(bold: true, color: .capVerde)
-                            Slider(
-                                value: $activityDuration,
-                                in: CGFloat(0)...CGFloat(24),
-                                step: CGFloat(0.5)
-                            )
+                            Spacer()
                         }
-                        // Difficulté
-                        HStack {
+                        LazyVGrid(columns: columns, spacing: 16) {
+                            TransportationMeansComponent(
+                                toggleIsOn: $isCarAccessible,
+                                imageName: "car.circle"
+                            )
+                            TransportationMeansComponent(
+                                toggleIsOn: $isFootAccessible,
+                                imageName: "figure.walk"
+                            )
+                            TransportationMeansComponent(
+                                toggleIsOn: $isBikeAccessible,
+                                imageName: "bicycle.circle"
+                            )
+                            TransportationMeansComponent(
+                                toggleIsOn: $isPublicTransportationAccessible,
+                                imageName: "tram"
+                            )
                             
-                            Stepper(
-                                "Difficulté : \(String(format: "%.0f", activityDifficulty))",
-                                value: $activityDifficulty,
-                                in: 0...5
-                            )
-                            .customBody(bold: true, color: .capVerde)
                         }
+                        
+        
+                        
+                        
                     }
                     
                     Spacer()
                 }
-                .padding(32)
+                .padding(.horizontal, 16)
+                .padding(.top, 16)
+                SaveButtonView(
+                    tagsToAdd: tagsToAdd,
+                    name: name,
+                    actDescription: activityDescription,
+                    location: activityLocation,
+                    difficulty: activityDifficulty,
+                    handicap: activityIsPMRFriendly,
+                    userId: userId,
+                    accessibility: accessibilityArray(),
+                    durationHour: activityHourDuration,
+                    durationMin: activityMinuteDuration
+                )
             }
             .ignoresSafeArea(.all, edges: .bottom)
             .frame(maxHeight: .infinity)
@@ -108,8 +208,38 @@ struct AddActivityView: View {
             .padding()
         }.font(.custom("Inter", size: 18))
 
-
         
+        
+    }
+    
+    func accessibilityArray () -> [Accessibility] {
+        let transports: [Bool] = [
+            isCarAccessible, isBikeAccessible, isFootAccessible, isPublicTransportationAccessible
+            ]
+        var tmpArray: [Accessibility] = []
+        for index in 0..<transports.count {
+            switch index {
+            case 0:
+                if transports[index] == true {
+                    tmpArray.append(.car)
+                }
+            case 1:
+                if transports[index] == true {
+                    tmpArray.append(.bike)
+                }
+            case 2:
+                if transports[index] == true {
+                    tmpArray.append(.foot)
+                }
+            case 3:
+                if transports[index] == true {
+                    tmpArray.append(.publicTransportation)
+                }
+            default:
+                print("No case")
+            }
+        }
+        return tmpArray
     }
 }
 

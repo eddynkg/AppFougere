@@ -39,12 +39,17 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
 // pour compléter les adresses
 @Observable
 class SearchCompleter: NSObject, MKLocalSearchCompleterDelegate {
-    var results: [String] = []
+    var results: [MKLocalSearchCompletion] = []
     var searchCompleter = MKLocalSearchCompleter()
+    
+    // configuration de la limitation des résultats pour la france
+    let franceCenter = CLLocationCoordinate2D(latitude: 46.6, longitude: 2.4)
+    let franceSpan = MKCoordinateSpan(latitudeDelta: 5.5, longitudeDelta: 7.0)
     
     override init() {
         super.init()
         searchCompleter.delegate = self
+        searchCompleter.region = MKCoordinateRegion(center: franceCenter, span: franceSpan)
         
     }
     
@@ -53,6 +58,59 @@ class SearchCompleter: NSObject, MKLocalSearchCompleterDelegate {
     }
     
     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
-        self.results = completer.results.map { $0.title}
+        
+        self.results = completer.results
+        
     }
 }
+
+@Observable
+class GeocoderService: NSObject {
+    
+    
+    // a partir de strings on récupère une Region de coordonnées
+    func translateSearchStringInCoordinate(searchString: String) async -> MKCoordinateRegion?  {
+              if let request = MKGeocodingRequest(addressString: searchString) {
+            do {
+                let mapItems = try await request.mapItems
+                
+              
+                let coordinates = CLLocationCoordinate2D(
+                    latitude: mapItems.first?.location.coordinate.latitude ?? 0,
+                    longitude: mapItems.first?.location.coordinate.longitude ?? 0
+                )
+                let span = MKCoordinateSpan(
+                    latitudeDelta: 0.01,
+                    longitudeDelta: 0.01
+                )
+                let region = MKCoordinateRegion(
+                    center: coordinates,
+                    span: span
+                )
+                
+                return region
+                
+                
+            } catch {
+                print ("error: \(error)")
+                return nil
+            }
+        }
+        return nil
+    }
+    
+    
+    func translateLocationIntoString(location: CLLocation) async -> String? {
+        if let request = MKReverseGeocodingRequest(location: location) {
+            do {
+                let mapItems = try? await request.mapItems
+                if let mapItem = mapItems?.first {
+                    return mapItem.name
+                }
+            }
+        }
+        return nil
+    }
+}
+    
+

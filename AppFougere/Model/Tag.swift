@@ -31,16 +31,12 @@ class Tag: Identifiable {
     var title: String
 
     
-
-    
-
-    
-    
     init(title: String) {
         self.title = title
     }
     
 }
+
 
 class TagViewModel {
 
@@ -101,7 +97,7 @@ class TagViewModel {
 
 
 @Model
-class TagOnActivity {
+class TagOnActivity: Identifiable {
     
     var id : UUID = UUID()
     var idTag: UUID
@@ -111,5 +107,27 @@ class TagOnActivity {
         
         self.idTag = idTag
         self.idActivity = idActivity
+    }
+}
+
+class TagOnActivityViewModel {
+    // Retourne les tags associés à une activité, en utilisant les tableaux globaux `tags` et `tagsOnActivity`.
+    func tagsForActivity(_ activity: Activity) -> [Tag] {
+        // Filtrer les liaisons pour cette activité
+        let linksForActivity: [TagOnActivity] = tagsOnActivity.filter { link in
+            return link.idActivity == activity.id
+        }
+
+        // Associer chaque lien au Tag correspondant
+        var results: [Tag] = []
+        for link in linksForActivity {
+            if let matched = tags.first(where: { tag in
+                return tag.id == link.idTag
+            }) {
+                results.append(matched)
+            }
+        }
+
+        return results
     }
 }
