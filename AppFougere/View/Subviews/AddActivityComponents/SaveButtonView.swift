@@ -31,15 +31,12 @@ struct SaveButtonView: View {
     var durationMin: Int?
     
     var body: some View {
-        NavigationStack {
-            NavigationLink {
-                DetailActivityView(activity: insertActivity())
-            } label: {
+    
                 
                 Button(
                     action: {
                         
-                        
+                        insertActivity()
                     }
                 ) {
                     Text("Enregistrer")
@@ -51,13 +48,13 @@ struct SaveButtonView: View {
                         )
                 }
                 .padding()
-            }
+            
 
-        }
+        
     }
         
     
-    func insertActivity() -> Activity {
+    func insertActivity()  {
         let activityToInsert = Activity(
             name: name!,
             actDescription: actDescription!,
@@ -77,7 +74,7 @@ struct SaveButtonView: View {
             date: Date(),
             images: selectedImages
         )
-        return activityToInsert
+        
     }
     
     func linkTagsToActivity(activity: Activity, tags: [Tag]) {
