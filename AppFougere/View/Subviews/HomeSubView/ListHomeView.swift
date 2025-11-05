@@ -8,34 +8,37 @@
 import SwiftUI
 
 struct ListHomeView: View {
-    
+
     @Binding var disability: Bool
     @Binding var difficulty: Double
     @Binding var distance: Double
-    
+
     var filteredActivities: [Activity] {
         var result = activities
-        
+
         if difficulty >= 1 {
             result = result.filter { $0.difficulty <= difficulty }
         }
-        
+
         if disability {
             result = result.filter { $0.handicap == true }
         }
-        
+
         //        if distance > 0 {
         //            result = result.filter {$0}
         //        }
-        
+
         return result
     }
-    
+
     // garde la photo la plus récente
     //     private var uniqueLatestPictures: [ActivityPicture] {
     var uniqueLatestPictures: [ActivityPicture] {
         // Regrouper par activityId
-        let grouped = Dictionary(grouping: activityPictures, by: { $0.activityId })
+        let grouped = Dictionary(
+            grouping: activityPictures,
+            by: { $0.activityId }
+        )
         // Prendre la plus récente de chaque groupe
         return grouped.values.compactMap { pics in
             pics.max(by: { $0.date < $1.date })
@@ -43,24 +46,25 @@ struct ListHomeView: View {
         // Optionnel: trier par date décroissante pour l’affichage
         .sorted(by: { $0.date > $1.date })
     }
-    
+
     var body: some View {
-        
+
         ScrollView(.vertical) {
-            
+
             ForEach(activityPictures) { activityPicture in
-                
-                NavigationLink {
-                    // DetailActivityView()
-                } label: {
-                    
-                    // if picture have the same activityId of a past picture -> ignore picture
-                    
-                    // search the activity's name attach to the picture
-                    ForEach(filteredActivities) { activity in
-                        
+                ForEach(filteredActivities) { activity in
+
+                    NavigationLink {
+
+                        DetailActivityView(activity: activity)
+                    } label: {
+
+                        // if picture have the same activityId of a past picture -> ignore picture
+
+                        // search the activity's name attach to the picture
                         if activityPicture.activityId == activity.id {
                             VStack(alignment: .leading) {
+
                                 // Show picture of activity
                                 Image(activityPicture.actContent)
                                     .resizable()
@@ -74,9 +78,8 @@ struct ListHomeView: View {
                                     .padding(6)
                                     .background(.capVerde)
                                     .cornerRadius(12)
-                                    .padding(.horizontal)
                             }
-                            
+
                             //            ForEach(uniqueLatestPictures) { activityPicture in
                             //
                             //                // Trouver l'activité correspondante
@@ -103,17 +106,18 @@ struct ListHomeView: View {
                             //                                .padding(.horizontal)
                             //                        }
                             .padding(.vertical, 12)
-                            
+
                             .frame(width: 350)
-                            
+
                         }
                     }
                 }
                 .scrollIndicators(.hidden)
             }
         }
+        .scrollIndicators(.hidden)
     }
-    
+
 }
 
 #Preview {
@@ -123,4 +127,3 @@ struct ListHomeView: View {
         distance: .constant(50)
     )
 }
-
