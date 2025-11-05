@@ -8,20 +8,24 @@
 import MapKit
 import SwiftUI
 
-/*  To do list:
-        - acces DetailActivityView from pin
+/*
+ To-do:
+ - Ouvrir DetailActivityView depuis un pin
  */
 
 struct MapHomeView: View {
 
-    //FIXME: Dictionary storing the activity name and the related cordinates
+    // MARK: - Données carte
+    /// Dictionnaire : nom d’activité → position géographique (MKMapItem)
     @State var activitiesMarkerInfos: [String: MKMapItem] = [:]
 
+    // MARK: - Filtres
     @Binding var disability: Bool
     @Binding var difficulty: Double
     @Binding var distance: Double
 
-    // Filter for the activities by disability, difficulty, and distance
+    // MARK: - Filtrage des activités
+    /// Filtre les activités selon la difficulté, l’accessibilité et la distance.
     var filteredActivities: [Activity] {
         var result = activities
 
@@ -34,25 +38,19 @@ struct MapHomeView: View {
         }
 
         //        if distance > 0 {
-        //            result = result.filter {$0}
+        //            result = result.filter { $0.distance <= distance }
         //        }
 
         return result
-
     }
 
+    // MARK: - Interface
     var body: some View {
-
-        // Creation of the map base on dictionary
+        // Carte générée à partir du dictionnaire (nom → coordonnées)
         Map {
             ForEach(Array(activitiesMarkerInfos), id: \.key) { key, value in
-
-                // Marker showing the activity name at the related cordinates
-                Marker(
-                    key,
-                    coordinate: value.placemark.coordinate
-                )
-                .tint(.capVerde)
+                Marker(key, coordinate: value.placemark.coordinate)
+                    .tint(.capVerde)
             }
         }
         .clipShape(
@@ -60,57 +58,45 @@ struct MapHomeView: View {
                 cornerRadii: .init(topLeading: 40, topTrailing: 40)
             )
         )
+        // Met à jour les marqueurs dès que le filtrage évolue
         .onChange(of: filteredActivities) {
             Task {
-                // temporary array of the coordinates
-                var adressMapItems = [MKMapItem]()
-
-                // temporary array of only the activities' adresses
-                var activitiesAdresses: [String] = []
-                for activity in filteredActivities {
-                    activitiesAdresses.append(activity.location)
+                var addressMapItems: [MKMapItem] = []
+                let activitiesAddresses: [String] = filteredActivities.map {
+                    $0.location
                 }
 
-                // for each activities' adresses
-                for adress in activitiesAdresses {
-
-                    // request the adress' coordinates
-                    if let request = MKGeocodingRequest(
-                        addressString: adress
-                    ) {
-
+                // Géocodage de chaque adresse
+                for address in activitiesAddresses {
+                    if let request = MKGeocodingRequest(addressString: address)
+                    {
                         do {
-                            let mapitems = try await request.mapItems
-
-                            // adding the coordinates to our temporary array
-                            if let mapitem = mapitems.first {
-                                adressMapItems.append(mapitem)
+                            let mapItems = try await request.mapItems
+                            if let first = mapItems.first {
+                                addressMapItems.append(first)
                             }
-
-                        } catch let error {
-                            print("Error : \(error)")
+                        } catch {
+                            print("Error: \(error)")
                         }
                     }
                 }
 
-                // verification there's the same number of entries in activities and adresses' coordinates
-                guard filteredActivities.count == activitiesAdresses.count
+                // Vérifie la correspondance du nombre d’éléments
+                guard filteredActivities.count == activitiesAddresses.count
                 else {
-                    print(
-                        "There's not the same number of activities as the activities' coordinates"
-                    )
+                    print("Mismatch between activities and coordinates count")
                     return
                 }
 
-                // filling the dictionnary with key: activities' name and value: activities' coordinates
+                // Remplit le dictionnaire avec les coordonnées correspondantes
                 for (index, activity) in filteredActivities.enumerated() {
-                    activitiesMarkerInfos[activity.name] = adressMapItems[index]
+                    activitiesMarkerInfos[activity.name] =
+                        addressMapItems[index]
                 }
             }
         }
         .ignoresSafeArea()
     }
-
 }
 
 #Preview {
