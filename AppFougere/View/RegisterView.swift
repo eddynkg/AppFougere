@@ -2,7 +2,7 @@
 //  RegisterView.swift
 //  AppFougere
 //
-//  Created by apprenant114 on 27/10/2025.
+//  Created by apprenant114 on 29/10/2025.
 //
 
 import SwiftUI
@@ -11,16 +11,17 @@ struct RegisterView: View {
     // MARK: - Propriétés d’état
     @Binding var isLogin: Bool
     @State private var username: String = ""
-    @State private var email: String = ""
+    @State private var phone: String = ""
     @State private var password: String = ""
     @State private var confirmPassword: String = ""
     @State private var showPassword: Bool = false
     @State private var showConfirmPassword: Bool = false
 
     // MARK: - Validation du formulaire
-    private var isEmailValid: Bool {
-        let emailRegex = /^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/
-        return email.wholeMatch(of: emailRegex) != nil
+    private var isPhoneValid: Bool {
+        // Expression très simple : 10 chiffres (tu peux la raffiner selon ton besoin)
+        let phoneRegex = /^[0-9]{10}$/
+        return phone.wholeMatch(of: phoneRegex) != nil
     }
 
     private var doPasswordsMatch: Bool {
@@ -28,14 +29,14 @@ struct RegisterView: View {
     }
 
     private var isFormValid: Bool {
-        !username.isEmpty && isEmailValid && doPasswordsMatch
+        !username.isEmpty && isPhoneValid && doPasswordsMatch
     }
 
     // MARK: - Corps de la vue
     var body: some View {
         VStack(spacing: 32) {
             // MARK: - Titre
-            Text("S'enregistrer")
+            Text("S'inscrire")
                 .font(.largeTitle.bold())
                 .foregroundStyle(.capVerde)
 
@@ -47,11 +48,11 @@ struct RegisterView: View {
             )
 
             CustomTextField(
-                placeholder: "E-mail",
-                text: $email,
-                systemImage: "envelope"
+                placeholder: "Numéro de téléphone",
+                text: $phone,
+                systemImage: "phone"
             )
-            .keyboardType(.emailAddress)
+            .keyboardType(.numberPad)
             .textInputAutocapitalization(.never)
 
             CustomSecureField(
@@ -70,8 +71,8 @@ struct RegisterView: View {
 
             // MARK: - Messages d’erreur
             VStack(alignment: .leading, spacing: 4) {
-                if !isEmailValid && !email.isEmpty {
-                    Text("Adresse e-mail invalide.")
+                if !isPhoneValid && !phone.isEmpty {
+                    Text("Numéro de téléphone invalide (10 chiffres attendus).")
                         .foregroundColor(.red)
                         .font(.caption)
                 }
@@ -84,8 +85,11 @@ struct RegisterView: View {
             }
 
             // MARK: - Bouton d’enregistrement
-            Button("S'enregistrer") {
-                print("Inscription validée")
+            Button("S'inscrire") {
+                let verificationCode = generateVerificationCode()
+                Task {
+                    await sendSMS(number: phone, verifCode: verificationCode)
+                }
             }
             .padding()
             .frame(maxWidth: .infinity)
@@ -96,6 +100,7 @@ struct RegisterView: View {
 
             // MARK: - Lien vers la connexion
             Button(action: {
+
                 isLogin = true
             }) {
                 VStack(spacing: 4) {
@@ -107,8 +112,10 @@ struct RegisterView: View {
                         .frame(height: 1)
                         .foregroundStyle(.capVerde)
                 }.fixedSize()
-            }.foregroundStyle(.capVerde)
-        }.animation(.easeInOut, value: isFormValid)
+            }
+            .foregroundStyle(.capVerde)
+        }.padding(.horizontal, 32)
+        .animation(.easeInOut, value: isFormValid)
     }
 }
 

@@ -8,17 +8,27 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject var session: SessionManager
+
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        if session.isLoggedIn {
+            TabBarView()
+        } else {
+            AuthView()
         }
-        .padding()
     }
 }
 
-#Preview {
-    ContentView()
+#Preview("Déconnecté") {
+    let session = SessionManager()
+    session.logout()
+    return ContentView()
+        .environmentObject(session)
+}
+
+#Preview("Connecté") {
+    let session = SessionManager()
+    session.login(username: "Eddy")
+    return ContentView()
+        .environmentObject(session)
 }

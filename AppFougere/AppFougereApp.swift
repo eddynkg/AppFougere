@@ -10,9 +10,11 @@ import SwiftData
 
 @main
 struct AppFougereApp: App {
+    @StateObject private var session = SessionManager()
     var body: some Scene {
         WindowGroup {
-            TabBarView()
+            ContentView()
+                .environmentObject(session)
         }
         .modelContainer(
             for: [
