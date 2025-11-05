@@ -15,6 +15,7 @@ struct AdminView: View {
     @Query var tags: [Tag] = []
     @Query var activitiesSD: [Activity] = []
     @Query var usersSD: [User] = []
+    @Query var photos: [ActivityPicture] = []
     
     @Environment(\.modelContext) var context
     @State var tagsToAddToActivity: [Tag] = [] // a prioiri inutile ici
@@ -218,6 +219,66 @@ struct AdminView: View {
                                         RoundedRectangle(cornerRadius: 16)
                                             .foregroundStyle(Color.capVerde)
                                     )
+                            }
+                        }
+                    }
+                    
+                    
+                    
+                }
+                
+            }
+            
+            Section("Activity Pictures") {
+                HStack {
+                    Text("Photos des activités :")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                    Spacer()
+                    Button(
+                        action: {
+                        }
+                    ) {
+                        Text("Charger")
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 8)
+                            .foregroundColor(.white)
+                            .background(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .foregroundStyle(Color.capVerde.opacity(0.2))
+                            )
+                    }
+                }
+                ScrollView {
+                    ForEach(0..<photos.count, id: \.self) { index in
+                        VStack {
+                            HStack {
+                                Text("Photo n° \(index) : ")
+                                    .fontWeight(.bold)
+                                
+                                Spacer()
+                                Button(
+                                    action: {
+                                        context.delete(photos[index])
+                                    }
+                                ) {
+                                    Text("Supprimer")
+                                        .padding(.horizontal, 16)
+                                        .padding(.vertical, 8)
+                                        .foregroundColor(.white)
+                                        .background(
+                                            RoundedRectangle(cornerRadius: 16)
+                                                .foregroundStyle(Color.capVerde)
+                                        )
+                                }
+                            }
+                
+                            if let image = photos[index].image {
+                                let photoToDisplay = UIImage(data: image)
+                                Image(uiImage: photoToDisplay!)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 300)
                             }
                         }
                     }
