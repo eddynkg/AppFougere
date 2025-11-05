@@ -38,11 +38,11 @@ struct TabBarView: View {
                 .tabItem {
                     Label("Profil", systemImage: "person")
                 }
-            AdminView()
-                .tag(AppTab.admin)
-                .tabItem {
-                    Label("Admin", systemImage: "gearshape")
-                }
+//            AdminView()
+//                .tag(AppTab.admin)
+//                .tabItem {
+//                    Label("Admin", systemImage: "gearshape")
+//                }
         }
         .tint(.capVerde)
     }
