@@ -14,10 +14,13 @@ struct AuthView: View {
     // MARK: - Interface
     var body: some View {
         NavigationStack {
-            if isLogin {
-                ConnectView(isLogin: $isLogin)
-            } else {
-                RegisterView(isLogin: $isLogin)
+            ScrollView {
+
+                if isLogin {
+                    ConnectView(isLogin: $isLogin)
+                } else {
+                    RegisterView(isLogin: $isLogin)
+                }
             }
         }
     }
