@@ -16,7 +16,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		A07DBAA52EB1003300297954 /* Exceptions for "AppFougere" folder in "AppFougere" target */ = {
+		8FD5D7C32EB0C2DA00BB6B03 /* Exceptions for "AppFougere" folder in "AppFougere" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -29,7 +29,7 @@
 		A0BDFBF72EAFAB7C0011880B /* AppFougere */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				A07DBAA52EB1003300297954 /* Exceptions for "AppFougere" folder in "AppFougere" target */,
+				8FD5D7C32EB0C2DA00BB6B03 /* Exceptions for "AppFougere" folder in "AppFougere" target */,
 			);
 			path = AppFougere;
 			sourceTree = "<group>";
