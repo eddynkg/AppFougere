@@ -16,6 +16,14 @@ struct AppFougereApp: App {
             ContentView()
                 .environmentObject(session)
         }
-        .modelContainer(for: [TagOnActivity.self, Tag.self, Activity.self, ActivityPicture.self, User.self])
+        .modelContainer(
+            for: [
+                TagOnActivity.self,
+                Tag.self,
+                Activity.self,
+                ActivityPicture.self,
+                User.self,
+            ]
+        )
     }
 }
