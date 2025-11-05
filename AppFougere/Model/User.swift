@@ -6,20 +6,19 @@
 //
 
 import Foundation
-import Observation
+import SwiftData
 import SwiftUI
 
-@Observable
-class User {
+@Model
+class User: Identifiable {
     var id: UUID = UUID()
     var userName: String
     var email: String
     var password: String //gérer le système de passwd
-    var bio : String?
-    var profilePicture: Image?
+    var bio: String?
+    var profilePicture: String?
     
-    init(id: UUID, userName: String, email: String, password: String, bio: String? = nil, profilePicture: Image? = nil) {
-        self.id = id
+    init(userName: String, email: String, password: String, bio: String? = nil, profilePicture: String? = nil) {
         self.userName = userName
         self.email = email
         self.password = password
@@ -27,3 +26,4 @@ class User {
         self.profilePicture = profilePicture
     }
 }
+

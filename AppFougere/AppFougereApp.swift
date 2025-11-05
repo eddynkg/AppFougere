@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct AppFougereApp: App {
@@ -15,5 +16,6 @@ struct AppFougereApp: App {
             ContentView()
                 .environmentObject(session)
         }
+        .modelContainer(for: [TagOnActivity.self, Tag.self, Activity.self, ActivityPicture.self, User.self])
     }
 }
