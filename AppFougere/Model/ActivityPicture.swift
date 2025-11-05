@@ -10,10 +10,10 @@ import SwiftUI
 import SwiftData
 
 @Model
-class ActivityPicture {
+class ActivityPicture: Identifiable {
     var id: UUID = UUID()
     var activityId: UUID
-    var actContent: String
+    var actContent: String // Picture's name
     var date: Date
     
     init(activityId: UUID, actContent: String, date: Date) {
