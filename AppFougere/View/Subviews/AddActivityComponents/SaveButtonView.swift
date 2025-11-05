@@ -31,23 +31,33 @@ struct SaveButtonView: View {
     var durationMin: Int?
     
     var body: some View {
-        Button(
-            action: {
-                insertActivity()
+        NavigationStack {
+            NavigationLink {
+                DetailActivityView(activity: insertActivity())
+            } label: {
                 
-            }
-        ) {
-            Text("Enregistrer")
-                .foregroundColor(.white)
+                Button(
+                    action: {
+                        
+                        
+                    }
+                ) {
+                    Text("Enregistrer")
+                        .foregroundColor(.white)
+                        .padding()
+                        .background(
+                            RoundedRectangle(cornerRadius: 16)
+                                .foregroundStyle(Color.capVerde)
+                        )
+                }
                 .padding()
-                .background(
-                    RoundedRectangle(cornerRadius: 16)
-                        .foregroundStyle(Color.capVerde)
-                )
+            }
+
         }
-        .padding()    }
+    }
+        
     
-    func insertActivity() {
+    func insertActivity() -> Activity {
         let activityToInsert = Activity(
             name: name!,
             actDescription: actDescription!,
@@ -67,7 +77,7 @@ struct SaveButtonView: View {
             date: Date(),
             images: selectedImages
         )
-        
+        return activityToInsert
     }
     
     func linkTagsToActivity(activity: Activity, tags: [Tag]) {
