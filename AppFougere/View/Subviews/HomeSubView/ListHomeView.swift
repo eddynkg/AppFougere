@@ -50,34 +50,40 @@ struct ListHomeView: View {
     var body: some View {
 
         ScrollView(.vertical) {
-
-            ForEach(activityPictures) { activityPicture in
-                ForEach(filteredActivities) { activity in
-
+            
+            ForEach(uniqueLatestPictures) { activityPicture in
+                // Trouver l'activité correspondante
+                if let activity = activities.first(where: { $0.id == activityPicture.activityId }) {
                     NavigationLink {
 
                         DetailActivityView(activity: activity)
                     } label: {
-
+                        
                         // if picture have the same activityId of a past picture -> ignore picture
-
+                        
                         // search the activity's name attach to the picture
-                        if activityPicture.activityId == activity.id {
-                            VStack(alignment: .leading) {
-
-                                // Show picture of activity
-                                Image(activityPicture.actContent)
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 335, height: 335)
-                                    .cornerRadius(16)
-                                    .shadow(color: .blackKnight, radius: 4)
-                                // show activity's name
-                                Text(activity.name)
-                                    .customBody(bold: true, color: .chefHat)
-                                    .padding(6)
-                                    .background(.capVerde)
-                                    .cornerRadius(12)
+                        ForEach(filteredActivities) { activity in
+                            
+                            if activityPicture.activityId == activity.id {
+                                VStack(alignment: .leading) {
+                                    // Show picture of activity
+                                    Image(activityPicture.actContent)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 335, height: 335)
+                                        .cornerRadius(16)
+                                        .shadow(color: .blackKnight, radius: 4)
+                                    // show activity's name
+                                    Text(activity.name)
+                                        .customBody(bold: true, color: .chefHat)
+                                        .padding(6)
+                                        .background(.capVerde)
+                                        .cornerRadius(12)
+                                        .padding(.horizontal)
+                                }
+                                .padding(.vertical, 12)
+                                .frame(width: 350)
+                                
                             }
 
                             //            ForEach(uniqueLatestPictures) { activityPicture in
@@ -111,8 +117,8 @@ struct ListHomeView: View {
 
                         }
                     }
+                    .scrollIndicators(.hidden)
                 }
-                .scrollIndicators(.hidden)
             }
         }
         .scrollIndicators(.hidden)
