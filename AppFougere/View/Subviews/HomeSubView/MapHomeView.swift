@@ -46,56 +46,80 @@ struct MapHomeView: View {
 
     // MARK: - Interface
     var body: some View {
-        // Carte générée à partir du dictionnaire (nom → coordonnées)
-        Map {
-            ForEach(Array(activitiesMarkerInfos), id: \.key) { key, value in
-                Marker(key, coordinate: value.placemark.coordinate)
-                    .tint(.capVerde)
-            }
-        }
-        .clipShape(
-            UnevenRoundedRectangle(
-                cornerRadii: .init(topLeading: 40, topTrailing: 40)
-            )
-        )
-        // Met à jour les marqueurs dès que le filtrage évolue
-        .onChange(of: filteredActivities) {
-            Task {
-                var addressMapItems: [MKMapItem] = []
-                let activitiesAddresses: [String] = filteredActivities.map {
-                    $0.location
-                }
 
-                // Géocodage de chaque adresse
-                for address in activitiesAddresses {
-                    if let request = MKGeocodingRequest(addressString: address)
-                    {
-                        do {
-                            let mapItems = try await request.mapItems
-                            if let first = mapItems.first {
-                                addressMapItems.append(first)
+        // Creation of the map base on dictionary
+        VStack {
+            Map {
+                ForEach(Array(activitiesMarkerInfos), id: \.key) { key, value in
+
+                    // Marker showing the activity name at the related cordinates
+                    Marker(
+                        key,
+                        coordinate: value.placemark.coordinate
+                    )
+                    .tint(.capVerde)
+                }
+            }
+            .clipShape(
+                UnevenRoundedRectangle(
+                    cornerRadii: .init(topLeading: 40, topTrailing: 40)
+                )
+            )
+            .onChange(of: filteredActivities) {
+                Task {
+                    // temporary array of the coordinates
+                    var adressMapItems = [MKMapItem]()
+
+                    // temporary array of only the activities' adresses
+                    var activitiesAdresses: [String] = []
+                    for activity in filteredActivities {
+                        activitiesAdresses.append(activity.location)
+                    }
+
+                    // for each activities' adresses
+                    for adress in activitiesAdresses {
+
+                        // request the adress' coordinates
+                        if let request = MKGeocodingRequest(
+                            addressString: adress
+                        ) {
+
+                            do {
+                                let mapitems = try await request.mapItems
+
+                                // adding the coordinates to our temporary array
+                                if let mapitem = mapitems.first {
+                                    adressMapItems.append(mapitem)
+                                }
+
+                            } catch let error {
+                                print("Error : \(error)")
                             }
                         } catch {
                             print("Error: \(error)")
                         }
                     }
-                }
 
-                // Vérifie la correspondance du nombre d’éléments
-                guard filteredActivities.count == activitiesAddresses.count
-                else {
-                    print("Mismatch between activities and coordinates count")
-                    return
-                }
+                    // verification there's the same number of entries in activities and adresses' coordinates
+                    guard filteredActivities.count == activitiesAdresses.count
+                    else {
+                        print(
+                            "There's not the same number of activities as the activities' coordinates"
+                        )
+                        return
+                    }
 
-                // Remplit le dictionnaire avec les coordonnées correspondantes
-                for (index, activity) in filteredActivities.enumerated() {
-                    activitiesMarkerInfos[activity.name] =
-                        addressMapItems[index]
+                    // filling the dictionnary with key: activities' name and value: activities' coordinates
+                    for (index, activity) in filteredActivities.enumerated() {
+                        activitiesMarkerInfos[activity.name] = adressMapItems[index]
+                    }
                 }
             }
+            .frame(maxHeight: .infinity, alignment: .top)
+            .ignoresSafeArea()
+            
         }
-        .ignoresSafeArea()
+        .navigationBarHidden(true)
     }
 }
 
