@@ -8,25 +8,22 @@
 import SwiftUI
 
 struct AuthView: View {
-    // MARK: - Propriétés d’état
-    @State private var isLogin: Bool = true
+    @State private var isLogin = true
 
-    // MARK: - Corps de la vue
     var body: some View {
-        VStack {
-            // MARK: - Navigation entre Connexion et Inscription
+        NavigationStack {
             if isLogin {
-                ConnectView(isLogin: $isLogin)  // Vue de connexion
+                ConnectView(isLogin: $isLogin)
             } else {
-                RegisterView(isLogin: $isLogin)  // Vue d’inscription
+                RegisterView(isLogin: $isLogin)
             }
         }
-        .animation(.easeInOut, value: isLogin)
-        .padding(.horizontal, 32)
     }
 }
+
 
 // MARK: - Aperçu
 #Preview {
     AuthView()
+        .environmentObject(SessionManager())
 }
