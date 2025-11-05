@@ -23,9 +23,9 @@ func toE164FR(_ raw: String) -> String {
 
 func sendSMS(number: String, verifCode: String) async {
     // Tes infos Twilio
-    let accountSID = "AC6bf99284ebff8a2ab43427860d7fae6d"
+    let accountSID = "" // A renseigner
     let authToken = "" // A renseigner
-    let from = "+12173874650"
+    let from = "" // a renseigner
     let to = toE164FR(number)
     let message = "Votre code de vérification : \(verifCode)"
 
