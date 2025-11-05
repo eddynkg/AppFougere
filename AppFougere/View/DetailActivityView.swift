@@ -115,6 +115,11 @@ struct DetailActivityView: View {
                     .padding(.top, 16)
                     .frame(width: 360)
                 
+                // Commentaires
+                CommentsComponent(activity: activity, comments: comments, users: users)
+                    .padding(.top, 8)
+                    .padding(.bottom, 24)
+                
                 // Toolbar
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {

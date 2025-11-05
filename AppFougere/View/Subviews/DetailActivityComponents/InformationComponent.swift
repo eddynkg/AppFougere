@@ -37,7 +37,7 @@ struct InformationComponent: View {
             .buttonStyle(.plain)
             
             VStack (alignment: .leading , spacing: 4){
-                // Nom + âge (si tu as l'âge ailleurs, remplace la valeur statique)
+                // Nom de l'utilisateur
                 Text("\(author.userName)")
                     .font(.title2)
                     .bold()
