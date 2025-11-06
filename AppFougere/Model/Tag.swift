@@ -58,7 +58,7 @@ class TagViewModel {
         } else {
             
             let filteredTags = tags.filter { tag in
-                tag.title.contains(searchText)
+                tag.title.lowercased().contains(searchText.lowercased())
             }
             return filteredTags
         }

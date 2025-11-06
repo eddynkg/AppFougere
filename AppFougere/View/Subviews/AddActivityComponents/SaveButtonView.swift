@@ -19,24 +19,27 @@ struct SaveButtonView: View {
     
     var tagsToAdd: [Tag]
     
+    var activity: Activity
     
-    var name: String?
-    var actDescription: String?
-    var location: String?
-    var difficulty: Double?
-    var handicap: Bool?
-    var userId: UUID?
-    var accessibility: [Accessibility]?
-    var durationHour: Int?
-    var durationMin: Int?
-    
+    @State private var navigate = false
+        
     var body: some View {
-    
+        
+        NavigationStack {
+            VStack{
                 
                 Button(
                     action: {
                         
-                        insertActivity()
+                        insertActivity(activity: activity)
+                        linkTagsToActivity(activity: activity, tags: tagsToAdd)
+                        saveActivityPicture(
+                            activityId: activity.id,
+                            actContent: "\(activity.name)",
+                            date: Date(),
+                            images: selectedImages
+                        )
+                        navigate = true
                     }
                 ) {
                     Text("Enregistrer")
@@ -48,32 +51,25 @@ struct SaveButtonView: View {
                         )
                 }
                 .padding()
+            }
+            .navigationDestination(
+                isPresented: $navigate
+            ) {
+                DetailActivityView(activity: activity)
+            }
             
-
+            
+        }
         
     }
         
     
-    func insertActivity()  {
-        let activityToInsert = Activity(
-            name: name!,
-            actDescription: actDescription!,
-            location: location!, // gérer l'insertion
-            difficulty: difficulty!,
-            handicap: handicap!,
-            userId: userId!, // récupérer le userId
-            accessibility: accessibility!, // transformer les réglage en un tableau d'enum
-            durationHour: durationHour!,
-            durationMin: durationMin!
-        )
-        modelContext.insert(activityToInsert)
-        linkTagsToActivity(activity: activityToInsert, tags: tagsToAdd)
-        saveActivityPicture(
-            activityId: activityToInsert.id,
-            actContent: "", // à implémenter dans la vue activityPhotocomponent
-            date: Date(),
-            images: selectedImages
-        )
+    
+    
+    func insertActivity(activity: Activity)  {
+        
+        modelContext.insert(activity)
+        
         
     }
     

@@ -221,15 +221,7 @@ struct AddActivityView: View {
                             SaveButtonView(
                                 selectedImages: activityPicturesToAddToActivity,
                                 tagsToAdd: tagsToAdd,
-                                name: name,
-                                actDescription: activityDescription,
-                                location: activityLocation,
-                                difficulty: activityDifficulty,
-                                handicap: activityIsPMRFriendly,
-                                userId: userId,
-                                accessibility: accessibilityArray(),
-                                durationHour: activityHourDuration,
-                                durationMin: activityMinuteDuration
+                                activity: createActivity()
                             )
                
                 }
@@ -276,6 +268,21 @@ struct AddActivityView: View {
             }
         }
         return tmpArray
+    }
+    
+    func createActivity() -> Activity {
+        let activityToInsert = Activity(
+            name: name,
+            actDescription: activityDescription,
+            location: activityLocation,
+            difficulty: activityDifficulty,
+            handicap: activityIsPMRFriendly,
+            userId: userId,
+            accessibility: accessibilityArray(),
+            durationHour: activityHourDuration,
+            durationMin: activityMinuteDuration
+            )
+        return activityToInsert
     }
 }
 

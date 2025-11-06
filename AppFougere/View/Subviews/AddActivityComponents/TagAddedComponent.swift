@@ -36,6 +36,7 @@ struct TagAddedComponent: View {
                     .customBody(bold: true, color: .capVerde)
                 TextField("Nom du tag à ajouter", text: $searchedTag)
                     .padding(8)
+                    .textInputAutocapitalization(.never)
                 Spacer()
                 
                
