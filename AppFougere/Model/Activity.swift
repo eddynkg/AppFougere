@@ -11,6 +11,9 @@ import SwiftUI
 import CoreLocation
 import MapKit
 
+
+
+
 @Model
 class Activity: Identifiable {
     var id: UUID = UUID()
@@ -71,4 +74,23 @@ extension Activity {
             return nil
         }
     }
+    
+    
+    func getActivityPicture(activity: Activity, activityPictures: [ActivityPicture]) -> [UIImage?] {
+        
+        let activityPicture: [ActivityPicture] = activityPictures.filter { picture in
+            picture.activityId == activity.id
+        }
+        var pictureUIImage: [UIImage?] = []
+        for picture in activityPicture {
+            if let pictureData = picture.image {
+                let pictureToLoad = UIImage(data: pictureData)
+                pictureUIImage.append(pictureToLoad)
+            }
+        }
+        
+        
+        return pictureUIImage
+    }
+     
 }

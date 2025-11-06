@@ -6,9 +6,13 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct DetailActivityView: View {
-    let activity: Activity 
+    @Query var activityPictures: [ActivityPicture] = []
+    
+    let activity: Activity
+    var isSwiftData: Bool?
 
     @Environment(\.dismiss) private var dismiss
     @State private var isBookmarked: Bool = false
@@ -37,22 +41,49 @@ struct DetailActivityView: View {
         ScrollView {
             VStack {
                 // Image principale liée à l’activité (via helper sur Activity)
-                if let imageName = activity.mainPictureName(from: activityPictures) {
-                    Image(imageName)
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 320, height: 300)
-                        .clipShape(RoundedRectangle(cornerRadius: 20))
-                        .padding(8)
-                } else {
-                    // Fallback si aucune image n’est associée
-                    Image(systemName: "photo")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 120, height: 120)
-                        .foregroundStyle(.capVerde)
-                        .padding(.top, 24)
+                if isSwiftData == nil { // si l'on charge l'image avec le nom de l'image
+                    
+                    if let imageName = activity.mainPictureName(from: activityPictures) {
+                        Image(imageName)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 320, height: 300)
+                            .clipShape(RoundedRectangle(cornerRadius: 20))
+                            .padding(8)
+                    } else {
+                        // Fallback si aucune image n’est associée
+                        Image(systemName: "photo")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 120, height: 120)
+                            .foregroundStyle(.capVerde)
+                            .padding(.top, 24)
+                    }
                 }
+//                else {
+//                    if isSwiftData == true {
+//                        if let imageData = activity.getActivityPicture(
+//                            activity: activity,
+//                            activityPictures: activityPictures
+//                        ),
+//                           let firstImageData = imageData.first,
+//                           
+//                            
+//                           let uiImage = firstImageData {
+//                            Image(uiImage: uiImage)
+//                        } else {
+//                            // fallback image ou rien
+//                            Image(systemName: "photo")
+//                                .resizable()
+//                                .scaledToFit()
+//                                .frame(width: 120, height: 120)
+//                                .foregroundStyle(.capVerde)
+//                                .padding(.top, 24)
+//                        }
+//                       
+//                        
+//                    }
+//                }
                 
                 // Tags réels de l'activité (via ViewModel et données mockées)
                 ScrollView(.horizontal) {

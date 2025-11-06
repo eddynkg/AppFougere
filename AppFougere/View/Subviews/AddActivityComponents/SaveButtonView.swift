@@ -55,7 +55,7 @@ struct SaveButtonView: View {
             .navigationDestination(
                 isPresented: $navigate
             ) {
-                DetailActivityView(activity: activity)
+                DetailActivityView(activity: activity, isSwiftData: false)
             }
             
             
