@@ -57,29 +57,35 @@ struct ListHomeView: View {
         ScrollView(.vertical) {
             // ajout pour la démo de la visualisation des activité SwiftData
             ForEach(activitiesSD) { activity in
-                VStack(alignment: .leading) {
-                    // Show picture of activity
-                    let uiImage = activity.getActivityPicture(
-                        activity: activity,
-                        activityPictures: activityPicturesSD
-                    )
-                    if let uiImagesToDisplay = uiImage as? [UIImage] {
-                        if let uiImageToDisplay = uiImagesToDisplay.first {
-                            Image(uiImage: uiImageToDisplay)
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 335, height: 335)
-                                .cornerRadius(16)
-                            Text(activity.name)
-                                .customBody(bold: true, color: .chefHat)
-                                .padding(6)
-                                .background(.capVerde)
-                                .cornerRadius(12)
-                            
+                NavigationLink {
+                    DetailActivityView(activity: activity, isSwiftData: true)
+                } label: {
+                    
+                    VStack(alignment: .leading) {
+                        // Show picture of activity
+                        let uiImage = activity.getActivityPicture(
+                            activity: activity,
+                            activityPictures: activityPicturesSD
+                        )
+                        if let uiImagesToDisplay = uiImage as? [UIImage] {
+                            if let uiImageToDisplay = uiImagesToDisplay.first {
+                                Image(uiImage: uiImageToDisplay)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 335, height: 335)
+                                    .cornerRadius(16)
+                                Text(activity.name)
+                                    .customBody(bold: true, color: .chefHat)
+                                    .padding(6)
+                                    .background(.capVerde)
+                                    .cornerRadius(12)
+                                
+                            }
                         }
                     }
+                    .frame(width: 350)
                 }
-                .frame(width: 350)
+                
             }
             
             
