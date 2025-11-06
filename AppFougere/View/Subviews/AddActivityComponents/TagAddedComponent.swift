@@ -11,7 +11,7 @@ import SwiftData
 
 struct TagAddedComponent: View {
     
-    @Query var tags: [Tag] = []
+    @Query var createdTags: [Tag] = []
     @Environment(\.modelContext) var context
     var tagViewModel = TagViewModel()
     
@@ -43,7 +43,10 @@ struct TagAddedComponent: View {
             }
             ScrollView(.horizontal) {
                 HStack {
-                    ForEach(tagViewModel.filterExistingTags(tags: tags, searchText: searchedTag) as! [Tag]) { tag in
+                    ForEach(
+                        tagViewModel
+                            .filterExistingTags(tags: createdTags, searchText: searchedTag) as! [Tag]
+                    ) { tag in
                         
                         TagComponent(tag: tag, displayMode: .addToActivity, tagsToAddToActivity: $tagsToAddToActivity, searchedTag: $searchedTag)
                     }

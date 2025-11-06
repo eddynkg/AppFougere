@@ -65,7 +65,7 @@ struct AdminView: View {
                     
                     ScrollView {
                         
-                        ForEach(tags) { tag in
+                        ForEach(tagsSD) { tag in
                             TagComponent(tag: tag, displayMode: .tagCreation, tagsToAddToActivity: $tagsToAddToActivity, searchedTag: $searchedTag)
                                 .padding(8)
                         }
