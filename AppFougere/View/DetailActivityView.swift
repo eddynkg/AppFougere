@@ -14,10 +14,10 @@ struct DetailActivityView: View {
     
     let activity: Activity
     var isSwiftData: Bool?
-
+    
     @Environment(\.dismiss) private var dismiss
     @State private var isBookmarked: Bool = false
-
+    
     // ViewModel pour récupérer les tags liés (variante A - mocks)
     private let tagOnActivityVM = TagOnActivityViewModel()
     
@@ -36,7 +36,7 @@ struct DetailActivityView: View {
             )
         }
     }
-
+    
     var body: some View {
         // Contenu principal de la vue détail
         ScrollView {
@@ -62,32 +62,24 @@ struct DetailActivityView: View {
                     }
                 }
                 else {
-                    Image("lacAnnecy")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 320, height: 300)
-                        .clipShape(RoundedRectangle(cornerRadius: 20))
-                        .padding(8)
-//                    if isSwiftData == true {
-//                        if let imageDataArray = activity.getActivityPicture(
-//                            activity: activity,
-//                            activityPictures: activityPictures
-//                        ),
-//                           let firstImageData = imageDataArray.first,
-//                            let uiImage = firstImageData {
-//                            Image(uiImage: uiImage)
-//                        } else {
-//                            // fallback image ou rien
-//                            Image(systemName: "photo")
-//                                .resizable()
-//                                .scaledToFit()
-//                                .frame(width: 120, height: 120)
-//                                .foregroundStyle(.capVerde)
-//                                .padding(.top, 24)
-//                        }
-//                       
-//                        
-//                    }
+                    // si l'on charge l'image directement avec swiftData
+                    if isSwiftData == true {
+                        let imagesDataArray = activity.getActivityPicture(
+                            activity: activity,
+                            activityPictures: activityPicturesSD
+                        )
+                        if let imagesToLoad = imagesDataArray as? [UIImage] {
+                            if let uiImageToDisplay = imagesToLoad.first {
+                                Image(uiImage: uiImageToDisplay)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 320, height: 300)
+                                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                                    .padding(8)
+                            }
+                        }
+                
+                    }
                 }
                 
                 // Tags réels de l'activité (via ViewModel et données mockées)
@@ -133,7 +125,7 @@ struct DetailActivityView: View {
                 Divider()
                     .padding(.top, 16)
                     .frame(width: 360)
-
+                
                 //ActDescriptionComponent
                 ActDescriptionComponent(activity: activity)
                     .padding(.top, 8)
@@ -157,34 +149,34 @@ struct DetailActivityView: View {
                     .padding(.bottom, 24)
                 
                 // Toolbar
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbar {
-                    
-                    // Titre centré
-                    ToolbarItem(placement: .principal) {
-                        Text(activity.name)
-                            .font(.headline)
-                            .lineLimit(1)
-                            .truncationMode(.tail)
-                            .foregroundStyle(.white)
-                    }
-                    
-                    // Bouton enregistrement à droite
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Button {
-                            isBookmarked.toggle()
-                        } label: {
-                            Image(systemName: isBookmarked ? "bookmark.fill" : "bookmark")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        
+                        // Titre centré
+                        ToolbarItem(placement: .principal) {
+                            Text(activity.name)
+                                .font(.headline)
+                                .lineLimit(1)
+                                .truncationMode(.tail)
                                 .foregroundStyle(.white)
                         }
-                        .buttonStyle(.plain)
+                        
+                        // Bouton enregistrement à droite
+                        ToolbarItem(placement: .topBarTrailing) {
+                            Button {
+                                isBookmarked.toggle()
+                            } label: {
+                                Image(systemName: isBookmarked ? "bookmark.fill" : "bookmark")
+                                    .foregroundStyle(.white)
+                            }
+                            .buttonStyle(.plain)
+                        }
                     }
-                }
                 // Couleur des éléments interactifs (icônes/boutons)
-                .tint(.white)
+                    .tint(.white)
                 // Fond de la barre en capVerde et visible
-                .toolbarBackground(.capVerde, for: .navigationBar)
-                .toolbarBackground(.visible, for: .navigationBar)
+                    .toolbarBackground(.capVerde, for: .navigationBar)
+                    .toolbarBackground(.visible, for: .navigationBar)
             }
         }
         

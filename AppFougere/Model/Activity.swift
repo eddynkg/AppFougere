@@ -88,8 +88,7 @@ extension Activity {
                 pictureUIImage.append(pictureToLoad)
             }
         }
-        
-        
+
         return pictureUIImage
     }
      
