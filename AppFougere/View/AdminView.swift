@@ -12,7 +12,7 @@ import SwiftData
 struct AdminView: View {
     
     @Query var tagsOnActivity: [TagOnActivity] = []
-    @Query var tags: [Tag] = []
+    @Query var tagsSD: [Tag] = []
     @Query var activitiesSD: [Activity] = []
     @Query var usersSD: [User] = []
     @Query var photos: [ActivityPicture] = []
