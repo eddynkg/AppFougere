@@ -12,6 +12,7 @@ struct DetailActivityView: View {
     @Query var activityPicturesSD: [ActivityPicture] = []
     
     
+    
     let activity: Activity
     var isSwiftData: Bool?
     
