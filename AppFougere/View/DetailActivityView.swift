@@ -10,6 +10,9 @@ import SwiftData
 
 struct DetailActivityView: View {
     @Query var activityPicturesSD: [ActivityPicture] = []
+    @Query var tagsSD: [Tag] = []
+    @Query var tagsOnActivitySD: [TagOnActivity] = []
+    var tagViewModel = TagViewModel()
     
     
     
@@ -86,26 +89,50 @@ struct DetailActivityView: View {
                 // Tags réels de l'activité (via ViewModel et données mockées)
                 ScrollView(.horizontal) {
                     HStack(spacing: 8) {
-                        let activityTags = tagOnActivityVM.tagsForActivity(activity)
-                        if activityTags.isEmpty {
-                            Text("Aucun tag")
-                                .font(.subheadline)
-                                .foregroundStyle(.white)
-                                .padding(.horizontal, 12)
-                                .padding(.vertical, 6)
-                                .background(Capsule().fill(Color.capVerde))
-                        } else {
-                            ForEach(activityTags) { tag in
-                                Text(tag.title)
-                                    .font(.headline)
+                        if isSwiftData == false || isSwiftData == nil {
+                            let activityTags = tagOnActivityVM.tagsForActivity(activity)
+                            if activityTags.isEmpty {
+                                Text("Aucun tag")
+                                    .font(.subheadline)
                                     .foregroundStyle(.white)
                                     .padding(.horizontal, 12)
                                     .padding(.vertical, 6)
-                                    .background(
-                                        Capsule().fill(Color.capVerde)
-                                    )
+                                    .background(Capsule().fill(Color.capVerde))
+                            } else {
+                                ForEach(activityTags) { tag in
+                                    Text(tag.title)
+                                        .font(.headline)
+                                        .foregroundStyle(.white)
+                                        .padding(.horizontal, 12)
+                                        .padding(.vertical, 6)
+                                        .background(
+                                            Capsule().fill(Color.capVerde)
+                                        )
+                                }
                             }
+                        } else {
+                            let activityTags = tagViewModel.filterTagByActivity(
+                                activity: activity,
+                                tags: tagsSD,
+                                tagsOnActivity: tagsOnActivitySD
+                            )
+                            ScrollView(.horizontal) {
+                                
+                                HStack(spacing: 8) {
+                                    ForEach(activityTags) { tag in
+                                        TagComponent(
+                                            tag: tag,
+                                            displayMode: .tagDisplay,
+                                            tagsToAddToActivity: .constant([]),
+                                            searchedTag: .constant("")
+                                        )
+                                        .padding(6)
+                                    }
+                                }
+                            }
+                                
                         }
+                        
                     }
                     .padding(.leading, 10)
                 }
