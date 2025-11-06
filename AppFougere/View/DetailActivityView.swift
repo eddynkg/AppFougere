@@ -9,7 +9,8 @@ import SwiftUI
 import SwiftData
 
 struct DetailActivityView: View {
-    @Query var activityPictures: [ActivityPicture] = []
+    @Query var activityPicturesSD: [ActivityPicture] = []
+    
     
     let activity: Activity
     var isSwiftData: Bool?
@@ -41,7 +42,7 @@ struct DetailActivityView: View {
         ScrollView {
             VStack {
                 // Image principale liée à l’activité (via helper sur Activity)
-                if isSwiftData == nil { // si l'on charge l'image avec le nom de l'image
+                if isSwiftData == false || isSwiftData == nil { // si l'on charge l'image avec le nom de l'image
                     
                     if let imageName = activity.mainPictureName(from: activityPictures) {
                         Image(imageName)
@@ -60,16 +61,20 @@ struct DetailActivityView: View {
                             .padding(.top, 24)
                     }
                 }
-//                else {
+                else {
+                    Image("lacAnnecy")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 320, height: 300)
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .padding(8)
 //                    if isSwiftData == true {
-//                        if let imageData = activity.getActivityPicture(
+//                        if let imageDataArray = activity.getActivityPicture(
 //                            activity: activity,
 //                            activityPictures: activityPictures
 //                        ),
-//                           let firstImageData = imageData.first,
-//                           
-//                            
-//                           let uiImage = firstImageData {
+//                           let firstImageData = imageDataArray.first,
+//                            let uiImage = firstImageData {
 //                            Image(uiImage: uiImage)
 //                        } else {
 //                            // fallback image ou rien
@@ -83,7 +88,7 @@ struct DetailActivityView: View {
 //                       
 //                        
 //                    }
-//                }
+                }
                 
                 // Tags réels de l'activité (via ViewModel et données mockées)
                 ScrollView(.horizontal) {

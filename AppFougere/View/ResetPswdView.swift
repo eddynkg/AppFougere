@@ -7,31 +7,31 @@
 import SwiftUI
 
 struct ResetPswdView: View {
-    // MARK: - Bindings
-    @Binding var isLogin: Bool  // Permet de revenir à la connexion
+    // MARK: - Navigation
+    @Binding var isLogin: Bool  // Permet de revenir à l’écran de connexion
 
-    // MARK: - State
-    @State private var phone: String = ""
-    @State private var sentCode: String = ""  // ⬅️ ajouté
-    @State private var goDefine: Bool = false  // ⬅️ ajouté
+    // MARK: - États
+    @State private var phone: String = ""  // Numéro de téléphone saisi
+    @State private var sentCode: String = ""  // Code de vérification généré
+    @State private var goDefine: Bool = false  // Déclenche la navigation vers la suite
 
-    // MARK: - Validation
+    // MARK: - Validation du numéro
     private var isPhoneValid: Bool {
-        let phoneRegex = /^[0-9]{10}$/  // 10 chiffres
+        let phoneRegex = /^[0-9]{10}$/  // Doit contenir exactement 10 chiffres
         return phone.wholeMatch(of: phoneRegex) != nil
     }
 
-    // MARK: - Body
+    // MARK: - Interface
     var body: some View {
-        NavigationStack {  // ⬅️ ajouté pour la navigation
+        NavigationStack {
             VStack(spacing: 32) {
-                // MARK: Titre
+                // Titre
                 Text("Réinitialiser le mot de passe")
                     .font(.largeTitle.bold())
                     .foregroundStyle(.capVerde)
                     .multilineTextAlignment(.center)
 
-                // MARK: Champ téléphone
+                // Champ de saisie du téléphone
                 CustomTextField(
                     placeholder: "Numéro de téléphone",
                     text: $phone,
@@ -39,7 +39,7 @@ struct ResetPswdView: View {
                 )
                 .keyboardType(.numberPad)
 
-                // MARK: Avertissement si numéro invalide
+                // Message d’erreur si le numéro est invalide
                 if !isPhoneValid && !phone.isEmpty {
                     Text("Numéro de téléphone invalide (10 chiffres attendus).")
                         .foregroundColor(.red)
@@ -47,17 +47,17 @@ struct ResetPswdView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
 
-                // MARK: Bouton envoyer le code
+                // Bouton d’envoi du code par SMS
                 Button("Envoyer le code") {
                     let verificationCode = generateVerificationCode()
-                    sentCode = verificationCode  // ⬅️ stocke le code
+                    sentCode = verificationCode
                     Task {
                         await sendSMS(
                             number: phone,
                             verifCode: verificationCode
                         )
                     }
-                    goDefine = true  // ⬅️ navigue vers la sous-vue
+                    goDefine = true
                 }
                 .padding()
                 .frame(maxWidth: .infinity)
@@ -68,26 +68,10 @@ struct ResetPswdView: View {
                 .cornerRadius(30)
                 .disabled(!isPhoneValid)
 
-                // MARK: Bouton retour connexion
-                Button(action: {
-                    isLogin = true
-                }) {
-                    VStack(spacing: 4) {
-                        HStack(spacing: 0) {
-                            Text("Retour à la ")
-                            Text("Connexion").bold()
-                        }
-                        Rectangle()
-                            .frame(height: 1)
-                            .foregroundStyle(.capVerde)
-                    }
-                    .fixedSize()
-                }
-                .foregroundStyle(.capVerde)
             }
             .animation(.easeInOut, value: isPhoneValid)
 
-            // ⬅️ Destination de navigation : la sous-vue de redéfinition
+            // Navigation vers l’écran de définition du nouveau mot de passe
             .navigationDestination(isPresented: $goDefine) {
                 ResetPswdDefineView(
                     isLogin: $isLogin,
@@ -95,7 +79,8 @@ struct ResetPswdView: View {
                     expectedCode: sentCode
                 )
             }
-        }.padding(.horizontal, 32)
+        }
+        .padding(.horizontal, 32)
     }
 }
 
