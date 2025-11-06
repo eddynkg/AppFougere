@@ -25,3 +25,6 @@ class ActivityPicture: Identifiable {
         self.image = image
     }
 }
+
+
+
