@@ -8,20 +8,25 @@
 import SwiftUI
 
 struct ConnectView: View {
-    @EnvironmentObject var session: SessionManager
-    @Binding var isLogin: Bool  // pour basculer vers l'inscription
-    @AppStorage("isLoggedIn") private var isLoggedIn = false  // même clé que ContentView
+    // MARK: - Session & navigation
+    @EnvironmentObject var session: SessionManager  // Gestion de la session (login/logout)
+    @Binding var isLogin: Bool  // true = connexion, false = inscription
+    @AppStorage("isLoggedIn") private var isLoggedIn = false  // Même clé que dans ContentView
 
+    // MARK: - Saisie utilisateur
     @State private var username: String = ""
     @State private var password: String = ""
     @State private var showPassword: Bool = false
 
+    // MARK: - Interface
     var body: some View {
         VStack(spacing: 32) {
+            // Titre
             Text("Connexion")
                 .font(.largeTitle.bold())
                 .foregroundStyle(.capVerde)
 
+            // Identifiant
             CustomTextField(
                 placeholder: "Identifiant",
                 text: $username,
@@ -30,6 +35,7 @@ struct ConnectView: View {
             .textContentType(.username)
             .textInputAutocapitalization(.never)
 
+            // Mot de passe + aide
             VStack {
                 CustomSecureField(
                     placeholder: "Mot de passe",
@@ -48,6 +54,7 @@ struct ConnectView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
 
+            // Connexion
             Button("Connexion") {
                 session.login(username: username)
             }
@@ -57,8 +64,9 @@ struct ConnectView: View {
             .foregroundStyle(.chefHat)
             .cornerRadius(30)
 
+            // Lien vers l’inscription
             Button {
-                isLogin = false  // bascule vers l’écran d’inscription
+                isLogin = false
             } label: {
                 VStack(spacing: 4) {
                     HStack(spacing: 0) {
@@ -72,7 +80,8 @@ struct ConnectView: View {
                 .fixedSize()
             }
             .foregroundStyle(.capVerde)
-        }.padding(.horizontal, 32)
+        }
+        .padding(.horizontal, 32)
     }
 }
 

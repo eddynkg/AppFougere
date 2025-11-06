@@ -9,7 +9,8 @@ import SwiftUI
 import SwiftData
 
 struct DetailActivityView: View {
-    @Query var activityPictures: [ActivityPicture] = []
+    @Query var activityPicturesSD: [ActivityPicture] = []
+    
     
     let activity: Activity
     var isSwiftData: Bool?
@@ -41,7 +42,7 @@ struct DetailActivityView: View {
         ScrollView {
             VStack {
                 // Image principale liée à l’activité (via helper sur Activity)
-                if isSwiftData == nil { // si l'on charge l'image avec le nom de l'image
+                if isSwiftData == false || isSwiftData == nil { // si l'on charge l'image avec le nom de l'image
                     
                     if let imageName = activity.mainPictureName(from: activityPictures) {
                         Image(imageName)
