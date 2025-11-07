@@ -7,12 +7,17 @@
 
 import SwiftUI
 import SwiftData
+import MapKit
 
 struct DetailActivityView: View {
     @Query var activityPicturesSD: [ActivityPicture] = []
     @Query var tagsSD: [Tag] = []
     @Query var tagsOnActivitySD: [TagOnActivity] = []
     var tagViewModel = TagViewModel()
+    @State var geocoderService = GeocoderService()
+    @State private var cameraPosition: MapCameraPosition = .automatic
+    @State var initialRegion: MKCoordinateRegion?
+
     
     
     
@@ -143,11 +148,37 @@ struct DetailActivityView: View {
                     .padding(.horizontal, 12)
                 
                 // Map (pour l'instant photo)
-                Image("mapColorado")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 360, height: 140)
+                Map(position: $cameraPosition) {
+                    if let region = initialRegion {
+                        Marker(activity.location, coordinate: region.center )
+                        
+                    }
+                }
                     .clipShape(RoundedRectangle(cornerRadius: 20))
+                    .frame(width: 360, height: 140)
+                    .onAppear(
+                        perform: {
+                            Task {
+                                if let translatedRegion = await geocoderService.translateSearchStringInCoordinate(searchString: activity.location) {
+                                    initialRegion = translatedRegion
+                                } else {
+                                    // Valeur de secours
+                                    let fallbackCoord = CLLocationCoordinate2D(latitude: 43.915546, longitude: 5.469786)
+                                    let fallbackSpan = MKCoordinateSpan(latitudeDelta: 0.03, longitudeDelta: 0.03)
+                                    let fallbackRegion = MKCoordinateRegion(center: fallbackCoord, span: fallbackSpan)
+                                    initialRegion = fallbackRegion
+                                }
+                            }
+                            
+                        
+                        }
+                    )
+                    .onChange(of: initialRegion) {
+                            if let region = initialRegion {
+                                cameraPosition = .region(region)
+                            }
+                        }
+
                 
                 //Line
                 Divider()
